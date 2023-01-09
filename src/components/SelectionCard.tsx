@@ -27,7 +27,7 @@ const SelectionCard = ({ onPress, data, label, size, fontSize, icon, type, place
         <>
             <Pressable onPress={() => onClickHandle(true)}>
                 {label && <Text style={{ fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing }}>{label}</Text>}
-                <View style={[styles.box, { height: size, paddingHorizontal: rounded === true ? Colors.spacing * 2 : Colors.spacing, borderRadius: rounded === true ? Colors.spacing * Colors.spacing : Colors.spacing * .75, borderWidth: isAndroid ? .35 : 0, borderColor: Colors.maidlyGrayText }]}>
+                <View style={[styles.box, { height: size, paddingHorizontal: rounded === true ? Colors.spacing * 2 : Colors.spacing, borderRadius: rounded === true ? Colors.spacing * Colors.spacing : Colors.spacing * .75, borderWidth: isAndroid ? .35 : 0, borderColor: Colors.borderColor }]}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>

@@ -415,9 +415,9 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
                                             {/* <JobPayments /> */}
                                         </View>
 
-                                        <View style={{ paddingHorizontal: Colors.spacing * 2, paddingBottom: Colors.spacing * 4 }}>
+                                        {/* <View style={{ paddingHorizontal: Colors.spacing * 2, paddingBottom: Colors.spacing * 4 }}>
                                             <AssignTech />
-                                        </View>
+                                        </View> */}
                                     </>
                                 }
 

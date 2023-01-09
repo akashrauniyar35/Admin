@@ -31,6 +31,7 @@ export const Colors = {
     inProgreessOrangeBG: '#fff8ed',
     cancelledRed: '#E2474B',
     cancelledRedBG: '#f7d1d2',
+    borderColor:'#cecece'
 }
 
 export const isAndroid = Platform.OS == 'android' ? true : false

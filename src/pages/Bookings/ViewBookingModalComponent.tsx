@@ -65,19 +65,18 @@ const techData = [
 ];
 
 
-const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteHandler }) => {
+const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, toggleDelete, deleteHandler }) => {
     console.log('job component modal item', id)
     const [checkListVisible, setCheckListVisible] = useState(false)
     const [addNoteVisible, setAddNoteVisible] = useState(false)
     const [editJobVisible, setEditJobVisible] = useState(false);
-    const [deleteVisible, setDeleteVisible] = useState(false);
     const statusLoading = useSelector((state: any) => state.jobReducer.statusUpdateLoading)
+    const deleteBooking = useSelector((state: any) => state.bookingReducer.deleteLoading)
 
 
     const dispatch = useDispatch()
 
 
-    console.log("deleteVisible", deleteVisible)
     const x = String(item.subtotal).slice(0, 3);
     const quotePrice = Number(x).toFixed(2);
 
@@ -109,7 +108,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteHandler
                 <ScrollView showsVerticalScrollIndicator={false}>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: Colors.spacing * 2 }}>
-                        <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{item.quoteReference}</Text>
+                        <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{item.bookingReference}</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>  -  {date}</Text>
                             <View style={{ opacity: .5, backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing, borderRadius: 100, }} />
@@ -125,7 +124,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteHandler
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
                         <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "700" }}>{item.firstName} {item.lastName}</Text>
-                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", marginTop: Colors.spacing }}>$ {quotePrice}</Text>
+                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", marginTop: Colors.spacing }}>{item.address1} {item.address2} {item.city} {item.postcode} {item.state.toUpperCase()}</Text>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing }}>
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300" }}>{phoneNumber}</Text>
@@ -146,7 +145,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteHandler
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
 
-                        <Pressable onPress={() => { setDeleteVisible(true); }}>
+                        <Pressable onPress={toggleDelete}>
                             <View style={[styles.buttonsFull]}>
                                 <Text style={{
                                     fontSize: 14,
@@ -155,7 +154,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteHandler
                             </View>
                         </Pressable>
 
-                        <Pressable onPress={() => setDeleteVisible(true)}>
+                        <Pressable onPress={toggleDelete}>
                             <View style={[styles.buttonsFull, { backgroundColor: Colors.red, }]}>
                                 <Text style={{
                                     fontSize: 14,
@@ -261,7 +260,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteHandler
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing, }}>
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", width: '20%' }}>Address</Text>
-                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{item.address1} {item.address2} {item.city} {item.postcode} {item.state === "new south wales" ? "NSW" : null}</Text>
+                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{item.address1} {item.address2} {item.city} {item.postcode} {item.state.toUpperCase()}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: Colors.spacing, marginBottom: Colors.spacing * .5 }}>
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", width: '20%' }}>Add ons</Text>
@@ -361,7 +360,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteHandler
 
                 </ScrollView>
                 <AddJob isOpen={editJobVisible} onClose={() => setEditJobVisible(false)} lable={"Edit Booking"} id={id} />
-                <DeleteModal id={id} phone={phoneNumber} price={quotePrice} animation="slide" quoteReference={item.bookingReference} customerName={item.firstName + " " + item.lastName} title="Delete Job" onClose={() => setDeleteVisible(false)} isOpen={deleteVisible} onPress={deleteHandler} />
+                <DeleteModal id={id} phone={phoneNumber} price={quotePrice} animation="slide" quoteReference={item.bookingReference} customerName={item.firstName + " " + item.lastName} title="Delete Job" onClose={toggleDelete} isOpen={deleteOpen} onPress={deleteHandler} loading={deleteBooking} />
             </View>
             <ShowToast />
             {/* <SafeAreaView /> */}

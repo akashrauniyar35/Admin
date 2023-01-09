@@ -66,19 +66,16 @@ const techData = [
 ];
 
 
-const ViewJobModalComponent = ({ id, item, refresh, onClose }) => {
+const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDelete, deleteHandler, confirmOpen, toggleConfirm, confirmHandler }) => {
     console.log('job component modal item', id)
     const [checkListVisible, setCheckListVisible] = useState(false)
     const [addNoteVisible, setAddNoteVisible] = useState(false)
-    const [deleteJob, setDeleteJob] = useState(false);
-    const [confirmBookingVisible, setConfirmBookingVisible] = useState(false);
     const [editJobVisible, setEditJobVisible] = useState(false);
-    const statusLoading = useSelector((state: any) => state.jobReducer.statusUpdateLoading)
 
+    const statusLoading = useSelector((state: any) => state.jobReducer.statusUpdateLoading)
+    const deleteLoading = useSelector((state: any) => state.jobReducer.deleteLoading)
 
     const dispatch = useDispatch()
-
-
 
 
     const x = String(item.subtotal).slice(0, 3);
@@ -113,44 +110,43 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose }) => {
     }
 
 
-    const deleteJobHandler = async () => {
-        let id = item._id
-        dispatch(deleteJobPending())
+    // const deleteJobHandler = async () => {
+    //     let id = item._id
+    //     dispatch(deleteJobPending())
 
-        const x: any = await fetchDeleteJob(id)
-        if (x.data.status === "error") {
-            return dispatch(deleteJobFail(x.data.status));
-        }
-        // setData(x.data.paginatedResults)
-        dispatch(deleteJobSuccess(id))
-        setDeleteJob(false)
-        onClose()
-        refresh(1)
-        Toast.show({
-            type: 'deleteToast',
-            visibilityTime: 3000,
-            text1: `${item.quoteReference}`,
-            props: { message: 'Deleted Successfully' }
-        });
-    }
+    //     const x: any = await fetchDeleteJob(id)
+    //     if (x.data.status === "error") {
+    //         return dispatch(deleteJobFail(x.data.status));
+    //     }
+    //     dispatch(deleteJobSuccess(id))
+    //     toggleDelete()
+    //     onClose()
+    //     refresh(1)
+    //     Toast.show({
+    //         type: 'deleteToast',
+    //         visibilityTime: 3000,
+    //         text1: `${item.quoteReference}`,
+    //         props: { message: 'Deleted Successfully' }
+    //     });
+    // }
 
-    const confirmBookingVisibleHandler = async () => {
-        let id = item._id;
-        dispatch(confirmBookingPending());
+    // const confirmBookingVisibleHandler = async () => {
+    //     let id = item._id;
+    //     dispatch(confirmBookingPending());
 
-        const x: any = await fetchConfirmBooking(id);
-        if (x.data.status === "error") {
-            return dispatch(confirmBookingFail(x.data.status));
-        }
-        dispatch(confirmBookingSuccess(id))
-        setConfirmBookingVisible(false);
-        Toast.show({
-            type: 'successToast',
-            visibilityTime: 3000,
-            text1: `${item.quoteReference}`,
-            props: { message: 'Booking Confirmed Successfully' }
-        });
-    }
+    //     const x: any = await fetchConfirmBooking(id);
+    //     if (x.data.status === "error") {
+    //         return dispatch(confirmBookingFail(x.data.status));
+    //     }
+    //     dispatch(confirmBookingSuccess(id))
+    //     toggleConfirm()
+    //     Toast.show({
+    //         type: 'successToast',
+    //         visibilityTime: 3000,
+    //         text1: `${item.quoteReference}`,
+    //         props: { message: 'Booking Confirmed Successfully' }
+    //     });
+    // }
 
     return (
         <>
@@ -192,7 +188,7 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose }) => {
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
 
-                        <Pressable onPress={() => setConfirmBookingVisible(true)}>
+                        <Pressable onPress={toggleConfirm}>
                             <View style={[styles.buttonsFull]}>
                                 <Text style={{
                                     fontSize: 14,
@@ -202,7 +198,7 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose }) => {
                         </Pressable>
 
 
-                        <Pressable onPress={() => setDeleteJob(true)}>
+                        <Pressable onPress={toggleDelete}>
                             <View style={[styles.buttonsFull, { backgroundColor: Colors.red, borderRadius: Colors.spacing * Colors.spacing }]}>
                                 <Text style={{
                                     fontSize: 14,
@@ -349,9 +345,8 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose }) => {
                 </ScrollView>
                 <AddJob isOpen={editJobVisible} onClose={() => setEditJobVisible(false)} lable={"Edit Quote"} id={id} />
 
-                <DeleteModal id={id} phone={phoneNumber} price={quotePrice} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Delete Job" onClose={() => setDeleteJob(false)} isOpen={deleteJob} onPress={deleteJobHandler} />
-                <ConfirmBookingModal id={item._id} phone={phoneNumber} price={quotePrice} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Confirm Job" onClose={() => setConfirmBookingVisible(false)} isOpen={confirmBookingVisible} onPress={confirmBookingVisibleHandler} />
-
+                <DeleteModal loading={deleteLoading} id={id} phone={phoneNumber} price={quotePrice} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Delete Job" onClose={toggleDelete} isOpen={deletOpen} onPress={deleteHandler} />
+                <ConfirmBookingModal id={item._id} phone={phoneNumber} price={quotePrice} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Confirm Job" onClose={toggleConfirm} isOpen={confirmOpen} onPress={confirmHandler} />
             </View>
             <ShowToast />
         </>

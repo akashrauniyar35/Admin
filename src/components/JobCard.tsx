@@ -26,10 +26,16 @@ const JobCard = ({ item, index, refresh }) => {
     const [editJobVisible, setEditJobVisible] = useState(false);
     const [addNotesVisible, setAddNotesVisible] = useState(false);
     const [deleteJob, setDeleteJob] = useState(false);
+    const [deleteJobInternal, setDeleteJobInternal] = useState(false);
     const [confirmBookingVisible, setConfirmBookingVisible] = useState(false);
+    const [confirmBookingInternalVisible, setConfirmBookingInternalVisible] = useState(false);
     const swipeableRef = useRef<Swipeable | null>(null);
     const [jobId, setJobId] = useState(String)
     let loading = useSelector((state: any) => state.jobReducer.deleteLoading)
+
+    const street = item.address2.split(" ")
+
+
 
     const dispatch = useDispatch()
     const phoneNumber = [item.phone.slice(0, 4), " ", item.phone.slice(4, 7), " ", item.phone.
@@ -182,6 +188,8 @@ const JobCard = ({ item, index, refresh }) => {
         dispatch(deleteJobSuccess(id))
         refresh()
         setDeleteJob(false)
+        setDeleteJobInternal(false)
+        setIsOpen(false)
         Toast.show({
             type: 'deleteToast',
             visibilityTime: 3000,
@@ -198,10 +206,11 @@ const JobCard = ({ item, index, refresh }) => {
         if (x.data.status === "error") {
             return dispatch(confirmBookingFail(x.data.status));
         }
-
         dispatch(confirmBookingSuccess(id))
         refresh();
         setConfirmBookingVisible(false);
+        setConfirmBookingInternalVisible(false)
+        setIsOpen(false)
         Toast.show({
             type: 'successToast',
             visibilityTime: 3000,
@@ -226,13 +235,13 @@ const JobCard = ({ item, index, refresh }) => {
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * .5 }}>
                                     <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{bookingDate.toDateString()}</Text>
-                                    <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing, borderRadius: 100, }} />
+                                    <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
                                     <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>$ {price}</Text>
                                 </View>
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                 <View style={{ backgroundColor: item.quoteStatus.toLowerCase() === "in progress" ? Colors.orangeBG : item.quoteStatus.toLowerCase() === "completed" ? Colors.paidBG : item.quoteStatus.toLowerCase() === "cancelled" ? Colors.redBG : Colors.orangeBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing, marginRight: Colors.spacing, width: Colors.spacing * 7, alignItems: 'center' }}>
-                                    <Text style={{ fontSize: 10, color: item.quoteStatus.toLowerCase() === "in progress" ? Colors.orange : item.quoteStatus.toLowerCase() === "completed" ? Colors.green : item.quoteStatus.toLowerCase() === "cancelled" ? Colors.red : Colors.orange, fontWeight: isAndroid ? "900" : "600" }}>{item.quoteStatus}</Text>
+                                    <Text style={{ fontSize: 9, color: item.quoteStatus.toLowerCase() === "in progress" ? Colors.orange : item.quoteStatus.toLowerCase() === "completed" ? Colors.green : item.quoteStatus.toLowerCase() === "cancelled" ? Colors.red : Colors.orange, fontWeight: isAndroid ? "900" : "600" }}>{item.quoteStatus}</Text>
                                 </View>
                                 <Pressable onPress={swipeableOpen}>
                                     <IconM name="dots-horizontal" size={28} color={Colors.maidlyGrayText} />
@@ -240,36 +249,35 @@ const JobCard = ({ item, index, refresh }) => {
                             </View>
                         </View>
 
-                        <View style={{ width: '100%', marginVertical: Colors.spacing * 2, borderBottomWidth: .35, borderColor: Colors.maidlyGrayText }} />
+                        <View style={{ width: '100%', marginVertical: Colors.spacing * 2, borderBottomWidth: .35, borderColor: Colors.borderColor, }} />
 
                         <View style={{}}>
-                            <View style={{}}>
-                                <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{item.firstName} {item.lastName}</Text>
-                                <View style={{ marginVertical: Colors.spacing }}>
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{'item.address'}</Text>
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{'item.address'}</Text>
-                                </View>
+
+                            <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{item.firstName} {item.lastName}</Text>
+                            <View style={{ marginTop: Colors.spacing, marginBottom: Colors.spacing * .5 }}>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.address1} {street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) + " " + street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1)}</Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.city.toUpperCase()} {item.postcode}</Text>
                             </View>
 
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * .5 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                 <Pressable onPress={() => Linking.openURL(`tel:${phoneNumber}`)}>
                                     <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{phoneNumber}</Text>
                                 </Pressable>
-                                <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing, borderRadius: 100, }} />
+                                <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
                                 <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.email}</Text>
                             </View>
                         </View>
                     </View>
                 </Pressable>
             </Swipeable>
-
-            <ViewJobModal refresh={refresh} isOpen={isOpen} onPress={openJobHandler} onClose={closeJobHandler} id={item._id} />
+            <ViewJobModal refresh={refresh} isOpen={isOpen} onPress={openJobHandler} onClose={closeJobHandler} id={item._id} deletOpen={deleteJobInternal} toggleDelete={() => setDeleteJobInternal(!deleteJobInternal)} deleteHandler={deleteJobHandler} confirmOpen={confirmBookingInternalVisible} toggleConfirm={() => setConfirmBookingInternalVisible(!confirmBookingInternalVisible)} confirmHandler={confirmBookingVisibleHandler} />
 
             <AddJob refresh={refresh} isOpen={editJobVisible} onClose={() => setEditJobVisible(false)} lable={"Edit Quote"} id={item._id} />
 
             <AddNotes animation="slide" title="Add notes" onClose={() => setAddNotesVisible(false)} isOpen={addNotesVisible} />
             <DeleteModal loading={loading} id={item._id} phone={phoneNumber} price={price} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Delete Job" onClose={() => setDeleteJob(false)} isOpen={deleteJob} onPress={deleteJobHandler} />
-            <ConfirmBookingModal id={item._id} phone={phoneNumber} price={price} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Confirm Job" onClose={() => setConfirmBookingVisible(false)} isOpen={confirmBookingVisible} onPress={confirmBookingVisibleHandler} />
+
+            <ConfirmBookingModal id={item._id} phone={phoneNumber} price={price} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Confirm Job" onClose={() => setConfirmBookingVisible(!confirmBookingVisible)} isOpen={confirmBookingVisible} onPress={confirmBookingVisibleHandler} />
 
         </>
     )

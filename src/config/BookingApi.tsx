@@ -1,9 +1,9 @@
 import { endPoint } from './index';
 
-export const fetchTodayBookings = () => {
+export const fetchTodayBookings = (from, to) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const res: any = await endPoint.get(`booking/all?page=1&limit=10&bookingDate=${'2023-01-01'}&to=${'2023-01-27'}`)
+            const res: any = await endPoint.get(`booking/all?page=1&limit=10&bookingDate=${from}&to=${to}`)
             console.log(res)
             resolve(res);
         }
@@ -35,7 +35,7 @@ export const fetchBookingByID = (id: string) => {
 export const fetchAppointments = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const res: any = await endPoint.get(`booking/all?page=1&limit=10&bookingDate=${'2023-01-01'}&to=${'2023-01-31'}`)
+            const res: any = await endPoint.get(`booking/all?page=1&limit=20&bookingDate=${'2023-01-01'}&to=${'2023-01-31'}`)
             console.log(res)
             resolve(res);
         }
@@ -62,7 +62,6 @@ export const fetchAllBookings = (page: number) => {
     })
 };
 
-// http://localhost:3001/v1/booking/all?page=1&limit=2&filter=bookingStatus&word=Completed
 
 export const fetchDeleteJobBooking = (id: String) => {
     return new Promise(async (resolve, reject) => {
@@ -79,6 +78,20 @@ export const fetchDeleteJobBooking = (id: String) => {
 
     })
 }
+
+export const fetchFilteredBookings = (status: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const res: any = await endPoint.get(`booking/all?page=1&limit=10&filter=bookingStatus&word=${status}`)
+            resolve(res);
+            console.log('status', res)
+        }
+        catch (err) {
+            console.log(err)
+            reject(err)
+        }
+    })
+};
 
 export const ABCD = (data: any) => {
     return new Promise(async (resolve, reject) => {

@@ -101,11 +101,9 @@ const Expenses = ({ navigation }) => {
     }, [data.length])
 
     const ProductsCard = ({ item }) => {
-
-
         return (
             <Pressable onPress={() => toggleEditProduct(item)}>
-                <View style={{ backgroundColor: 'white', padding: Colors.spacing, borderRadius: 5, marginBottom: Colors.spacing }}>
+                <View style={{ backgroundColor: 'white', padding: Colors.spacing, borderRadius: 5, marginBottom: Colors.spacing * 2 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between" }}>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', }}>
@@ -177,7 +175,7 @@ const Expenses = ({ navigation }) => {
                 </View>
             </View>
 
-            {editProduct && <EditProduct loading={loading} onSave={onSaveHandler} value={selected} id={selected?._id} title={selected?.title} price={selected?.price} status={selected?.status} isOpen={editProduct} onClose={() => { seteditProduct(false); getAllProducts() }} editHandler={setSelected} deleteHandler={onDeleteHandler} deleteLoading={deleteLoading} />}
+            <EditProduct loading={loading} onSave={onSaveHandler} value={selected} id={selected?._id} title={selected?.title} price={selected?.price} status={selected?.status} isOpen={editProduct} onClose={() => { seteditProduct(false); getAllProducts() }} editHandler={setSelected} deleteHandler={onDeleteHandler} deleteLoading={deleteLoading} />
             <ShowToast />
         </>
     )

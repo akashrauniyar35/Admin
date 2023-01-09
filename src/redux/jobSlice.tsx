@@ -6,7 +6,6 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export interface initialState {
 
-    searchValue: string,
     sealectedJobValue: string,
     JobPageData: {
         _id: string,
@@ -23,7 +22,6 @@ export interface initialState {
     jobPageData: [],
     refreshLoading: boolean,
     statusUpdateLoading: boolean,
-    searchResults: [],
     totalPages: number,
     listLoading: boolean,
     selectedJobLoading: boolean,
@@ -34,8 +32,6 @@ export interface initialState {
 }
 
 const initialState: initialState = {
-    searchValue: "",
-    searchResults: [],
     selectedJobValue: '',
     jobPageData: [],
     jobByIdData: [],
@@ -59,7 +55,6 @@ const getAllJobSlice = createSlice({
         getAllJobPending(state, action: any) {
             state.listLoading = true;
             state.refreshLoading = true;
-            state.searchValue = ""
             console.log("Login Pending Slice", action.payload)
         },
         getAllJobSuccess(state) {
@@ -76,18 +71,12 @@ const getAllJobSlice = createSlice({
         },
         searchJobPending(state, action: any) {
             state.listLoading = true;
-            state.searchValue = action.payload
-            console.log("Login Pending Slice", action.payload)
         },
-        searchJobuccess(state, action: any) {
+        searchJobuccess(state,) {
             state.listLoading = false;
-            // state.JobPageData = action.payload
-            state.searchResults = action.payload
-            console.log("Search success", action.payload)
         },
-        searchJobFail(state, action: any) {
+        searchJobFail(state,) {
             state.listLoading = false;
-            console.log("Login Pending Slice", action.payload)
         },
         viewJobPending(state, action: any) {
             state.selectedJobLoading = true,
@@ -106,20 +95,20 @@ const getAllJobSlice = createSlice({
         deleteJobPending(state,) {
             state.deleteLoading = true
         },
-        deleteJobSuccess(state, action: any) {
+        deleteJobSuccess(state,) {
             state.deleteLoading = false
         },
-        deleteJobFail(state, action: any) {
+        deleteJobFail(state,) {
             state.deleteLoading = false
         },
 
         confirmBookingPending(state,) {
             state.deleteLoading = true
         },
-        confirmBookingSuccess(state, action: any) {
+        confirmBookingSuccess(state,) {
             state.deleteLoading = false
         },
-        confirmBookingFail(state, action: any) {
+        confirmBookingFail(state,) {
             state.deleteLoading = false
         },
 

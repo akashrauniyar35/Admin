@@ -1,18 +1,15 @@
-import { Dimensions, Modal, Platform, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Modal, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Colors } from '../assets/Colors';
 import SelectTechnicianCard from './SelectionCard';
 import PeriodSelector from './PeriodSelector';
-import StatusCard from './Sc';
 import SelectionCard from './SelectionCard';
 import CalandarDatePicker from './CalandarDatePicker';
 import HeaderComponent from './AddButtonHeader'
 
 const isAndroid = Platform.OS == 'android' ? true : false
 const { width, height } = Dimensions.get('screen')
-
-
 
 
 const data = [
@@ -57,8 +54,7 @@ const scheduleData = [
     },
 ]
 
-
-const Filter = ({ onPress, isOpen, title, setDateRange, dateRange }) => {
+const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setFilter, onClear }) => {
     const [fromPicker, setFromPicker] = useState(false);
     const [toPicker, setToPicker] = useState(false);
 
@@ -69,19 +65,54 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange }) => {
         console.log("handleDatePicker",)
     }
 
+    const data = [
+        {
+            id: '00',
+            title: 'Completed'
+        },
+        {
+            id: '00',
+            title: 'Amit Raja'
+        },
+        {
+            id: '00',
+            title: 'From 2023/01-01 To 2023/01-31'
+        },
+    ]
+
     return (
 
         <>
 
-            <Pressable
-                style={{}}
-                onPress={onPress}
-            >
+            <View>
                 <View style={[styles.filterStyling,]}>
-                    <Icon name="filter" size={22} color={Colors.littleGray} />
-                    <Text style={{ marginLeft: Colors.spacing * 1.5, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{title}</Text>
+                    <Pressable onPress={onClose}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                            <Icon name="filter" size={22} color={Colors.littleGray} />
+                            <Text style={{ marginLeft: Colors.spacing * 1.5, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{title}</Text>
+                        </View>
+                    </Pressable>
+                
+                    <View style={{ width: '60%', alignItems: "center" }}>
+                        <ScrollView horizontal contentContainerStyle={{ alignItems: "center" }}>
+                            {data.map((item) => {
+                                return (
+                                    <Pressable>
+                                        <View style={{ backgroundColor: Colors.completedGreenBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing, marginRight: Colors.spacing, paddingHorizontal: Colors.spacing, alignItems: 'center' }}>
+                                            <Text style={{ marginRight: Colors.spacing, fontSize: 10, color: Colors.green, fontWeight: isAndroid ? "900" : "600" }}>{item.title}</Text>
+                                        </View>
+                                    </Pressable>
+                                )
+                            })}
+                        </ScrollView>
+                    </View>
+
+                    <Pressable onPress={onClear}>
+                        <Icon name="md-close-circle" color={Colors.madidlyThemeBlue} size={20} />
+                    </Pressable>
+
                 </View>
-            </Pressable>
+            </View>
 
             <Modal
                 animationType="fade"
@@ -110,7 +141,7 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange }) => {
                         }}>
                             <Pressable
                                 style={{}}
-                                onPress={onPress}
+                                onPress={onClose}
                             ><Icon name="chevron-back" size={22} color={Colors.black} /></Pressable>
                             <Text style={{ fontSize: 14, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>{"Filter Jobs"}</Text><Icon name="chevron-back" size={28} color={'white'} />
                         </View>
@@ -129,10 +160,10 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange }) => {
                             </View>
 
                             <View style={{ marginTop: Colors.spacing }}>
-                                <SelectionCard phColor={Colors.maidlyGrayText} border={true} rounded={true} data={scheduleData} type={'filter'} label="Status" placeholder="Select status" />
+                                <SelectionCard onPress={(value) => setFilter(value)} phColor={Colors.maidlyGrayText} border={true} rounded={true} data={scheduleData} type={'filter'} label="Status" placeholder="Select status" />
                             </View>
 
-                            <Pressable style={styles.applyButton}>
+                            <Pressable style={styles.applyButton} onPress={onPress}>
                                 <Text style={{ fontSize: 16, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>Apply Filter</Text>
                             </Pressable>
 
@@ -141,11 +172,6 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange }) => {
                 </View>
             </Modal >
         </>
-
-
-
-
-
 
     )
 }
@@ -159,6 +185,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: .5 },
         shadowOpacity: .2,
         shadowColor: Colors.grayOne, elevation: 2,
+        justifyContent: 'space-between'
     },
 
     container: {

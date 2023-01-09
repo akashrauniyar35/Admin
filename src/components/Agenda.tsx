@@ -48,9 +48,6 @@ const JobsAgenda = ({ nav, data }) => {
     const AgendaItems = ({ item, nav }) => {
 
 
-
-
-
         return (
             <Pressable onPress={toggleAppointment}>
                 <View style={{ backgroundColor: '#fff', padding: Colors.spacing * 2, borderRadius: 5, position: 'relative' }}>
@@ -90,25 +87,25 @@ const JobsAgenda = ({ nav, data }) => {
 
                 <Agenda
 
-                    pastScrollRange={1}
+                    pastScrollRange={0}
                     futureScrollRange={1}
                     onRefresh={() => console.log('refreshing...')}
 
                     items={{
 
-                        '2022-12-28': [{ name: 'Sankar Thapa', price: '400', address: 'Strathfield NS@ 2135', contact: '0451569865', time: '9:00 AM', assigned: false, },
+                        '2023-01-28': [{ name: 'Sankar Thapa', price: '400', address: 'Strathfield NS@ 2135', contact: '0451569865', time: '9:00 AM', assigned: false, },
                         { name: 'Pankar Thapa', price: '400', address: 'Strathfield NS@ 2135', contact: '0451569865', time: '9:00 AM', assigned: false, }],
 
-                        '2022-12-29': [{ name: 'Bijay Chamling', address: 'Strathfield NS@ 2135', time: '2:00 PM', assigned: true, contact: '0451569865' }],
-                        '2022-12-30': [{ name: 'item 4' }],
-                        '2022-12-31': [{ name: 'item 3 - any js object' }, { name: 'item 3 any js object', }]
+                        '2023-01-29': [{ name: 'Bijay Chamling', address: 'Strathfield NS@ 2135', time: '2:00 PM', assigned: true, contact: '0451569865' }],
+                        '2023-01-30': [{ name: 'item 4' }],
+                        '2023-01-31': [{ name: 'item 3 - any js object' }, { name: 'item 3 any js object', }]
                     }}
 
 
                     markingType={'multi-dot'}
                     markedDates={{
-                        '2022-12-25': { dots: [dot, dot, dot, dot], },
-                        '2022-12-26': { dots: [dot, dot, dot, dot], },
+                        '2023-01-25': { dots: [dot, dot, dot, dot], },
+                        '2023-01-26': { dots: [dot, dot, dot, dot], },
                     }}
 
                     style={{
@@ -121,11 +118,10 @@ const JobsAgenda = ({ nav, data }) => {
                         agendaTodayColor: Colors.red,
                         calendarBackground: Colors.madlyBGBlue, //agenda background
                         agendaKnobColor: Colors.madidlyThemeBlue, // knob color
-                        // backgroundColor: Colors.green, // background color below agenda
-                        // todayBackgroundColor: Colors.paid,
+                        todayBackgroundColor: Colors.green,
+                        todayTextColor: 'white',
                         textSectionTitleColor: Colors.madidlyThemeBlue,
                         selectedDayBackgroundColor: Colors.madidlyThemeBlue, // selected
-                        // dayTextColor: Colors.maidlyGrayText, // calendar day
                     }}
 
 

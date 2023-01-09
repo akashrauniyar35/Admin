@@ -21,14 +21,12 @@ import Toast from 'react-native-toast-message';
 
 
 
-const ViewJobModal = ({ isOpen, onPress, onClose, id, refresh }) => {
+const ViewJobModal = ({ isOpen, onPress, onClose, id, refresh, deletOpen, toggleDelete, deleteHandler, confirmOpen, toggleConfirm, confirmHandler }) => {
 
     const jobData: any = useSelector((state: any) => state.jobReducer.jobByIdData)
     const loading = useSelector((state: any) => state.jobReducer.selectedJobLoading)
 
     const dispatch = useDispatch()
-
-
     return (
         <>
             < View >
@@ -52,7 +50,7 @@ const ViewJobModal = ({ isOpen, onPress, onClose, id, refresh }) => {
                             <View style={styles.modalView}>
                                 {jobData.map((item) => {
                                     return (
-                                        <ViewJobModalComponent key={item._id} id={id} item={item} onClose={onClose} refresh={refresh} />
+                                        <ViewJobModalComponent key={item._id} id={id} item={item} onClose={onClose} refresh={refresh} deletOpen={deletOpen} toggleDelete={toggleDelete} confirmOpen={confirmOpen} toggleConfirm={toggleConfirm} deleteHandler={deleteHandler} confirmHandler={confirmHandler} />
                                     )
                                 })}
                             </View>
