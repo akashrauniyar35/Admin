@@ -1,7 +1,5 @@
 import { Pressable, SafeAreaView, FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
-
 
 import { Colors, isAndroid } from '../../assets/Colors'
 import Header from '../../components/Header'
@@ -12,9 +10,9 @@ import Donut from '../../components/Donut';
 import QuoteBanner from '../../components/QuoteBanner';
 import ShowToast from '../../components/ShowToast';
 import BookingsCard from './BookingsCard';
-import { fetchAllBookings, fetchBookingByID, fetchDeleteJobBooking } from '../../config/BookingApi';
+import { fetchAllBookings, fetchBookingByID, fetchDeleteJobBooking, fetchFilteredBookings } from '../../config/BookingApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteBookingFail, deleteBookingPending, deleteBookingSuccess, getAllBookingFail, getAllBookingPending, getAllBookingSuccess, getBookingbyIDFail, getBookingbyIDPending, getBookingbyIDSuccess } from '../../redux/bookingSlice';
+import { deleteBookingFail, deleteBookingPending, deleteBookingSuccess, filterBookingFail, filterBookingPending, filterBookingSuccess, getAllBookingFail, getAllBookingPending, getAllBookingSuccess, getBookingbyIDFail, getBookingbyIDPending, getBookingbyIDSuccess } from '../../redux/bookingSlice';
 import ViewBookingModal from './ViewBookingModal';
 import { Swipeable } from 'react-native-gesture-handler';
 import DeleteModal from '../../components/DeletetModal';
@@ -25,11 +23,14 @@ import AddNotes from '../../components/AddNotes';
 const Bookings = ({ navigation }) => {
     const [data, setData] = useState([])
     const [filtersVisible, setFiltersVisible] = useState(false)
+    const [filterBY, setFilterBY] = useState("")
+    const [filteredData, setFilteredData] = useState([])
     const [pageCount, setPageCount] = useState(1);
     const [openBooking, setOpenBooking] = useState(false);
     const [editBooking, setEditBooking] = useState(false);
     const [addNotesVisible, setAddNotesVisible] = useState(false);
     const [deleteBooking, setDeleteBooking] = useState(false);
+    const [deleteBookingSlider, setDeleteBookingSlider] = useState(false);
     const [markCompleteVisible, setMarkCompleteVisible] = useState(false);
     const [selectedBooking, setSelectedBooking] = useState()
     const [dateRange, setDateRange] = useState({ from: "", to: "" })
@@ -89,12 +90,9 @@ const Bookings = ({ navigation }) => {
 
     }
 
-
-
     const renderItem = (item: any, index) => {
         return (
-            < BookingsCard editBookingHandler={editBookingHandler} selectedBooking={() => setSelectedBooking(item)} item={item} index={index} swipeableOptions={swipeableOptions} onPress={() => viewBookingHandler(item)} toggleDelete={() => setDeleteBooking(true)} toggleNotes={() => setAddNotesVisible(!addNotesVisible)} />
-
+            < BookingsCard editBookingHandler={editBookingHandler} selectedBooking={() => setSelectedBooking(item)} item={item} index={index} swipeableOptions={swipeableOptions} onPress={() => viewBookingHandler(item)} toggleDelete={() => setDeleteBookingSlider(!deleteBookingSlider)} toggleNotes={() => setAddNotesVisible(!addNotesVisible)} />
         )
     }
 
@@ -122,11 +120,6 @@ const Bookings = ({ navigation }) => {
         dispatch(getBookingbyIDSuccess(x.data.result))
     }
 
-    const toggleFilter = () => {
-        setFiltersVisible(!filtersVisible)
-    }
-
-
 
     const deleteBookingHandler = async (id: any) => {
         dispatch(deleteBookingPending())
@@ -135,8 +128,10 @@ const Bookings = ({ navigation }) => {
             return dispatch(deleteBookingFail());
         }
         dispatch(deleteBookingSuccess())
-        getAllBookings(1)
         setDeleteBooking(false);
+        setDeleteBookingSlider(false)
+        getAllBookings(1)
+        setOpenBooking(false)
         Toast.show({
             type: 'deleteToast',
             visibilityTime: 3000,
@@ -144,6 +139,19 @@ const Bookings = ({ navigation }) => {
             props: { message: 'Deleted Successfully' }
         });
         setPageCount(1)
+    }
+
+    const filterHandler = async () => {
+        dispatch(filterBookingPending())
+        const x: any = await fetchFilteredBookings(filterBY)
+        if (x.data.status === "error") {
+            return dispatch(filterBookingFail(x.data.status));
+        }
+        dispatch(filterBookingSuccess())
+        setData(x.data.paginatedResults)
+        setFiltersVisible(false)
+        pageCount <= 1 ? setFilteredData(x.data.paginatedResults) : setFilteredData([...data, ...x.data.paginatedResults])
+
     }
 
     useEffect(() => {
@@ -166,16 +174,14 @@ const Bookings = ({ navigation }) => {
                     </View>
                 </View>
 
-                <Filter dateRange={dateRange} title={"Filter jobs"} isOpen={filtersVisible} onPress={toggleFilter} setDateRange={setDateRange} />
-
-                <Text style={{ color: 'red' }}>{"pageCount" + pageCount}</Text>
+                <Filter dateRange={dateRange} title={"Filter jobs"} isOpen={filtersVisible} onClose={() => setFiltersVisible(!filtersVisible)} onPress={filterHandler} setDateRange={setDateRange} setFilter={setFilterBY} onClear={() => { setFilteredData([]); getAllBookings(1) }} />
 
                 <View style={{ flex: 1, }}>
                     <FlatList
-                        data={data}
+                        data={filteredData.length === 0 ? data : filteredData}
                         onEndReached={() => setPageCount(pageCount + 1)}
                         refreshing={refreshLoading}
-                        onRefresh={() => { getAllBookings(1); setPageCount(1) }}
+                        onRefresh={() => { getAllBookings(1) }}
                         onEndReachedThreshold={.5}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: Colors.spacing }}
@@ -185,9 +191,9 @@ const Bookings = ({ navigation }) => {
                 </View>
             </View>
 
-            <ViewBookingModal isOpen={openBooking} onClose={() => { setOpenBooking(false); getAllBookings(1) }} id={selectedBooking?._id} refresh={() => getAllBookings(1)} deleteHandler={deleteBookingHandler} />
+            <ViewBookingModal isOpen={openBooking} onClose={() => { setOpenBooking(false); setPageCount(1); getAllBookings(1) }} id={selectedBooking?._id} refresh={() => setPageCount(1)} deleteHandler={deleteBookingHandler} deleteOpen={deleteBooking} toggleDelete={() => setDeleteBooking(!deleteBooking)} />
 
-            <DeleteModal loading={deleteLoading} id={selectedBooking?._id} phone={phoneNumber} price={price} animation="slide" quoteReference={selectedBooking?.bookingReference} customerName={selectedBooking?.firstName + " " + selectedBooking?.lastName} title="Delete Job" onClose={() => setDeleteBooking(false)} isOpen={deleteBooking} onPress={deleteBookingHandler} />
+            <DeleteModal loading={deleteLoading} id={selectedBooking?._id} phone={phoneNumber} price={price} animation="slide" quoteReference={selectedBooking?.bookingReference} customerName={selectedBooking?.firstName + " " + selectedBooking?.lastName} title="Delete Job" onClose={() => setDeleteBookingSlider(false)} isOpen={deleteBookingSlider} onPress={deleteBookingHandler} />
             <AddJob isOpen={editBooking} onClose={() => setEditBooking(false)} lable={"Edit Booking"} id={selectedBooking?._id} />
 
             <AddNotes id={selectedBooking?._id} reference={selectedBooking?.bookingReference} animation="slide" title="Add notes" onClose={() => setAddNotesVisible(false)} isOpen={addNotesVisible} />

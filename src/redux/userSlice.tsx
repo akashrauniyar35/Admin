@@ -3,23 +3,31 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     data: [],
     loading: false,
+    detailsLoading: false,
 };
 
 const userSlice = createSlice({
     name: 'getAllQuotes',
     initialState,
     reducers: {
-        getUserPending(state, action: any) {
+        getUserPending(state,) {
             state.loading = true;
-            console.log("Login Pending Slice", action.payload)
         },
         getUserSuccess(state, action: any) {
             state.loading = false;
             state.data = action.payload;
         },
-        getUserFail(state, action: any) {
+        getUserFail(state) {
             state.loading = false;
-            console.log("search success api", action.payload)
+        },
+        updateUserPending(state,) {
+            state.detailsLoading = true;
+        },
+        updateUserSuccess(state,) {
+            state.detailsLoading = false;
+        },
+        updateUserFail(state,) {
+            state.detailsLoading = false;
         },
 
     }
@@ -27,5 +35,8 @@ const userSlice = createSlice({
 
 
 
-export const { getUserPending, getUserSuccess, getUserFail } = userSlice.actions;
+export const {
+    getUserPending, getUserSuccess, getUserFail,
+    updateUserPending, updateUserSuccess, updateUserFail,
+} = userSlice.actions;
 export default userSlice.reducer;

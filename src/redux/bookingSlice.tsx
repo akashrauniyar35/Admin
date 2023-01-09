@@ -6,6 +6,7 @@ export interface initialState {
     bookingLoading: boolean,
     deleteLoading: boolean;
     dashboardData: Array<[]>;
+    filterLoading: boolean;
     id: Array<[]>
 };
 
@@ -16,6 +17,7 @@ const initialState: initialState = {
     deleteLoading: false,
     id: [],
     dashboardData: [],
+    filterLoading: false,
 
 };
 
@@ -68,6 +70,16 @@ const bookingSlice = createSlice({
             state.deleteLoading = false;
         },
 
+        filterBookingPending(state) {
+            state.filterLoading = true;
+        },
+        filterBookingSuccess(state) {
+            state.filterLoading = false;
+        },
+        filterBookingFail(state) {
+            state.filterLoading = false;
+
+        },
 
 
 
@@ -80,6 +92,7 @@ export const {
     getBookingbyIDPending, getBookingbyIDSuccess, getBookingbyIDFail,
     getAllBookingPending, getAllBookingSuccess, getAllBookingFail,
     deleteBookingPending, deleteBookingSuccess, deleteBookingFail,
+    filterBookingPending, filterBookingSuccess, filterBookingFail,
 
 } = bookingSlice.actions;
 

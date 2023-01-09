@@ -17,6 +17,7 @@ import AddJob from '../Add/AddJob';
 const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, swipeableOptions, toggleDelete, selectedBooking }) => {
 
     const swipeableRef = useRef<Swipeable | null>(null);
+    const street = item.address1?.split(" ")
 
     const swipeableOpen = (text: string) => {
         console.log(text)
@@ -110,7 +111,7 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * .5 }}>
                                     <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{bookingDate.toDateString()}</Text>
-                                    <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing, borderRadius: 100, }} />
+                                    <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
                                     <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>$ {price}</Text>
                                 </View>
                             </View>
@@ -127,25 +128,25 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
 
                         </View>
 
-                        <View style={{ width: '100%', marginVertical: Colors.spacing * 2, borderBottomWidth: .35, borderColor: Colors.maidlyGrayText }} />
+                        <View style={{ width: '100%', marginVertical: Colors.spacing * 2, borderBottomWidth: .35, borderColor: Colors.borderColor }} />
 
                         <View style={{}}>
-                            <View style={{}}>
-                                <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{item.firstName} {item.lastName}</Text>
-                                <View style={{ marginVertical: Colors.spacing }}>
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{'item.address'}</Text>
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{'item.address'}</Text>
-                                </View>
+
+                            <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{item.firstName} {item.lastName}</Text>
+                            <View style={{ marginTop: Colors.spacing * .5, marginBottom: Colors.spacing * .5 }}>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.address1} {street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) + " " + street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1)}</Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.city.toUpperCase()} {item.postcode}</Text>
                             </View>
 
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * .5 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                 <Pressable onPress={() => Linking.openURL(`tel:${phoneNumber}`)}>
                                     <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{phoneNumber}</Text>
                                 </Pressable>
-                                <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing, borderRadius: 100, }} />
+                                <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
                                 <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.email}</Text>
                             </View>
                         </View>
+
                     </View>
                 </Pressable>
             </Swipeable>

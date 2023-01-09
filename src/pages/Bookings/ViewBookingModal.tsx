@@ -11,12 +11,12 @@ import { fetchQuoteByID, fetchStatusUpdate } from '../../config/JobApi';
 import ViewBookingModalComponent from './ViewBookingModalComponent'
 
 
-const ViewBookingModal = ({ isOpen, onPress, onClose, id, refresh, deleteHandler }) => {
+const ViewBookingModal = ({ isOpen, onPress, onClose, id, refresh, deleteOpen, toggleDelete, deleteHandler }) => {
 
     const data: any = useSelector((state: any) => state.bookingReducer.id)
     const loading = useSelector((state: any) => state.bookingReducer.bookingbyID)
 
-    const dispatch = useDispatch()
+const dispatch = useDispatch()
 
 
     const statusHandler = async (value: string) => {
@@ -55,6 +55,8 @@ const ViewBookingModal = ({ isOpen, onPress, onClose, id, refresh, deleteHandler
                                 return (
                                     <ViewBookingModalComponent
                                         statusHandler={statusHandler} key={item._id} id={id} item={item} refresh={refresh}
+                                        deleteOpen={deleteOpen}
+                                        toggleDelete={toggleDelete}
                                         deleteHandler={deleteHandler} />
                                 )
                             })}

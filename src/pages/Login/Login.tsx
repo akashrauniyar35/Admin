@@ -40,7 +40,6 @@ const Login = ({ navigation }) => {
       console.log("Respone isAuth", isAuth.accessJWT)
       const res = await fetchUserProfile(isAuth.accessJWT);
       dispatch(getUserSuccess(res));
-
     } catch (e: any) {
       dispatch(loginFail(e.message));
     }

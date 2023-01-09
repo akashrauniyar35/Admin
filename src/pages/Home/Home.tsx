@@ -20,38 +20,43 @@ import moment from 'moment';
 
 const { width, height } = Dimensions.get('window')
 
-const homeFilters = [
-    {
-        id: '00',
-        label: 'Today',
-        date: new Date()
-    },
-    {
-        id: '01',
-        label: 'Yesterday',
-        date: new Date()
-    },
-    {
-        id: '02',
-        label: 'Tomorrow',
-        date: new Date()
-    },
-    {
-        id: '03',
-        label: 'This Week',
-        date: new Date()
-    },
-
-];
 
 
 
 const Home = ({ navigation }) => {
     const dispatch = useDispatch()
 
+
+
+    const homeFilters = [
+        {
+            id: '00',
+            label: 'Today',
+            date: { from: moment().format('YYYY-MM-DD'), to: moment().add(1, 'days').format('YYYY-MM-DD') }
+        },
+        {
+            id: '01',
+            label: 'Yesterday',
+            date: { from: moment().subtract(1, 'days').startOf('day').format('YYYY-MM-DD'), to: moment().format('YYYY-MM-DD') }
+        },
+        {
+            id: '02',
+            label: 'Tomorrow',
+            date: { from: moment().add(1, 'days').format('YYYY-MM-DD'), to: moment().add(2, 'days').format('YYYY-MM-DD') }
+        },
+        {
+            id: '03',
+            label: 'This Week',
+            date: { from: moment().startOf('week').toDate().toISOString().substring(0, 10), to: moment().endOf('week').toDate().toISOString().substring(0, 10) }
+        },
+
+    ];
+
+
     const [selectedPeriod, setSelectdPeriod] = useState(homeFilters[0])
     const [bokingVisible, setBookingVisible] = useState(false)
     const [selectedBookingID, setSelectedBookingID] = useState(String)
+    const [deleteBooking, setDeleteBooking] = useState(false);
 
 
     const loading = useSelector((state: any) => state.bookingReducer.dashboardLoading)
@@ -64,6 +69,10 @@ const Home = ({ navigation }) => {
     let today = moment().format('YYYY-MM-DD');
     let tomorrow = moment().add(1, 'days').format('YYYY-MM-DD');
     let yesterday = moment().subtract(1, 'days').startOf('day').format('YYYY-MM-DD');
+
+
+
+
 
     const viewBookingHandler = async (id: string) => {
         setSelectedBookingID(id)
@@ -79,7 +88,7 @@ const Home = ({ navigation }) => {
 
     const todayBookingsHandler = async () => {
         dispatch(getTodayBookingsPending())
-        const x: any = await fetchTodayBookings()
+        const x: any = await fetchTodayBookings(selectedPeriod?.date?.from, selectedPeriod?.date?.to)
         if (x.data.status === "error") {
             return dispatch(getTodayBookingsFail(x.data.status));
         }
@@ -107,15 +116,12 @@ const Home = ({ navigation }) => {
                     <Banner />
                 </View>
 
-
-                <Text style={{ color: 'red' }}>{'today -' + today + " " + "yesterday-" + yesterday + "tom-" + tomorrow}</Text>
-
                 <View style={[styles.padding, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: Colors.spacing * 2, }]}>
 
                     {homeFilters.map((item) => {
                         return (
-                            <Pressable key={item.id} onPress={() => setSelectdPeriod(item)} style={{ backgroundColor: item === selectedPeriod ? Colors.madidlyThemeBlue : 'transparent', width: '25%', paddingVertical: Colors.spacing * .5, borderRadius: Colors.spacing * .5 }}>
-                                <Text style={{ fontSize: 12, color: item === selectedPeriod ? 'white' : Colors.maidlyGrayText, alignSelf: 'center', fontWeight: isAndroid ? "600" : "300" }}>{item.label}</Text>
+                            <Pressable key={item.id} onPress={() => setSelectdPeriod(item)} style={{ backgroundColor: item.label == selectedPeriod?.label ? Colors.madidlyThemeBlue : 'transparent', width: '25%', paddingVertical: Colors.spacing * .5, borderRadius: Colors.spacing * .5 }}>
+                                <Text style={{ fontSize: 10, color: item.label == selectedPeriod?.label ? 'white' : Colors.black, alignSelf: 'center', fontWeight: isAndroid ? "900" : "600" }}>{item.label}</Text>
                             </Pressable>
                         )
                     })}
@@ -167,7 +173,8 @@ const Home = ({ navigation }) => {
 
             </View>
             <ShowToast />
-            <ViewBookingModal isOpen={bokingVisible} onClose={() => setBookingVisible(false)} id={selectedBookingID} refresh={todayBookingsHandler} />
+            <ViewBookingModal isOpen={bokingVisible} onClose={() => setBookingVisible(false)} id={selectedBookingID} refresh={todayBookingsHandler}
+                deleteOpen={deleteBooking} toggleDelete={() => setDeleteBooking(!deleteBooking)} />
         </>
     )
 }

@@ -20,7 +20,8 @@ const drawerLists = [
 const CustomDrawer = (props) => {
     const logoutRequest = useSelector((state: any) => state.logoutRequest)
     const dispatch = useDispatch()
-    console.log(props)
+    const data = useSelector((state: any) => state.userReducer.data)
+
 
 
 
@@ -68,13 +69,13 @@ const CustomDrawer = (props) => {
     const DrawerHeader = ({ }) => {
         return (
             <View style={{ padding: Colors.spacing, paddingHorizontal: Colors.spacing * 2, alignItems: 'center', backgroundColor: Colors.madlyBGBlue, paddingVertical: Colors.spacing * 4 }}>
-                <View style={{ backgroundColor: 'white', padding: 4, width: 100, height: 100, alignItems: 'center', justifyContent: 'center', position: 'relative', borderRadius: 100, borderWidth: 3, borderColor: Colors.madidlyThemeBlue }}>
-                    <Image source={{ uri: 'https://cdn-icons-png.flaticon.com/128/2922/2922510.png' }} style={{ width: 75, height: 75 }} />
+                <View style={{ backgroundColor: 'white', padding: 4, alignItems: 'center', justifyContent: 'center', position: 'relative', borderRadius: 100, borderWidth: 3, borderColor: Colors.madidlyThemeBlue }}>
+                    <Image source={{ uri: data?.profilePic?.src }} style={{ width: 100, height: 100, borderRadius: 100 }} />
                 </View>
 
                 <View style={{ marginTop: Colors.spacing, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, color: Colors.black, fontWeight: isAndroid ? "900" : "700" }}>First Lastname</Text>
-                    <Text style={{ color: Colors.madidlyThemeBlue, marginTop: Colors.spacing * .5, fontSize: 12, fontWeight: isAndroid ? "900" : "500" }}>email@gmail.com</Text>
+                    <Text style={{ fontSize: 20, color: Colors.black, fontWeight: isAndroid ? "900" : "700" }}>{`${data.firstName} ${data.lastName}`}</Text>
+                    <Text style={{ color: Colors.madidlyThemeBlue, marginTop: Colors.spacing * .5, fontSize: 12, fontWeight: isAndroid ? "900" : "500" }}>{data?.email}</Text>
                 </View>
 
                 <Pressable onPress={() => props.navigation.navigate("profile")}>

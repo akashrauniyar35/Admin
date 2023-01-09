@@ -87,7 +87,7 @@ export const fetchEditJob = (lable: string, id: any, data: any) => {
 }
 
 
-export const fetchDeleteJob = (id: String, lable) => {
+export const fetchDeleteJob = (id: String,) => {
     return new Promise(async (resolve, reject) => {
 
         try {
@@ -115,7 +115,6 @@ export const fetchConfirmBooking = (id: any) => {
             console.log(err)
             reject(err)
         }
-
     })
 };
 
@@ -131,7 +130,6 @@ export const fetchStatusUpdate = (id: string, data: any, lable: string) => {
             console.log(err)
             reject(err)
         }
-
     })
 };
 

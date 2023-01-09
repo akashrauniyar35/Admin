@@ -11,13 +11,15 @@ import SearchJobCard from './SearchJobCard';
 import SearchCustomerCard from './SearchCustomerCard';
 import { G } from 'react-native-svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchJobFail, searchJobPending, searchJobuccess, viewJobFail, viewJobPending, viewJobSuccess } from '../redux/jobSlice';
-import { fetchJobByID, fetchQuoteSearch } from '../config/JobApi';
+import { confirmBookingFail, confirmBookingSuccess, searchJobFail, searchJobPending, searchJobuccess, viewJobFail, viewJobPending, viewJobSuccess, confirmBookingPending, deleteJobPending, deleteJobFail, deleteJobSuccess } from '../redux/jobSlice';
+import { fetchConfirmBooking, fetchDeleteJob, fetchJobByID, fetchQuoteSearch } from '../config/JobApi';
 import ViewJobModal from '../pages/Jobs/ViewJobModal';
 import ViewBookingModal from '../pages/Bookings/ViewBookingModal';
-import { getBookingbyIDFail, getBookingbyIDPending, getBookingbyIDSuccess } from '../redux/bookingSlice';
-import { fetchBookingByID } from '../config/BookingApi';
-
+import { deleteBookingFail, deleteBookingPending, deleteBookingSuccess, getBookingbyIDFail, getBookingbyIDPending, getBookingbyIDSuccess, } from '../redux/bookingSlice';
+import { fetchBookingByID, fetchDeleteJobBooking } from '../config/BookingApi';
+import Toast from 'react-native-toast-message';
+import ShowToast from './ShowToast';
+import ConfirmBookingModal from './ConfirmBookingModal';
 const isAndroid = Platform.OS == 'android' ? true : false
 const { width, height } = Dimensions.get('screen')
 
@@ -25,14 +27,14 @@ const { width, height } = Dimensions.get('screen')
 
 
 
-
 const SearchModal = ({ onClose, isOpen, search, route }) => {
     const [searchValue, setSearchValue] = useState(String)
-    const [id, setID] = useState(String)
+    const [selected, setSelected] = useState({ id: "", ref: "" })
     const [isVisible, setIsVisible] = useState(false)
-    const [editJobVisible, setEditJobVisible] = useState(false)
+    const [deleteBooking, setDeleteBooking] = useState(false)
+    const [deleteQuote, setDeleteQuote] = useState(false)
+    const [confirmBookingVisible, setConfirmBookingVisible] = useState(false)
     const dispatch = useDispatch()
-    // const data = useSelector((state: any) => state.jobReducer.searchResults.paginatedResults)
     const [data, setData] = useState([])
     const p = route === "quote" ? "quote" : "booking"
 
@@ -44,15 +46,15 @@ const SearchModal = ({ onClose, isOpen, search, route }) => {
             return dispatch(searchJobFail(x.data.status));
         }
         setData(x.data.paginatedResults)
-        dispatch(searchJobuccess(x.data))
+        dispatch(searchJobuccess())
 
 
 
     }
 
-    const openJobHandler = async (id: string) => {
+    const openJobHandler = async (id: string, ref: string) => {
         const jobID = id
-        setID(id)
+        setSelected({ id: id, ref: ref })
         setIsVisible(true)
 
         if (route === "quote") {
@@ -75,23 +77,64 @@ const SearchModal = ({ onClose, isOpen, search, route }) => {
     }
 
 
-    const editJobHandler = async () => {
-        const jobID = id
-        dispatch(viewJobPending(jobID))
-        setEditJobVisible(!editJobVisible)
-
-        const x: any = await fetchJobByID(jobID);
-        console.log('edit response quote id', x.data.result)
+    const deleteBookingHandler = async () => {
+        dispatch(deleteBookingPending())
+        const x: any = await fetchDeleteJobBooking(selected.id)
         if (x.data.status === "error") {
-            dispatch(viewJobFail(x.data.status))
+            return dispatch(deleteBookingFail());
         }
-        dispatch(viewJobSuccess(x.data.result));
+        dispatch(deleteBookingSuccess())
+        setDeleteBooking(false);
+        setIsVisible(false)
+        setSearchValue("")
+        Toast.show({
+            type: 'deleteToast',
+            visibilityTime: 3000,
+            text1: `${selected.ref}`,
+            props: { message: 'Deleted Successfully' }
+        });
+    }
+
+    const deleteQuoteHandler = async () => {
+        dispatch(deleteJobPending())
+        const x: any = await fetchDeleteJob(selected.id)
+        if (x.data.status === "error") {
+            return dispatch(deleteJobFail());
+        }
+        dispatch(deleteJobSuccess())
+        setDeleteQuote(false);
+        setIsVisible(false)
+        setSearchValue("")
+        Toast.show({
+            type: 'deleteToast',
+            visibilityTime: 3000,
+            text1: `${selected.ref}`,
+            props: { message: 'Deleted Successfully' }
+        });
+    }
+
+
+    const confirmBookingVisibleHandler = async () => {
+        dispatch(confirmBookingPending());
+
+        const x: any = await fetchConfirmBooking(selected.id);
+        if (x.data.status === "error") {
+            return dispatch(confirmBookingFail(x.data.status));
+        }
+        dispatch(confirmBookingSuccess())
+        setConfirmBookingVisible(false)
+        setIsVisible(false)
+        Toast.show({
+            type: 'successToast',
+            visibilityTime: 3000,
+            text1: `${selected.ref}`,
+            props: { message: 'Booking Confirmed Successfully' }
+        });
     }
 
     useEffect(() => {
         quoteSearchRequest()
     }, [searchValue])
-
 
     return (
 
@@ -144,7 +187,7 @@ const SearchModal = ({ onClose, isOpen, search, route }) => {
                             </View>
 
 
-                            <Pressable onPress={onClose} style={{ marginLeft: Colors.spacing, }}>
+                            <Pressable onPress={() => { onClose(); setSearchValue("") }} style={{ marginLeft: Colors.spacing, }}>
                                 <Text style={{ fontSize: 10, fontWeight: isAndroid ? "600" : "300", color: Colors.maidlyGrayText, paddingVertical: Colors.spacing, paddingRight: Colors.spacing, }}>Cancle</Text>
                             </Pressable>
 
@@ -156,7 +199,7 @@ const SearchModal = ({ onClose, isOpen, search, route }) => {
                         <View style={styles.container}>
 
                             <View style={{}}>
-                                <Text style={{ fontSize: 16, fontWeight: isAndroid ? "900" : "600", color: Colors.maidlyGrayText, marginBottom: Colors.spacing * 2 }}>{p}</Text>
+                                <Text style={{ fontSize: 16, fontWeight: isAndroid ? "900" : "600", color: Colors.maidlyGrayText, marginBottom: Colors.spacing * 2 }}>{p.charAt(0).toUpperCase() + p.slice(1) + 's'}</Text>
                             </View>
 
                             <FlatList
@@ -168,28 +211,20 @@ const SearchModal = ({ onClose, isOpen, search, route }) => {
                                 }
                                 data={data} keyExtractor={item => item.id}
                                 renderItem={({ item }) =>
-                                    <SearchJobCard onPress={() => openJobHandler(item._id)} key={item._id} jobNumber={route === "quote" ? item.quoteReference : item.bookingReference} customerName={item.firstName + " " + item.lastName} subTotal={item.subtotal} />
+                                    <SearchJobCard onPress={() => openJobHandler(item._id, route === "quote" ? item.quoteReference : item.bookingReference)} key={item._id} jobNumber={route === "quote" ? item.quoteReference : item.bookingReference} customerName={item.firstName + " " + item.lastName} subTotal={item.subtotal} />
                                 } />
-
                         </View>
-
                     </View>
-
-
                 </View>
 
                 {
                     route === "quote" ?
-                        <ViewJobModal isOpen={isVisible} onClose={() => setIsVisible(false)} id={id} /> :
-                        <ViewBookingModal isOpen={isVisible} onClose={() => setIsVisible(false)} id={id} />
-
+                        <ViewJobModal isOpen={isVisible} onClose={() => setIsVisible(false)} id={selected.id} deletOpen={deleteQuote} toggleDelete={() => setDeleteQuote(!deleteQuote)} deleteHandler={deleteQuoteHandler} confirmOpen={confirmBookingVisible} toggleConfirm={() => setConfirmBookingVisible(!confirmBookingVisible)} confirmHandler={confirmBookingVisibleHandler} />
+                        :
+                        <ViewBookingModal isOpen={isVisible} onClose={() => setIsVisible(false)} id={selected.id} deleteHandler={deleteBookingHandler} deleteOpen={deleteBooking} toggleDelete={() => setDeleteBooking(!deleteBooking)} />
                 }
-
-
+                <ShowToast />
             </Modal >
-
-
-
         </>
 
 

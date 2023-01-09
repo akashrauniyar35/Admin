@@ -31,13 +31,8 @@ const Jobs = ({ navigation }) => {
   const loadedData = useSelector((state: any) => state.jobReducer.jobData)
   const totalPages = useSelector((state: any) => state.jobReducer.totalPages)
 
-
   const dispatch = useDispatch();
 
-
-
-
-  console.log('data data', pageCount, data.length)
 
 
   const refreshHandler = async (page: number) => {
@@ -49,7 +44,6 @@ const Jobs = ({ navigation }) => {
     dispatch(getAllJobSuccess())
     pageCount <= 1 ? setData(x.data.paginatedResults) : setData([...data, ...x.data.paginatedResults])
   }
-
 
 
   useEffect(() => {
@@ -74,7 +68,6 @@ const Jobs = ({ navigation }) => {
           </View>
         </View>
 
-        {/* marginBottom: isAndroid ? Colors.spacing * 38 : Colors.spacing * 48 */}
 
         <Text style={{ color: 'red' }}>{"pageCount" + pageCount}</Text>
 
@@ -89,7 +82,7 @@ const Jobs = ({ navigation }) => {
             contentContainerStyle={{ paddingBottom: Colors.spacing }}
             data={data}
             keyExtractor={item => item?._id}
-            renderItem={({ item, index }) => <JobCard key={item?._id} item={item} index={index} refresh={() => refreshHandler(1)} />}
+            renderItem={({ item, index }) => <JobCard key={item?._id} item={item} index={index} refresh={() => refreshHandler(1)}/>}
           />
 
         </View>

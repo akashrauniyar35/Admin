@@ -37,7 +37,7 @@ const EditProduct = ({ loading, deleteHandler, isOpen, onClose, title, price, st
 
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", }}>Name</Text>
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Name</Text>
                                     <View style={{ width: "70%", }}>
                                         <InputBox value={value.title} onChange={(val) => editHandler({ ...value, title: val })} placeholder={title} size={40} rounded={true} placeholderSize={12} />
                                     </View>
@@ -47,9 +47,9 @@ const EditProduct = ({ loading, deleteHandler, isOpen, onClose, title, price, st
 
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", }}>Total Net Price</Text>
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Total Net Price</Text>
                                     <View style={{ width: "70%", }}>
-                                        <InputBox value={value.price} onChange={(val) => editHandler({ ...value, price: parseInt(val) })} keyboardType="numeric" placeholder={`$ ${price.toString()}.00`} size={40} rounded={true} placeholderSize={12} />
+                                        <InputBox value={value.price} onChange={(val) => editHandler({ ...value, price: parseInt(val) })} keyboardType="numeric" placeholder={`$ ${price?.toString()}.00`} size={40} rounded={true} placeholderSize={12} />
                                     </View>
                                 </View>
 
@@ -57,7 +57,7 @@ const EditProduct = ({ loading, deleteHandler, isOpen, onClose, title, price, st
 
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", }}>Status</Text>
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Status</Text>
                                     <View style={{ width: "70%", }}>
                                         <SelectionCard phColor={Colors.maidlyGrayText} data={statusData} placeholder={status} rounded={true} fontSize={12} onPress={(val) => editHandler({ ...value, status: val })} />
                                     </View>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     modalView: {
         backgroundColor: "white",
         width: WIDTH,
-        paddingHorizontal: Colors.spacing * 1,
+        paddingHorizontal: Colors.spacing * 2,
         flex: 1,
         paddingTop: Colors.spacing * 2,
 

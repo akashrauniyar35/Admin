@@ -164,14 +164,6 @@ function MyTabs() {
 
                 })}>
 
-                <Tab.Screen name="Bookings" component={Bookings}
-                    options={{
-                        tabBarLabel: 'Bookings',
-                        tabBarIcon: ({ focused, color }) => (
-                            <IconM name="alpha-b-circle" color={color} size={30} style={{ transform: [focused ? { scale: 1.3 } : { scale: .8 }] }} />
-                        )
-                    }} />
-
                 <Tab.Screen name="Home" component={Home}
                     options={{
                         tabBarLabel: 'Home',
@@ -180,6 +172,13 @@ function MyTabs() {
                         ),
                     }} />
 
+                <Tab.Screen name="Bookings" component={Bookings}
+                    options={{
+                        tabBarLabel: 'Bookings',
+                        tabBarIcon: ({ focused, color }) => (
+                            <IconM name="alpha-b-circle" color={color} size={30} style={{ transform: [focused ? { scale: 1.3 } : { scale: .8 }] }} />
+                        )
+                    }} />
 
 
 

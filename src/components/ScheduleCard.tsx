@@ -46,30 +46,30 @@ const ScheduleCard = ({ date, onDateChangeHandler, notes, jobNotesHandler, start
 
         <>
             <View>
-                <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>Schedule</Text>
+                <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing * 2 }}>Schedule</Text>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", }}>Booking date</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Booking date</Text>
                     <Pressable style={{ width: "70%" }} onPress={() => setCalendarVisible(true)}>
                         <InputBox onPress={() => setCalendarVisible(true)} placeholderSize={12} width="70%" size={40} rounded={true} placeholder={new Date(date).toDateString()} editable={false} />
                     </Pressable>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", }}>Start Time</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Start Time</Text>
                     <Pressable onPress={() => setstartTimeVisible(true)} style={{ width: "70%" }}>
                         <InputBox onPress={() => setstartTimeVisible(true)} placeholderSize={12} size={40} rounded={true} placeholder={startHour && `${startHour}:${startMin} ${startMode}`} editable={false} />
                     </Pressable >
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", }}>End Time</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>End Time</Text>
                     <Pressable onPress={() => setEndTimeVisible(true)} style={{ width: "70%" }}>
                         <InputBox onPress={() => setEndTimeVisible(true)} placeholderSize={12} size={40} rounded={true} placeholder={endHour && `${endHour}:${endMin} ${endMode}`} editable={false} />
                     </Pressable >
                 </View>
 
                 <View style={{ marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing, }}>Job notes</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing, }}>Job notes</Text>
                     <View style={{}}>
                         <TextInput autoCapitalize={"sentences"} value={notes} placeholder={notes} onChangeText={(value) => handleNotes(value)} style={styles.notes} multiline={true} maxLength={300} />
                     </View>
@@ -93,7 +93,7 @@ const ScheduleCard = ({ date, onDateChangeHandler, notes, jobNotesHandler, start
                     <PickTimeModal isVisible={endTimeVisible} onPress={handleEndTimePicker} onClose={() => setEndTimeVisible(false)} />
                 </View>
 
-                <View style={{ opacity: .35, marginVertical: Colors.spacing * 2, borderBottomWidth: 2, borderColor: Colors.maidlyGrayText }} />
+                <View style={{ opacity: .35, marginVertical: Colors.spacing * 2, borderBottomWidth: 2, borderColor: Colors.borderColor }} />
             </View>
 
 
@@ -106,9 +106,9 @@ export default ScheduleCard
 const styles = StyleSheet.create({
     notes: {
         textAlignVertical: "top",
-        fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300",
+        fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "600" : "300",
         backgroundColor: 'white',
-        borderColor: Colors.maidlyGrayText,
+        borderColor: Colors.borderColor,
         alignItems: 'center',
         width: "100%",
         height: HEIGHT * .2,
@@ -118,15 +118,15 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: .5 },
         shadowOpacity: .2,
         elevation: 2,
-        shadowColor: Colors.maidlyGrayText,
+        shadowColor: Colors.black,
         borderWidth: isAndroid ? .35 : 0,
-        borderRadius: Colors.spacing * 2,
+        borderRadius: Colors.spacing * 1.5,
 
     },
     container: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.transparentGloss },
     selectonContainer: {
 
-        // backgroundColor: Colors.maidlyGrayText,
+        // backgroundColor: Colors.black,
         // width: WIDTH * .9,
         // padding: Colors.spacing * 2,
         // position: 'relative',

@@ -9,6 +9,7 @@ import bookingSlice from './bookingSlice';
 import appointmentSlice from './appointmentSlice';
 import productSlice from './productSlice';
 import userSlice from './userSlice';
+import technicianSlice from './technicianSlice';
 
 const middlewares = getDefaultMiddleware({
     // https://github.com/reduxjs/redux-toolkit/issues/415
@@ -30,6 +31,8 @@ export default configureStore({
         appointmentReducer: appointmentSlice,
         productReducer: productSlice,
         userReducer: userSlice,
+        technicianReducer: technicianSlice,
+
         // quoteSearchReducer: quoteSearchSlice
     },
     middleware: middlewares,

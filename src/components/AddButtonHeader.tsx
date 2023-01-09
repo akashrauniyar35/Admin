@@ -23,11 +23,11 @@ const AddButtonHeader = ({ onPress, lable, onClose, loading, saveOption }) => {
             <Pressable onPress={onClose} style={{}}>
                 <Icon name="chevron-back" size={22} color={Colors.black} />
             </Pressable>
-            <View style={{ top: 0, left: 5, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ fontSize: 14, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>{lable}</Text>
+            <View style={{ top: 0, left: 10, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600" }}>{lable}</Text>
             </View>
             <Pressable onPress={saveOption ? onPress : null}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', width: Colors.spacing * 4, justifyContent: "flex-end" }}>
                     {loading ? <ActivityIndicator color={Colors.madidlyThemeBlue} size={'small'} animating={loading} style={{ transform: [{ scale: .8 }], }} />
                         : <Text style={{ fontSize: 14, color: saveOption ? Colors.madidlyThemeBlue : 'transparent', fontWeight: isAndroid ? "900" : "600" }}>{'Save'}</Text>}
                 </View>

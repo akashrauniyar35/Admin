@@ -25,7 +25,7 @@ const Banner = () => {
 
                 <View style={{ width: '45%', alignItems: 'center', }}>
                     <Text style={{ color: 'white', fontSize: 20, fontWeight: isAndroid ? "900" : "800", }}>0</Text>
-                    <Text style={{ marginTop: Colors.spacing * .25, fontSize: 10, color: 'white', fontWeight: isAndroid ? "900" : "600", opacity: .7, }}>New customers</Text>
+                    <Text style={{ marginTop: Colors.spacing * .25, fontSize: 10, color: 'white', fontWeight: isAndroid ? "900" : "600", opacity: .7, }}>Recalls</Text>
                 </View>
 
             </View>
