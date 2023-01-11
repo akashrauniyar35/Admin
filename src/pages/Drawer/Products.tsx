@@ -149,7 +149,6 @@ const Expenses = ({ navigation }) => {
 
                             <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>Status</Text>
                         </View>
-
                     </View>
 
                 </View>

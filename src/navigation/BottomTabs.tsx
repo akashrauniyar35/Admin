@@ -181,8 +181,6 @@ function MyTabs() {
                     }} />
 
 
-
-
                 <Tab.Screen name="Jobs" component={Jobs}
                     options={{
                         tabBarLabel: 'Home',

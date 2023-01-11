@@ -10,8 +10,7 @@ import { useSelector } from 'react-redux';
 const SelectionCard = ({ onPress, data, label, size, fontSize, icon, type, placeholder, rounded, border, phColor, loading }) => {
     const [selected, setSelected] = useState();
     const [isOpen, setIsOpen] = useState(false)
-
-
+    
     const onClickHandle = (visible) => {
         setIsOpen(visible)
     }

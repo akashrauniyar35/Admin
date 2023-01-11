@@ -22,7 +22,8 @@ export const Colors = {
     transparentGloss: 'rgba(0,0,0,0.6)',
     grayOne: '#454545',
     madlyBGBlue: '#F2F7F8',
-    madidlyThemeBlue: '#013F80',
+    // madidlyThemeBlue: '#013F80',
+    madidlyThemeBlue: '#452F70',
     maidlyGrayText: "#5A5A5A",
     dartTextGray: '#333333',
     completedGreen: "#27b82f",
@@ -32,6 +33,8 @@ export const Colors = {
     cancelledRed: '#E2474B',
     cancelledRedBG: '#f7d1d2',
     borderColor:'#cecece'
+
+    
 }
 
 export const isAndroid = Platform.OS == 'android' ? true : false

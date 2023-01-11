@@ -42,7 +42,7 @@ const Header = ({ nav, title, searchOption, route, searchEnabled }) => {
 
 
                 <View style={{ marginLeft: Colors.spacing * 3 }}>
-                    <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>{title}</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>{title}</Text>
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', }}>

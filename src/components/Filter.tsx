@@ -54,7 +54,7 @@ const scheduleData = [
     },
 ]
 
-const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setFilter, onClear }) => {
+const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setFilter, onClear, setPageCount }) => {
     const [fromPicker, setFromPicker] = useState(false);
     const [toPicker, setToPicker] = useState(false);
 
@@ -86,13 +86,13 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setF
 
             <View>
                 <View style={[styles.filterStyling,]}>
-                    <Pressable onPress={onClose}>
+                    <Pressable onPress={() => { onClose(); setPageCount(1) }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <Icon name="filter" size={22} color={Colors.littleGray} />
                             <Text style={{ marginLeft: Colors.spacing * 1.5, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{title}</Text>
                         </View>
                     </Pressable>
-                
+
                     <View style={{ width: '60%', alignItems: "center" }}>
                         <ScrollView horizontal contentContainerStyle={{ alignItems: "center" }}>
                             {data.map((item) => {

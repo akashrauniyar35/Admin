@@ -7,6 +7,7 @@ import {
     getDownloadURL,
     uploadBytesResumable,
     deleteObject,
+    uploadBytes
 } from "firebase/storage";
 
 import storage from "../config/firebaseConfig";
@@ -81,67 +82,41 @@ export const ssd = (data: any) => {
     })
 };
 
-export const updateProfilePic = async (file, pic, id) => {
-    console.log("user", file, pic, id)
-    const storageRef = ref(storage, `files/profilePic/${file.fileName}`);
+export const updateProfilePic = async (file: any, pic: any, id: any, getUserProfile: any) => {
+    const img = await fetch(file.uri)
+    const bytes = await img.blob()
+    const fileName = file.uri.substring(file.uri.lastIndexOf('/') + 1)
+    const storageRef = ref(storage, `files/profilePic/${fileName}`);
     const deleteRef = ref(storage, pic);
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    const uploadTask = uploadBytesResumable(storageRef, bytes);
 
     uploadTask.on(
         "state_changed",
         () => {
             getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
                 console.log("downloadURL", downloadURL)
-                await endPoint.put(`customer/${id}`, {
-                    profilePic: {
-                        src: downloadURL,
-                    },
-                });
-                // pic !== ""
-                //     ? deleteObject(deleteRef).then(async () => {
-                //         console.log("deleting", deleteRef)
-                //         await endPoint.put(
-                //             `customer/${id}`,
-                //             {
-                //                 profilePic: {
-                //                     src: downloadURL,
-                //                 },
-                //             }
-                //         );
-                //         console.log("delete error", pic, downloadURL)
-
-                //         // setSelectedFile(undefined);
-                //         // dispatch(getUserProfile());
-                //     })
-                //     : await endPoint.put(`customer/${id}`, {
-                //         profilePic: {
-                //             src: downloadURL,
-                //         },
-                //     });
+                pic !== ""
+                    ? deleteObject(deleteRef).then(async () => {
+                        console.log("deleting", deleteRef)
+                        await endPoint.put(
+                            `customer/${id}`,
+                            {
+                                profilePic: {
+                                    src: downloadURL,
+                                },
+                            }
+                        );
+                    }).catch(err => { console.log("delete err", err) })
+                    : await endPoint.put(`customer/${id}`, {
+                        profilePic: {
+                            src: downloadURL,
+                        },
+                    })
+                getUserProfile()
                 console.log("upload success", downloadURL)
-
-                // setSelectedFile(undefined);
-                // dispatch(getUserProfile());
-            });
+            }).catch(err => {
+                console.log(err)
+            })
         }
     );
 };
-
-// user?.profilePic.src !== ""
-//             ? deleteObject(deleteRef).then(async () => {
-//                 await axios.put(
-//                   `http://localhost:3001/v1/customer/${user._id}`,
-//                   {
-//                     profilePic: {
-//                       src: downloadURL,
-//                     },
-//                   }
-//                 );
-//                 setSelectedFile(undefined);
-//                 dispatch(getUserProfile());
-//               })
-//             : await axios.put(`http://localhost:3001/v1/customer/${user._id}`, {
-//                 profilePic: {
-//                   src: downloadURL,
-//                 },
-//               });

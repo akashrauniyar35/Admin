@@ -8,7 +8,7 @@ const InputBox = ({ maxLength, onChange, keyboardType, onPress, editable, rounde
 
     return (
         <>
-            {lable && < Text style={{ fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing, isPrice }}>{lable}</Text>}
+            {lable && < Text style={{ fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing, }}>{lable}</Text>}
 
             <View style={[styles.box, { height: size, justifyContent: itemsCenter ? 'center' : "flex-start", backgroundColor: bg ? bg : 'white', paddingHorizontal: rounded === true ? Colors.spacing * 2 : Colors.spacing, borderRadius: rounded === true ? Colors.spacing * Colors.spacing : Colors.spacing * .75, borderWidth: isAndroid ? .35 : 0, borderColor: Colors.borderColor }]}>
 
@@ -30,14 +30,13 @@ const styles = StyleSheet.create({
     box: {
         flexDirection: 'row',
         alignItems: 'center',
-        borderColor: Colors.maidlyGrayText,
         shadowRadius: 2,
         shadowOffset: { width: 0, height: .5 },
         shadowOpacity: .2,
         elevation: 2,
-        shadowColor: Colors.madidlyThemeBlue,
+        shadowColor: Colors.maidlyGrayText,
     },
     input: {
-        borderColor: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600",
+        borderColor: Colors.borderColor, fontWeight: isAndroid ? "900" : "600",
     },
 })
