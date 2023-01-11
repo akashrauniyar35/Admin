@@ -12,7 +12,7 @@ import { fetchAllProducts } from '../config/ProductsApi'
 const bedroomsData = [
     {
         id: '00',
-        name: '1  Bedroom',
+        name: '1  Bedrooms',
     },
     {
         id: '01',
@@ -95,22 +95,19 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
     const animationController = useRef(new Animated.Value(0)).current
     const [selectedService, setSelectedService] = useState(service ? service === "e" ? services[1].title : services[0].title : "")
     const [selectedProperty, setSelectedProperty] = useState(String)
-
     const bd = data.find((x: any) => x.title.toLowerCase() === "bedrooms")?.quantity
     const ba = data.find((x: any) => x.title.toLowerCase() === "bathrooms")?.quantity
 
 
 
-
+    
     const dispatch = useDispatch()
-
 
     const getProducts = async () => {
         let data: any = await fetchAllProducts()
         if (data.data.status === "error") {
             dispatch(addProductsFail(data.data.status))
         }
-
         console.log('DaTA Producrs', data.data.result)
         dispatch(addProductsSuccess(data.data.result));
     }
@@ -160,12 +157,12 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
     }
 
     const jobBedroomHandler = (value: string) => {
-        const x = value.substring(0, 1)
-        bedroomHandler(parseInt(x))
+
+        // const x = value.substring(0, 1)
+        bedroomHandler(value)
     }
     const jobBathroomHandler = (value: string) => {
-        const x = value.substring(0, 1)
-        bathroomHandler(parseInt(x))
+        bathroomHandler(value)
     }
 
     const increaseAddonsHandler = (value: string) => {
@@ -176,15 +173,13 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
         addonsIncreaseHandler(p)
     }
 
-
-
+ 
 
     useEffect(() => {
         getProducts()
     }, [])
 
     useEffect(() => {
-
     }, [data])
 
     return (
@@ -194,10 +189,10 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
 
 
             {
-                data.slice(2).map((item) => {
+                data.map((item) => {
                     return (
                         <View key={item._id} style={{}}>
-                            <Text style={{ color: 'black' }}>{`${item.title} - ${item.quantity} x ${item.price} - Total ${item.quantity * item.price}`}</Text>
+                            <Text style={{ color: 'black' }}>{`${item.title} - ${item.quantity} x ${item.price} - Total ${item.quantity * item.amount}`}</Text>
                         </View>
                     )
                 })

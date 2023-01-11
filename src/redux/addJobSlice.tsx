@@ -30,6 +30,44 @@ const jobData: any = {
     phone: "041589987",
     products: [],
     quoteStatus: "",
+    totals: [
+        {
+            _id: 1,
+            title: "Base Price",
+            amount: 0,
+            quantity: 0
+        },
+        {
+            _id: 2,
+            title: "1 Bathroom",
+            amount: 0,
+            quantity: 0
+        },
+        {
+            _id: 3,
+            title: "1 Bedroom",
+            amount: 0,
+            quantity: 0
+        },
+        {
+            _id: 4,
+            title: "Extras",
+            amount: 0,
+            quantity: 0
+        },
+        {
+            _id: 5,
+            title: "Tip",
+            amount: 0,
+            quantity: 0
+        },
+        {
+            _id: 6,
+            title: "To be paid by customer",
+            amount: 0,
+            quantity: 0
+        }
+    ]
 }
 
 
@@ -41,7 +79,7 @@ const initialState = {
     quoteTime: '',
     postJobLoading: false,
     editLoading: false,
-    addJobData: jobData
+    addJobData: jobData,
 };
 
 console.log('jobData.products', jobData.products)
@@ -113,16 +151,37 @@ const addJobSlice = createSlice({
             })
             state.addJobData.products = newState;
 
+            state.addJobData.totals[1].title = action.payload;
+            state.addJobData.totals[1].quantity = parseInt(action.payload.slice(0))
         },
+        addJobBedroomPrice(state, action: any) {
+            state.addJobData.totals[1].amount = parseInt(action.payload)
+        },
+
+
+        addJobBathroomPrice(state, action: any) {
+            state.addJobData.totals[2].amount = parseInt(action.payload)
+        },
+
         addJobCustomerBathroom(state, action: any) {
+
             const newState: any = state.addJobData.products.map((x: any) => {
                 if (x.title.toLowerCase() === "bathrooms") {
-                    return { ...x, quantity: parseInt(action.payload) };
+                    return { ...x, quantity: parseInt(action.payload.slice(0)) };
                 }
                 return x;
             })
+
             state.addJobData.products = newState;
+            state.addJobData.totals[2].title = action.payload;
+            state.addJobData.totals[2].quantity = parseInt(action.payload.slice(0))
         },
+
+        addBasePrice(state, action: any) {
+            state.addJobData.totals[0].quantity = 1
+            state.addJobData.totals[0].amount = parseInt(action.payload)
+        },
+
         addJobBookingDate(state, action: any) {
             state.addJobData.bookingDate = action.payload;
         },
@@ -139,7 +198,6 @@ const addJobSlice = createSlice({
         addProductsSuccess(state, action: any) {
             console.log(" action.payload;", action.payload)
             state.addJobData.products = action.payload;
-            // state.addJobData.products.push(action.payload);
         },
         addProductsFail(state, action: any) {
             state.addJobData.products = action.payload;
@@ -166,8 +224,6 @@ const addJobSlice = createSlice({
         },
 
         addJobIncreaseAddons(state, action: any) {
-
-            console.log('action.payload.addonsIncrease',action.payload)
 
             const newState: any = state.addJobData.products.map((x: any) => {
                 if (x.title === action.payload.title) {
@@ -205,11 +261,9 @@ const addJobSlice = createSlice({
 
 export const {
     postJobPending, postJobSuccess, postJobFail,
-
     addJobCustomerFirstName, addJobCustomerLastName, addJobCompanyName, addJobCustomerEmail, addJobCustomerState, addJobCustomerPostcode,
-    addJobCustomerUnit, addJobCustomerStreetAddress, addJobCustomerNumber, addJobCustomerSuburb, addJobCustomerNotes, addJobCustomerService, addJobCustomerProperty, addJobCustomerBedroom, addJobCustomerBathroom, addJobBookingDate, addJobStartTime, addJobEndTime, addJobAddAddons, addJobIncreaseAddons,
-    addJobRemoveAddons, addProductsSuccess, addProductsFail, postEditPending, postEditSuccess, postEditFail
-
+    addJobCustomerUnit, addJobCustomerStreetAddress, addJobCustomerNumber, addJobCustomerSuburb, addJobCustomerNotes, addJobCustomerService, addJobCustomerProperty, addJobCustomerBedroom, addJobCustomerBathroom, addJobBookingDate, addJobStartTime, addJobEndTime, addJobAddAddons, addJobIncreaseAddons, addJobBathroomPrice, addBasePrice,
+    addJobRemoveAddons, addProductsSuccess, addProductsFail, postEditPending, postEditSuccess, postEditFail, addJobBedroomPrice
 
 } = addJobSlice.actions;
 export default addJobSlice.reducer;

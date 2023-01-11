@@ -25,14 +25,6 @@ const statusData = [
     },
 ]
 
-// {
-//     "title": "Seperate Laundry",
-//     "quantity": 0,
-//     "price": 40,
-//     "icon1": "milan",
-//     "status": true
-// }
-
 
 const AddProducts = ({ isOpen, onClose }) => {
     const [obj, setObj] = useState({ title: '', quantity: 0, price: 0, icon1: 'milan', status: 'Inactive' })
@@ -41,9 +33,7 @@ const AddProducts = ({ isOpen, onClose }) => {
 
     const onSaveHandler = async () => {
         console.log('Product saved obj', obj)
-
         dispatch(editProductPending());
-
         const data: any = await createProduct(obj)
         if (data.data.status === "error") {
             dispatch(editProductFail())
@@ -57,8 +47,7 @@ const AddProducts = ({ isOpen, onClose }) => {
             text2: Colors.green,
             props: { message: 'Product created successfully' }
         });
-
-
+        setObj({ title: '', quantity: 0, price: 0, icon1: 'milan', status: 'Inactive' })
     }
 
     return (
@@ -73,14 +62,14 @@ const AddProducts = ({ isOpen, onClose }) => {
                     <SafeAreaView />
                     <View style={styles.centeredView}>
 
-                        <AddButtonHeader onClose={onClose} lable={'Add Product'} loading={loading} saveOption={true} onPress={onSaveHandler} />
+                        <AddButtonHeader onClose={() => {
+                            onClose(); setObj({ title: '', quantity: 0, price: 0, icon1: 'milan', status: 'Inactive' })
+                        }} lable={'Add Product'} loading={loading} saveOption={true} onPress={onSaveHandler} />
 
                         <View style={styles.modalView}>
-
-
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", }}>Name</Text>
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Name</Text>
                                     <View style={{ width: "70%", }}>
                                         <InputBox value={obj.title} capitalize={"words"} onChange={(val) => setObj({ ...obj, title: val })} placeholder={obj.title} size={40} rounded={true} placeholderSize={12} />
                                     </View>
@@ -90,17 +79,17 @@ const AddProducts = ({ isOpen, onClose }) => {
 
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", }}>Total Net Price</Text>
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Total Net Price</Text>
                                     <View style={{ width: "70%", }}>
                                         <InputBox value={obj.price} onChange={(val) => setObj({ ...obj, price: parseInt(val) })} keyboardType="numeric" placeholder={`$ 0.00`} size={40} rounded={true} placeholderSize={12} />
                                     </View>
                                 </View>
-
                             </View>
+
 
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", }}>Status</Text>
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Status</Text>
                                     <View style={{ width: "70%", }}>
                                         <SelectionCard phColor={Colors.maidlyGrayText} data={statusData} placeholder={obj.status} rounded={true} fontSize={12} onPress={(val) => setObj({ ...obj, status: val })} />
                                     </View>

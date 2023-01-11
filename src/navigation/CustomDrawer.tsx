@@ -121,7 +121,7 @@ const CustomDrawer = (props) => {
                     <DrawerLabel icon="calendar" label="Appointments" navigateTo={"appointments"} />
 
 
-                    <DrawerLabel icon="account-hard-hat" label="Contractors" navigateTo={"contractors"} />
+                    <DrawerLabel icon="account-hard-hat" label="Technicians" navigateTo={"contractors"} />
 
 
 

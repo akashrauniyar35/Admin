@@ -18,9 +18,8 @@ export default function Donut({
     percentage,
     max,
     lable,
-    color = Colors.madidlyThemeBlue,
-    textColor = "#013F80",
-
+    color,
+    textColor = color,
     strokeWidth = 10,
     duration = 500,
 

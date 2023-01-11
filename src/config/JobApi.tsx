@@ -6,7 +6,7 @@ export const fetchAllJobs = (page: number) => {
     return new Promise(async (resolve, reject) => {
 
         try {
-            const res: any = await endPoint.get(`quote/all?page=${page}&limit=${10}`);
+            const res: any = await endPoint.get(`quote/all?page=${page}&limit=${5}`);
             console.log(res)
             resolve(res);
 

@@ -34,6 +34,7 @@ const Bookings = ({ navigation }) => {
     const [markCompleteVisible, setMarkCompleteVisible] = useState(false);
     const [selectedBooking, setSelectedBooking] = useState()
     const [dateRange, setDateRange] = useState({ from: "", to: "" })
+    const [nextPage, setNextPage] = useState();
 
     const refreshLoading = useSelector((state: any) => state.bookingReducer.bookingLoading)
     const deleteLoading = useSelector((state: any) => state.bookingReducer.deleteLoading)
@@ -79,15 +80,15 @@ const Bookings = ({ navigation }) => {
     ]
 
 
-    const getAllBookings = async (page: number) => {
+    const getAllBookings = async () => {
         dispatch(getAllBookingPending())
-        const x: any = await fetchAllBookings(page)
+        const x: any = await fetchAllBookings(pageCount)
         if (x.data.status === "error") {
             return dispatch(getAllBookingFail(x.data.status));
         }
         dispatch(getAllBookingSuccess())
+        setNextPage(x.data.next.page)
         pageCount <= 1 ? setData(x.data.paginatedResults) : setData([...data, ...x.data.paginatedResults])
-
     }
 
     const renderItem = (item: any, index) => {
@@ -130,7 +131,7 @@ const Bookings = ({ navigation }) => {
         dispatch(deleteBookingSuccess())
         setDeleteBooking(false);
         setDeleteBookingSlider(false)
-        getAllBookings(1)
+        getAllBookings()
         setOpenBooking(false)
         Toast.show({
             type: 'deleteToast',
@@ -142,20 +143,21 @@ const Bookings = ({ navigation }) => {
     }
 
     const filterHandler = async () => {
+        setPageCount(1)
         dispatch(filterBookingPending())
-        const x: any = await fetchFilteredBookings(filterBY)
+        const x: any = await fetchFilteredBookings(pageCount, filterBY)
         if (x.data.status === "error") {
             return dispatch(filterBookingFail(x.data.status));
         }
         dispatch(filterBookingSuccess())
         setData(x.data.paginatedResults)
         setFiltersVisible(false)
+        setNextPage(x.data.next.page)
         pageCount <= 1 ? setFilteredData(x.data.paginatedResults) : setFilteredData([...data, ...x.data.paginatedResults])
-
     }
 
     useEffect(() => {
-        getAllBookings(pageCount)
+        filteredData.length > 0 ? filterHandler() : getAllBookings()
     }, [pageCount])
 
     return (
@@ -167,21 +169,25 @@ const Bookings = ({ navigation }) => {
 
                 <View style={{ paddingHorizontal: Colors.spacing * 2, marginTop: Colors.spacing * 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <View style={{ width: '35%', }}>
-                        <Donut lable={"Total Bookings"} percentage={80} max={200} radius={40} />
+                        <Donut lable={"Total Bookings"} percentage={80} max={400} radius={40} color={Colors.madidlyThemeBlue} />
                     </View>
                     <View style={{ width: '60%' }}>
                         <QuoteBanner />
                     </View>
                 </View>
 
-                <Filter dateRange={dateRange} title={"Filter jobs"} isOpen={filtersVisible} onClose={() => setFiltersVisible(!filtersVisible)} onPress={filterHandler} setDateRange={setDateRange} setFilter={setFilterBY} onClear={() => { setFilteredData([]); getAllBookings(1) }} />
+                <Filter setPageCount={setPageCount} dateRange={dateRange} title={"Filter jobs"} isOpen={filtersVisible} onClose={() => setFiltersVisible(!filtersVisible)} onPress={filterHandler} setDateRange={setDateRange} setFilter={setFilterBY} onClear={() => { setFilteredData([]); setPageCount(1) }} />
+
+                <Text style={{ color: 'red', fontSize: 14, fontWeight: isAndroid ? "900" : "700", }}>{"pagecount -" + pageCount + " - next -" + nextPage + " Bdata " + data.length}</Text>
+                <Text style={{ color: 'red', fontSize: 14, fontWeight: isAndroid ? "900" : "700", }}>{"pagecount -" + pageCount + " - next -" + nextPage + " Fildata " + filteredData.length}</Text>
+
 
                 <View style={{ flex: 1, }}>
                     <FlatList
                         data={filteredData.length === 0 ? data : filteredData}
-                        onEndReached={() => setPageCount(pageCount + 1)}
+                        onEndReached={() => { nextPage > 0 && setPageCount(pageCount + 1) }}
                         refreshing={refreshLoading}
-                        onRefresh={() => { getAllBookings(1) }}
+                        onRefresh={() => { setPageCount(1) }}
                         onEndReachedThreshold={.5}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: Colors.spacing }}
@@ -189,15 +195,30 @@ const Bookings = ({ navigation }) => {
                         renderItem={({ item, index }) => renderItem(item, index)}
                     />
                 </View>
+
+                {/* <View style={{ flex: 1, }}>
+                    <FlatList
+                        data={filteredData.length === 0 ? data : filteredData}
+                        onEndReached={() => { nextPage > 0 && setPageCount(pageCount + 1) }}
+                        refreshing={refreshLoading}
+                        onRefresh={() => { setPageCount(1); getAllBookings(1) }}
+                        onEndReachedThreshold={.5}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ paddingBottom: Colors.spacing }}
+                        keyExtractor={item => item._id}
+                        renderItem={({ item, index }) => renderItem(item, index)}
+                    />
+                </View> */}
+
+
             </View>
 
-            <ViewBookingModal isOpen={openBooking} onClose={() => { setOpenBooking(false); setPageCount(1); getAllBookings(1) }} id={selectedBooking?._id} refresh={() => setPageCount(1)} deleteHandler={deleteBookingHandler} deleteOpen={deleteBooking} toggleDelete={() => setDeleteBooking(!deleteBooking)} />
+            <ViewBookingModal isOpen={openBooking} onClose={() => { setOpenBooking(false); setPageCount(1) }} id={selectedBooking?._id} refresh={() => setPageCount(1)} deleteHandler={deleteBookingHandler} deleteOpen={deleteBooking} toggleDelete={() => setDeleteBooking(!deleteBooking)} />
 
             <DeleteModal loading={deleteLoading} id={selectedBooking?._id} phone={phoneNumber} price={price} animation="slide" quoteReference={selectedBooking?.bookingReference} customerName={selectedBooking?.firstName + " " + selectedBooking?.lastName} title="Delete Job" onClose={() => setDeleteBookingSlider(false)} isOpen={deleteBookingSlider} onPress={deleteBookingHandler} />
             <AddJob isOpen={editBooking} onClose={() => setEditBooking(false)} lable={"Edit Booking"} id={selectedBooking?._id} />
 
             <AddNotes id={selectedBooking?._id} reference={selectedBooking?.bookingReference} animation="slide" title="Add notes" onClose={() => setAddNotesVisible(false)} isOpen={addNotesVisible} />
-
             <ShowToast />
         </>
     )

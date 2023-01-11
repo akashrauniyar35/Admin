@@ -7,7 +7,7 @@ import AddButtonHeader from '../../components/AddButtonHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     addJobCustomerEmail, addJobCustomerState, addJobCustomerPostcode,
-    addJobCustomerUnit, addJobCustomerStreetAddress, addJobCustomerNumber, addJobCustomerSuburb, addJobBookingDate, addJobCustomerNotes, addJobCustomerService, addJobCustomerBathroom, addJobCustomerBedroom, addJobCustomerProperty, addJobStartTime, addJobEndTime, addJobAddAddons, addJobRemoveAddons, postJobPending, postJobSuccess, postJobFail, addJobCustomerFirstName, addJobCustomerLastName, addJobCompanyName, postEditPending, postEditSuccess, postEditFail, addJobIncreaseAddons
+    addJobCustomerUnit, addJobCustomerStreetAddress, addJobCustomerNumber, addJobCustomerSuburb, addJobBookingDate, addJobCustomerNotes, addJobCustomerService, addJobCustomerBathroom, addJobCustomerBedroom, addJobCustomerProperty, addJobStartTime, addJobEndTime, addJobAddAddons, addJobRemoveAddons, postJobPending, postJobSuccess, postJobFail, addJobCustomerFirstName, addJobCustomerLastName, addJobCompanyName, postEditPending, postEditSuccess, postEditFail, addJobIncreaseAddons, addJobBedroomPrice, addJobBathroomPrice, addBasePrice
 } from '../../redux/addJobSlice';
 import InputBox from '../../components/InputBox';
 import CustomerCard from '../../components/CustomerCard';
@@ -38,10 +38,6 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
     const [property] = useState(String)
     const date = new Date()
 
-
-
-
-
     const [editJobData, seteditJobData] = useState<any>(
         {
             email: "",
@@ -67,14 +63,13 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
             notes: [],
             phone: "",
             products: [],
+            totals: [],
             quoteStatus: "",
         }
-
     );
 
-    console.log("editJobData editJobData.service", editJobData.products)
-
-
+    // console.log("editJobData editJobData.service - products", editJobData.products[0])
+    console.log("editJobData editJobData. - totals", editJobData.totals)
 
     const unitHandler = (value: string) => {
 
@@ -158,20 +153,41 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
         lable === "Edit Quote" ? seteditJobData({ ...editJobData, blinds: value }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, blinds: value }) :
             lable === "Add Quote" && dispatch(addJobCustomerProperty(value))
     }
-    const bedroomHandler = (value: number) => {
-
-        const newState: any = editJobData.products.map((x: any) => {
+    const bedroomHandler = (value: any) => {
+        const newProduct: any = editJobData.products.map((x: any) => {
             if (x.title.toLowerCase() === "bedrooms") {
-                return { ...x, quantity: value };
+                return { ...x, quantity: parseInt(value.slice(0)) };
             }
             return x;
         })
 
-        lable === "Edit Quote" ? seteditJobData({ ...editJobData, products: newState }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, products: newState }) :
-        lable === "Add Quote" && dispatch(addJobCustomerBedroom(value))
+        const newState: any = editJobData.totals.map((x: any) => {
+            if (x.title.toLowerCase().split(" ").pop() === "bedrooms") {
+                return { ...x, title: value, quantity: parseInt(value.slice(0)) };
+            }
+            return x;
+        })
 
+        lable === "Edit Quote" ? seteditJobData({ ...editJobData, totals: newState, products: newProduct }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, products: newState }) :
+            lable === "Add Quote" && dispatch(addJobCustomerBedroom(value))
     }
-    const bathroomHandler = (value: number) => {
+
+    const bedroomPriceHandler = (value: any) => {
+
+        const bd = editJobData.totals.find((x: any) => x.title.toLowerCase().split(" ").pop() === "bedrooms")
+
+        const newState: any = editJobData.totals.map((x: any) => {
+            if (x.title.toLowerCase().split(" ").pop() === "bedrooms") {
+                return { ...x, title: bd.title, quantity: bd.quantity, amount: parseInt(value) / bd.quantity };
+            }
+            return x;
+        })
+
+        lable === "Edit Quote" ? seteditJobData({ ...editJobData, totals: newState }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, products: value }) :
+            lable === "Add Quote" && dispatch(addJobBedroomPrice(value))
+    }
+
+    const bathroomHandler = (value: any) => {
 
         const newState: any = editJobData.products.map((x: any) => {
             if (x.title.toLowerCase() === "bathrooms") {
@@ -180,25 +196,51 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
             return x;
         })
 
-        lable === "Edit Quote" ? seteditJobData({ ...editJobData, products: newState }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, products: newState }) :
-        lable === "Add Quote" && dispatch(addJobCustomerBathroom(value))
+        const newTotal: any = editJobData.totals.map((x: any) => {
+            if (x.title.toLowerCase().split(" ").pop() === "bathrooms") {
+                return { ...x, title: value, quantity: parseInt(value.slice(0)) };
+            }
+            return x;
+        })
 
+        console.log("new totals", newTotal)
 
+        lable === "Edit Quote" ? seteditJobData({ ...editJobData, products: newState, totals: newTotal }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, products: newState }) :
+            lable === "Add Quote" && dispatch(addJobCustomerBathroom(value))
     }
-    const addOnsAddButtonHandler = (value) => {
+    const bathroomPriceHandler = (value: any) => {
+        lable === "Edit Quote" ? seteditJobData({ ...editJobData, products: value }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, products: value }) :
+            lable === "Add Quote" && dispatch(addJobBathroomPrice(value))
+    }
 
+
+    const basePriceHandler = (value: any) => {
+
+
+        const newTotals: any = editJobData.totals.map((x: any) => {
+            if (x.title.toLowerCase() === "base price") {
+                return { ...x, title: "Base Price", quantity: 1, amount: parseInt(value) };
+            }
+            return x;
+        })
+
+        lable === "Edit Quote" ? seteditJobData({ ...editJobData, totals: newTotals }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, products: value }) :
+            lable === "Add Quote" && dispatch(addBasePrice(value))
+    }
+
+    const addOnsAddButtonHandler = (value) => {
         const newState: any = editJobData.products.map((x: any) => {
             if (x.title === value.title) {
                 return { ...x, quantity: 1 };
             }
             return x;
         })
-
         lable === "Edit Quote" ? seteditJobData({ ...editJobData, products: newState }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, products: newState }) :
             lable === "Add Quote" && dispatch(addJobAddAddons(value))
         console.log('value add ons', value)
-
     }
+
+
     const addOnsRemoveButtonHandler = (value) => {
         const newState: any = editJobData.products.map((x: any) => {
             if (x.title === value.title) {
@@ -230,7 +272,6 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
     const getEditData = (data: any) => {
 
         console.log('selected data', data)
-
         data.map((item: any) => {
             seteditJobData({
                 firstName: item.firstName,
@@ -256,6 +297,7 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
                 notes: item.notes,
                 subtotal: item.subtotal,
                 products: item.products,
+                totals: item.totals,
                 quoteStatus: item.quoteStatus,
             })
             setEditQuoteID(item._id)
@@ -269,7 +311,6 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
 
 
     useEffect(() => {
-
     }, [])
 
     const onSaveJob = async () => {
@@ -357,13 +398,17 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
                                         </View>
 
                                         <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
-                                           
+
                                             <PropertyDetails service={editJobData.service.substring(1, 0).toLowerCase()} serviceHandler={serviceHandler} property={property} propertyHandler={propertyHandler} bedroomHandler={bedroomHandler} bathroomHandler={bathroomHandler} data={editJobData?.products} addonsIncreaseHandler={addonsIncreaseHandler} addOnsRemoveButton={addOnsRemoveButtonHandler} addOnsAddButton={addOnsAddButtonHandler} />
 
                                         </View>
 
                                         <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
-                                            <JobTotals total={editJobData.subtotal} data={editJobData?.products} />
+                                            <JobTotals totals={editJobData?.totals} data={editJobData?.products}
+                                                setBedroomPrice={bedroomPriceHandler}
+                                                setBathroomPrice={bathroomPriceHandler}
+                                                setBasePrice={basePriceHandler}
+                                            />
                                         </View>
                                     </>
                                 }
@@ -389,7 +434,6 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
                                         <View style={{ paddingHorizontal: Colors.spacing * 2, paddingBottom: Colors.spacing * 4 }}>
                                             <AssignTech />
                                         </View>
-
                                     </>
                                 }
 
@@ -398,7 +442,6 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
                                         <View style={{ paddingHorizontal: Colors.spacing * 2 }}>
                                             <CustomerCard firstName={addJobData.firstName} firstNameHandler={customerFirstNameHander} lastName={addJobData.lastName} lastNameHandler={customerLastNameHander} phone={addJobData.phone} phoneHandler={customerPhoneHander} email={addJobData.email} emailHandler={customerEmailHander} unit={addJobData.address1} companyName={addJobData.companyName} companyNameHandler={companyNameHandler} streetAddress={addJobData.address2} postCodeHandler={postCodeHandler} suburb={addJobData.city} postCode={addJobData.postcode} state={addJobData.state} unitHandler={unitHandler} streetAddressHandler={streetAddressHandler} suburbHandler={suburbHandler} stateHandler={stateHandler} />
                                         </View>
-
 
                                         <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
                                             <ScheduleCard date={addJobData.bookingDate} onDateChangeHandler={onDateChangeHandler} notes={addJobData.customerNotes} jobNotesHandler={jobNotesHandler} startHour={addJobData.startHour} startMin={addJobData.startMin} startMode={addJobData.startMode} endHour={addJobData.endHour} endMin={addJobData.endMin} endMode={addJobData.endMode} startTimeHandler={startTimeHandler} endTimeHandler={endTimeHandler} />
@@ -409,7 +452,11 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
                                         </View>
 
                                         <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
-                                            <JobTotals total={'addJobData.subtotal'} data={addJobData?.products} />
+                                            <JobTotals totals={addJobData.totals} data={addJobData?.products}
+                                                setBedroomPrice={bedroomPriceHandler}
+                                                setBathroomPrice={bathroomPriceHandler}
+                                                setBasePrice={basePriceHandler}
+                                            />
                                         </View>
                                         <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
                                             {/* <JobPayments /> */}

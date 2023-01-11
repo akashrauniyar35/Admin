@@ -23,7 +23,7 @@ const technicianSlice = createSlice({
             state.loading = false;
         },
         viewTechIDPending(state,) {
-            state.viewIDLoading = false;
+            state.viewIDLoading = true;
         },
         viewTechIDSuccess(state,) {
             state.viewIDLoading = false;
@@ -32,7 +32,7 @@ const technicianSlice = createSlice({
             state.viewIDLoading = false;
         },
         addTechPending(state,) {
-            state.loading = false;
+            state.loading = true;
         },
         addTechSuccess(state,) {
             state.loading = false;
@@ -41,7 +41,7 @@ const technicianSlice = createSlice({
             state.loading = false;
         },
         editTechPending(state) {
-            state.editLoading = false;
+            state.editLoading = true;
         },
         editTechSuccess(state) {
             state.editLoading = false;
@@ -50,7 +50,7 @@ const technicianSlice = createSlice({
             state.editLoading = false;
         },
         deleteTechPending(state) {
-            state.deleteLoading = false;
+            state.deleteLoading = true;
         },
         deleteTechSuccess(state) {
             state.deleteLoading = false;

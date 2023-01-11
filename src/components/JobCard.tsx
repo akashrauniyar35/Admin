@@ -17,7 +17,7 @@ import DeleteModal from './DeletetModal';
 import ConfirmBookingModal from './ConfirmBookingModal';
 
 
-const JobCard = ({ item, index, refresh }) => {
+const JobCard = ({ item, index, refresh, setPageCount }) => {
 
 
     console.log("item item", item)
@@ -60,6 +60,7 @@ const JobCard = ({ item, index, refresh }) => {
     }
 
     const closeJobHandler = () => {
+        setPageCount(1)
         setIsOpen(!isOpen)
         refresh()
     }

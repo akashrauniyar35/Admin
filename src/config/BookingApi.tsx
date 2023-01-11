@@ -51,7 +51,7 @@ export const fetchAllBookings = (page: number) => {
     console.log("page fetch", page)
     return new Promise(async (resolve, reject) => {
         try {
-            const res: any = await endPoint.get(`booking/all?page=${page}&limit=10`);
+            const res: any = await endPoint.get(`booking/all?page=${page}&limit=3`);
             console.log(res)
             resolve(res);
         }
@@ -79,10 +79,10 @@ export const fetchDeleteJobBooking = (id: String) => {
     })
 }
 
-export const fetchFilteredBookings = (status: any) => {
+export const fetchFilteredBookings = (page: any, status: any) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const res: any = await endPoint.get(`booking/all?page=1&limit=10&filter=bookingStatus&word=${status}`)
+            const res: any = await endPoint.get(`booking/all?page=${page}&limit=3&filter=bookingStatus&word=${status}`)
             resolve(res);
             console.log('status', res)
         }
