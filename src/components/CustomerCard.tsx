@@ -20,38 +20,38 @@ const CustomerCard = ({ firstName, lastName, phone, email, unit, streetAddress, 
     return (
 
         <View style={{}}>
-            <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing * 2 }}>Customer info</Text>
+            <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * 2 }}>Customer info</Text>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>First Name</Text>
+                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>First Name</Text>
                 <View style={{ width: "70%", }}>
                     <InputBox placeholder={firstName} value={firstName} size={40} capitalize={"words"} rounded={true} onChange={firstNameHandler} placeholderSize={12} />
                 </View>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Last Name</Text>
+                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Last Name</Text>
                 <View style={{ width: "70%", }}>
                     <InputBox placeholder={lastName} value={lastName} size={40} capitalize={"words"} rounded={true} onChange={lastNameHandler} placeholderSize={12} />
                 </View>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Company Name</Text>
+                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Company Name</Text>
                 <View style={{ width: "70%", }}>
                     <InputBox value={companyName} placeholder={companyName} size={40} capitalize={"words"} rounded={true} onChange={companyNameHandler} placeholderSize={12} />
                 </View>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2 }}>
-                <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Number</Text>
+                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Number</Text>
                 <View style={{ width: "70%" }}>
                     <InputBox value={phone} maxLength={10} size={40} rounded={true} placeholder={phone} onChange={phoneHandler} keyboardType="numeric" placeholderSize={12} />
                 </View>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2 }}>
-                <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Email</Text>
+                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Email</Text>
                 <View style={{ width: "70%", }}>
                     <InputBox value={email} size={40} rounded={true} capitalize={"none"} placeholder={email} onChange={emailHandler} keyboardType="email-address" placeholderSize={12} />
                 </View>

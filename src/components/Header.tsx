@@ -25,7 +25,6 @@ const Header = ({ nav, title, searchOption, route, searchEnabled }) => {
 
             <View style={{
                 flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'white',
-                // borderBottomWidth: 1,
                 paddingHorizontal: Colors.spacing * 2,
                 shadowRadius: 2,
                 shadowOffset: { width: 0, height: 2 },
@@ -33,16 +32,14 @@ const Header = ({ nav, title, searchOption, route, searchEnabled }) => {
                 elevation: 2,
                 height: 55,
                 shadowColor: Colors.grayOne,
-
             }}>
 
                 <Pressable onPress={!searchEnabled ? toggleSearch : null} >
                     <Icon name="search" size={22} color={!searchEnabled ? Colors.black : 'transparent'} />
                 </Pressable>
 
-
                 <View style={{ marginLeft: Colors.spacing * 3 }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>{title}</Text>
+                    <Text style={{ fontFamily: 'Outfit-Bold', fontSize: 12, color: Colors.black,}}>{title}</Text>
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', }}>

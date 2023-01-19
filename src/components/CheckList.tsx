@@ -74,12 +74,12 @@ const Checklist = ({ onPress, isOpen, title }) => {
             >
                 <View style={[]}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", width: '25%' }}>Complete</Text>
-                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{1} item(s)</Text>
+                        <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: '25%' }}>Complete</Text>
+                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{1} item(s)</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing }}>
-                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", width: '25%' }}>Incomplete</Text>
-                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{0} item(s)</Text>
+                        <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: '25%' }}>Incomplete</Text>
+                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{0} item(s)</Text>
                     </View>
                 </View>
             </Pressable>
@@ -115,7 +115,7 @@ const Checklist = ({ onPress, isOpen, title }) => {
                                 style={{}}
                                 onPress={onPress}
                             ><Icon name="chevron-back" size={28} color={Colors.grayOne} /></Pressable>
-                            <Text style={{ fontSize: 16, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>{title}</Text><Icon name="chevron-back" size={28} color={'white'} />
+                            <Text style={{ fontFamily: 'Outfit-Bold', fontSize: 12, color: Colors.black, }}>{title}</Text><Icon name="chevron-back" size={28} color={'white'} />
                         </View>
 
 
@@ -124,7 +124,10 @@ const Checklist = ({ onPress, isOpen, title }) => {
 
 
                             <Pressable onPress={() => toggleAddChecklist()} style={styles.applyButton}>
-                                <Text style={{ fontSize: 16, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>Add item</Text>
+                                <Text style={{
+                                    fontSize: 12,
+                                    color: 'white', fontFamily: 'Outfit-Bold',
+                                }}>Add item</Text>
                             </Pressable>
 
 
@@ -134,7 +137,7 @@ const Checklist = ({ onPress, isOpen, title }) => {
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2 }}>
 
-                                    <Text style={{ marginLeft: Colors.spacing, fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>Use Default Checklist</Text>
+                                    <Text style={{ marginLeft: Colors.spacing, fontSize: 16, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light',}}>Use Default Checklist</Text>
                                     <Switch
                                         trackColor={{ false: "#767577", true: Colors.madidlyThemeBlue }}
                                         thumbColor={'white'}

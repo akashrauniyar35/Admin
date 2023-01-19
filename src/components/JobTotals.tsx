@@ -31,21 +31,10 @@ const JobTotals = ({ totals, data, setBedroomPrice, setBathroomPrice, setBasePri
 
     console.log("ba------", ba)
 
-
-    // const calculateAddonsPrice = data.slice(2).reduce((preValue, calValue) => {
-    //     return preValue + calValue.quantity * calValue.price
-    // }, 0)
-
-
-    // const addOnPrice = parseInt(calculateAddonsPrice)
-
-
-    // const totalPrice = addOnPrice + bdBaPrice + parseInt(addCharges) - discount + parseInt(basePrice)
-
     return (
         <>
 
-            {
+            {/* {
                 totals?.map((item) => {
                     xp.push(item)
                     return (
@@ -54,52 +43,53 @@ const JobTotals = ({ totals, data, setBedroomPrice, setBathroomPrice, setBasePri
                         </View>
                     )
                 })
-            }
+            } */}
 
             <View>
-                <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>{bd?.quantity + " " + ba?.quantity}</Text>
-                <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>Totals</Text>
-                <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing * 2 }}>Job details</Text>
+                {/* <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>{bd?.quantity + " " + ba?.quantity}</Text> */}
+                <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * 2 }}>Totals</Text>
+                <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * 2 }}>Job details</Text>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Base price</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Base price</Text>
                     <View style={{ width: "50%" }}>
-                        <InputBox keyboardType={'numeric'} onChange={(val: any) => setBasePrice(val)} bold={true} placeholderSize={14} size={40} rounded={true} placeholder={totals[0].amount > 0 ? `$ ${totals[0].amount.toString()}.00` : "$0.00"} bg={Colors.grayBG} itemsCenter={true} isPrice={true} />
+                        <InputBox keyboardType={'numeric'} onChange={(val: any) => setBasePrice(val)} bold={true} placeholderSize={14} size={40} rounded={true} placeholder={"$0.00"} bg={Colors.grayBG} itemsCenter={true} isPrice={true} />
+                        {/* <InputBox keyboardType={'numeric'} onChange={(val: any) => setBasePrice(val)} bold={true} placeholderSize={14} size={40} rounded={true} placeholder={totals[0].amount > 0 ? `$ ${totals[0].amount.toString()}.00` : "$0.00"} bg={Colors.grayBG} itemsCenter={true} isPrice={true} /> */}
                     </View>
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>{bd?.quantity}  Bedrooms</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>{bd?.quantity}  Bedrooms</Text>
                     <View style={{ width: "50%" }}>
                         <InputBox bold={true} onChange={(val) => setBedroomPrice(val)} placeholderSize={14} size={40} rounded={true} placeholder={`$ ${bdBaPrice.toFixed(2)}`} bg={Colors.grayBG} itemsCenter={true} />
                     </View>
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>{ba?.quantity}  Bathrooms</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>{ba?.quantity}  Bathrooms</Text>
                     <View style={{ width: "50%" }}>
                         <InputBox bold={true} onChange={(val) => setBathroomPrice(val)} placeholderSize={14} size={40} rounded={true} placeholder={`$ ${bdBaPrice.toFixed(2)}`} bg={Colors.grayBG} itemsCenter={true} />
                     </View>
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Addons</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Addons</Text>
                     <View style={{ width: "50%" }}>
-                        <InputBox bold={true} editable={false} placeholderSize={14} bold={true} size={40} rounded={true} placeholder={`$ ${"addOnPrice.toFixed(2)"}`} bg={Colors.grayBG} itemsCenter={true} />
+                        <InputBox bold={true} editable={false} placeholderSize={14} bold={true} size={40} rounded={true} placeholder={`$ ${"0.00"}`} bg={Colors.grayBG} itemsCenter={true} />
                     </View>
                 </View>
 
                 <View style={{ marginVertical: Colors.spacing * 1, marginBottom: Colors.spacing * 3, borderBottomWidth: .35, borderColor: Colors.borderColor }} />
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Discount</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Discount</Text>
                     <View style={{ width: "50%" }}>
                         <InputBox keyboardType={'numeric'} onChange={(val: any) => setDiscount(val)} bold={true} placeholderSize={14} size={40} rounded={true} placeholder={"$ 0.00"} bg={Colors.grayBG} itemsCenter={true} isPrice={true} />
                     </View>
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Additional charges</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Additional charges</Text>
                     <View style={{ width: "50%" }}>
 
                         <InputBox keyboardType={'numeric'} onChange={(val: any) => setAddCharges(val)} bold={true} placeholderSize={14} size={40} rounded={true} placeholder={"$ 0.00"} bg={Colors.grayBG} itemsCenter={true} isPrice={true} />
@@ -107,23 +97,23 @@ const JobTotals = ({ totals, data, setBedroomPrice, setBathroomPrice, setBasePri
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Total Addons</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Total Addons</Text>
                     <View style={{}}>
-                        <Text style={{ fontSize: 22, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>{`$ ${"addOnPrice.toFixed(2)"}`}</Text>
+                        <Text style={{ fontSize: 22, color: Colors.black, fontFamily: 'Outfit-Bold', }}>{`$ ${"0.00"}`}</Text>
                     </View>
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Tax</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Tax</Text>
                     <View style={{ width: "50%" }}>
                         <InputBox bold={true} placeholderSize={14} size={40} rounded={true} placeholder="$ 0.00" bg={Colors.grayBG} itemsCenter={true} />
                     </View>
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Total</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Total</Text>
                     <View style={{}}>
-                        <Text style={{ fontSize: 22, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>$ {"totalPrice.toFixed(2)"}</Text>
+                        <Text style={{ fontSize: 22, color: Colors.black, fontFamily: 'Outfit-Bold', }}>$ {"0.00"}</Text>
                     </View>
                 </View>
 

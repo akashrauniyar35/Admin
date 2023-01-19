@@ -77,7 +77,6 @@ const JobsAgenda = ({ nav, data }) => {
         )
     }
 
-
     return (
         <View style={{ backgroundColor: Colors.madlyBGBlue, }}>
             <View style={{
@@ -93,10 +92,10 @@ const JobsAgenda = ({ nav, data }) => {
 
                     items={{
 
-                        '2023-01-28': [{ name: 'Sankar Thapa', price: '400', address: 'Strathfield NS@ 2135', contact: '0451569865', time: '9:00 AM', assigned: false, },
+                        '2023-01-25': [{ name: 'Sankar Thapa', price: '400', address: 'Strathfield NS@ 2135', contact: '0451569865', time: '9:00 AM', assigned: false, },
                         { name: 'Pankar Thapa', price: '400', address: 'Strathfield NS@ 2135', contact: '0451569865', time: '9:00 AM', assigned: false, }],
 
-                        '2023-01-29': [{ name: 'Bijay Chamling', address: 'Strathfield NS@ 2135', time: '2:00 PM', assigned: true, contact: '0451569865' }],
+                        '2023-01-26': [{ name: 'Bijay Chamling', address: 'Strathfield NS@ 2135', time: '2:00 PM', assigned: true, contact: '0451569865' }],
                         '2023-01-30': [{ name: 'item 4' }],
                         '2023-01-31': [{ name: 'item 3 - any js object' }, { name: 'item 3 any js object', }]
                     }}

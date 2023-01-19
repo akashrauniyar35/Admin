@@ -105,11 +105,11 @@ export default function Donut({
                 defaultValue="0"
                 style={[
                     StyleSheet.absoluteFillObject,
-                    { fontSize: radius / 2, color: textColor ?? color },
+                    { fontSize: radius / 2, color: textColor ?? color, fontFamily: 'Outfit-Medium', },
                     styles.text,
                 ]}
             />
-            <Text style={{ position: "absolute", alignSelf: 'center', marginTop: radius * 1.8, color, fontWeight: isAndroid ? "900" : "600", fontSize: 8 }}>{lable}</Text>
+            <Text style={{ position: "absolute", alignSelf: 'center', marginTop: radius * 1.8, color, fontFamily: 'Outfit-Bold', fontSize: 8 }}>{lable}</Text>
 
             {/* </View> */}
 

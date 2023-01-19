@@ -85,7 +85,7 @@ const propertyTypes = [
     },
     {
         id: "02",
-        title: 'service'
+        title: 'House'
     },
 ]
 
@@ -100,7 +100,7 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
 
 
 
-    
+
     const dispatch = useDispatch()
 
     const getProducts = async () => {
@@ -173,7 +173,7 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
         addonsIncreaseHandler(p)
     }
 
- 
+
 
     useEffect(() => {
         getProducts()
@@ -185,7 +185,7 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
     return (
         <View style={{ overflow: 'hidden' }}>
 
-            <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>{bd + " " + ba}</Text>
+            {/* <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>{bd + " " + ba}</Text>
 
 
             {
@@ -197,20 +197,20 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
                     )
                 })
 
-            }
+            } */}
 
 
-            <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>Job</Text>
+            <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * 2 }}>Job</Text>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2 }}>
-                <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Service</Text>
+                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Service</Text>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', width: "70%", justifyContent: "flex-start", }}>
                     {services.map((item) => {
                         return (
                             <View style={{ marginRight: "7%", }} key={item.id}>
                                 <Pressable onPress={() => jobServiceHandler(item.title)} style={[styles.serviceButton, { backgroundColor: item.title === selectedService ? Colors.madidlyThemeBlue : 'white', }]}>
-                                    <Text style={{ fontSize: 12, color: item.title === selectedService ? 'white' : Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : selectedService === item.title ? "900" : "300" }}>{item.title}</Text>
+                                    <Text style={{ fontSize: 12, color: item.title === selectedService ? 'white' : Colors.maidlyGrayText, fontFamily: item.title === selectedService ? 'Outfit-Bold' : 'Outfit-Light' }}>{item.title}</Text>
                                 </Pressable>
                             </View>
                         )
@@ -219,14 +219,14 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2 }}>
-                <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Property</Text>
+                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Property</Text>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', width: "69%", justifyContent: 'space-between', marginRight: 5, }}>
                     {propertyTypes.map((item) => {
                         return (
                             <View style={{}} key={item.id}>
                                 <Pressable onPress={() => jobPropertyTypesHandler(item.title)} style={[styles.serviceButton, { backgroundColor: item.title === selectedProperty ? Colors.madidlyThemeBlue : 'white', }]}>
-                                    <Text style={{ fontSize: 12, color: item.title === selectedProperty ? 'white' : Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : selectedProperty === item.title ? "900" : "300" }}>{item.title}</Text>
+                                    <Text style={{ fontSize: 12, color: item.title === selectedProperty ? 'white' : Colors.maidlyGrayText, fontFamily: item.title === selectedProperty ? 'Outfit-Bold' : 'Outfit-Light' }}>{item.title}</Text>
                                 </Pressable>
                             </View>
                         )
@@ -250,53 +250,55 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
             </View>
 
 
-            {data.slice(2).map((item: any) => {
-                if (item.quantity >= 1) {
+            {
+                data.slice(2).map((item: any) => {
+                    if (item.quantity >= 1) {
 
-                    let newData = [
-                        {
-                            id: '00',
-                            name: `1 ${" "} ${item.title}`,
-                        },
-                        {
-                            id: '01',
-                            name: `2 ${" "} ${item.title}`,
-                        },
-                        {
-                            id: '02',
-                            name: `3 ${" "} ${item.title}`,
-                        },
-                        {
-                            id: '03',
-                            name: `4 ${" "} ${item.title}`
-                        },
-                        {
-                            id: '04',
-                            name: `5 ${" "} ${item.title}`
-                        },
-                        {
-                            id: '05',
-                            name: `6 ${" "} ${item.title}`
-                        },
-                    ];
+                        let newData = [
+                            {
+                                id: '00',
+                                name: `1 ${" "} ${item.title}`,
+                            },
+                            {
+                                id: '01',
+                                name: `2 ${" "} ${item.title}`,
+                            },
+                            {
+                                id: '02',
+                                name: `3 ${" "} ${item.title}`,
+                            },
+                            {
+                                id: '03',
+                                name: `4 ${" "} ${item.title}`
+                            },
+                            {
+                                id: '04',
+                                name: `5 ${" "} ${item.title}`
+                            },
+                            {
+                                id: '05',
+                                name: `6 ${" "} ${item.title}`
+                            },
+                        ];
 
-                    return (
-                        <>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>{item.title}</Text>
-                                <View style={{ width: "70%", marginRight: Colors.spacing * .25, }}>
-                                    <SelectionCard onPress={increaseAddonsHandler} size={40} fontSize={12} phColor={Colors.black} rounded={true} data={newData} type={'filter'} placeholder={item.quantity + " " + item.title} />
+                        return (
+                            <>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>{item.title}</Text>
+                                    <View style={{ width: "70%", marginRight: Colors.spacing * .25, }}>
+                                        <SelectionCard onPress={increaseAddonsHandler} size={40} fontSize={12} phColor={Colors.maidlyGrayText} rounded={true} data={newData} type={'filter'} placeholder={item.quantity + " " + item.title} />
+                                    </View>
                                 </View>
-                            </View>
-                        </>
-                    )
-                }
-            })}
+                            </>
+                        )
+                    }
+                })
+            }
 
 
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing, }}>
-                <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Addons</Text>
+                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium',  }}>Addons</Text>
                 <View style={{}}>
                     <Switch
                         trackColor={{ false: "#767577", true: Colors.black }}
@@ -317,10 +319,10 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
                     {data.slice(2).map((item) => {
                         return (
                             <View style={[styles.productsCard, {}]} key={item._id}>
-                                <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "600" : "300", }}>{item.title}</Text>
+                                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Light', }}>{item.title}</Text>
                                 <Pressable onPress={() => { item.quantity >= 1 ? addOnsRemoveButton(item) : addOnsAddButton(item) }}>
-                                    <View style={{ paddingVertical: Colors.spacing * .25, borderRadius: Colors.spacing * .5, backgroundColor: Colors.madidlyThemeBlue, width: 70 }}>
-                                        <Text style={{ alignSelf: 'center', fontSize: 12, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>{item.quantity >= 1 ? "remove" : 'Add'}</Text>
+                                    <View style={{ paddingVertical: Colors.spacing * .5, borderRadius: Colors.spacing * .5, backgroundColor: Colors.madidlyThemeBlue, width: 70 }}>
+                                        <Text style={{ alignSelf: 'center', fontSize: 12, color: 'white', fontFamily: 'Outfit-Bold', }}>{item.quantity >= 1 ? "remove" : 'Add'}</Text>
                                     </View>
                                 </Pressable>
 

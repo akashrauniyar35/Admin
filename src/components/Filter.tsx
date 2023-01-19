@@ -88,12 +88,12 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setF
                 <View style={[styles.filterStyling,]}>
                     <Pressable onPress={() => { onClose(); setPageCount(1) }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                            <Icon name="filter" size={22} color={Colors.littleGray} />
-                            <Text style={{ marginLeft: Colors.spacing * 1.5, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{title}</Text>
+                            <Icon name="filter" size={22} color={Colors.black} />
+                            <Text style={{ marginLeft: Colors.spacing * 1.5, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', }}>{title}</Text>
                         </View>
                     </Pressable>
 
-                    <View style={{ width: '60%', alignItems: "center" }}>
+                    {/* <View style={{ width: '60%', alignItems: "center" }}>
                         <ScrollView horizontal contentContainerStyle={{ alignItems: "center" }}>
                             {data.map((item) => {
                                 return (
@@ -105,11 +105,11 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setF
                                 )
                             })}
                         </ScrollView>
-                    </View>
+                    </View> */}
 
-                    <Pressable onPress={onClear}>
+                    {/* <Pressable onPress={onClear}>
                         <Icon name="md-close-circle" color={Colors.madidlyThemeBlue} size={20} />
-                    </Pressable>
+                    </Pressable> */}
 
                 </View>
             </View>
@@ -143,7 +143,7 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setF
                                 style={{}}
                                 onPress={onClose}
                             ><Icon name="chevron-back" size={22} color={Colors.black} /></Pressable>
-                            <Text style={{ fontSize: 14, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>{"Filter Jobs"}</Text><Icon name="chevron-back" size={28} color={'white'} />
+                            <Text style={{ fontSize: 14, color: Colors.grayOne, fontFamily: 'Outfit-Bold', }}>{"Filter Jobs"}</Text><Icon name="chevron-back" size={28} color={'white'} />
                         </View>
 
 
@@ -164,7 +164,7 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setF
                             </View>
 
                             <Pressable style={styles.applyButton} onPress={onPress}>
-                                <Text style={{ fontSize: 16, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>Apply Filter</Text>
+                                <Text style={{ fontSize: 16, color: 'white',  fontFamily: 'Outfit-Bold',}}>Apply Filter</Text>
                             </Pressable>
 
                         </View>

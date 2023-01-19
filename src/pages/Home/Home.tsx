@@ -121,7 +121,7 @@ const Home = ({ navigation }) => {
                     {homeFilters.map((item) => {
                         return (
                             <Pressable key={item.id} onPress={() => setSelectdPeriod(item)} style={{ backgroundColor: item.label == selectedPeriod?.label ? Colors.madidlyThemeBlue : 'transparent', width: '25%', paddingVertical: Colors.spacing * .5, borderRadius: Colors.spacing * .5 }}>
-                                <Text style={{ fontSize: 10, color: item.label == selectedPeriod?.label ? 'white' : Colors.black, alignSelf: 'center', fontWeight: isAndroid ? "900" : "600" }}>{item.label}</Text>
+                                <Text style={{ fontSize: 10, color: item.label == selectedPeriod?.label ? 'white' : Colors.black, alignSelf: 'center', fontFamily: 'Outfit-Medium', }}>{item.label}</Text>
                             </Pressable>
                         )
                     })}
@@ -131,24 +131,24 @@ const Home = ({ navigation }) => {
                     <View style={[styles.viewBox, { flex: .95, }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <IconM name={'calendar-check'} size={18} color={Colors.black} />
-                            <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginLeft: Colors.spacing }}>Jobs</Text>
+                            <Text style={{ fontSize: 18, color: Colors.black, marginLeft: Colors.spacing, fontFamily: 'Outfit-Bold', }}>Jobs</Text>
                         </View>
 
-                        <View style={{ marginTop: Colors.spacing, marginBottom: Colors.spacing * .5 }}>
-                            <Divider height={.5} colors={'gray'} width="110%" opacity={.1} />
+                        <View style={{ marginTop: Colors.spacing, marginBottom: Colors.spacing * 1}}>
+                            <Divider height={.5} colors={Colors.borderColor} width="110%"  />
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
 
-                            <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600", width: isAndroid ? "35%" : "40%" }}>Customer</Text>
-                            <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600", width: isAndroid ? '25%' : '25%' }}>Assigned</Text>
-                            <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600", width: isAndroid ? '25%' : '23%', }}>Status</Text>
-                            <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600", width: isAndroid ? '20%' : '20%' }}>Total</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, width: isAndroid ? "35%" : "35%", fontFamily: 'Outfit-Medium', }}>Customer</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '25%' : '25%' }}>Assigned</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '25%' : '23%', }}>Status</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '20%' : '20%' }}>Total</Text>
 
                         </View>
 
-                        <View style={{ marginTop: Colors.spacing * .5, marginBottom: Colors.spacing, }}>
-                            <Divider height={.5} colors={'gray'} width="110%" opacity={.1} />
+                        <View style={{ marginTop: Colors.spacing * 1, marginBottom: Colors.spacing, }}>
+                            <Divider height={.5} color={Colors.borderColor} width="110%" />
                         </View>
 
 

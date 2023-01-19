@@ -1,27 +1,59 @@
-import { View, Text, Platform, Image } from 'react-native'
+import { View, Text, Platform, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import { Colors } from '../assets/Colors'
-import { sub } from 'react-native-reanimated'
+import Icon from 'react-native-vector-icons/Ionicons';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 const isAndroid = Platform.OS == 'android' ? true : false
 const MapCard = ({ lable }) => {
+
+
+
+    const CustomMarker = () => {
+        return (
+            <View>
+                <Icon name="md-location" size={35} color={Colors.madidlyThemeBlue} />
+            </View>
+        )
+    }
+
     return (
         <View>
-            {lable && <Text style={{ fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing, color: Colors.green, fontSize: 16, marginRight: Colors.spacing }}>Map</Text>
-            }
-            <View style={{
-                backgroundColor: 'white',
-            }}>
 
-                <View style={{}}>
-                    <Image source={{ uri: 'https://pp.walk.sc/apartments/e/1/460x400/AU-NSW/Sydney/Strathfield.png' }} style={{ width: '100%', height: 200 }} />
-                </View>
+            <View>
 
+                <MapView
+                    // showsUserLocation={true}
+                    provider={PROVIDER_GOOGLE}
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: -33.867180,
+                        longitude: 151.069140,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                >
+                    <Marker
+                        coordinate={{ latitude: -33.867180, longitude: 151.069140 }}
+                    >
+                        <CustomMarker />
+                    </Marker>
 
-
+                </MapView>
             </View>
+
         </View>
     )
 }
 
+const styles = StyleSheet.create({
+    container: {
+
+    },
+
+    map: {
+        height: 250,
+    },
+})
+
 export default MapCard
+

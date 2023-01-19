@@ -45,7 +45,7 @@ const ShowCard = ({ navigation }) => {
                         <Text style={{ color: 'white', fontSize: 14, width: '55%', paddingTop: Colors.spacing * 2, textAlign: 'center' }}>Explore all the most recent jobs based on your web bookings & phone calls.</Text>
 
                         <LoginButtons />
-                        <Donut lable={"Total Jobs"} percentage={112} radius={40} max={200} />
+                        {/* <Donut lable={"Total Jobs"} percentage={112} radius={40} max={200} /> */}
 
                     </View>
 

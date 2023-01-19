@@ -24,13 +24,12 @@ const AddImages = ({ label, type, placeholder, rounded, border, placeHolderTextC
     return (
         <>
             <Pressable >
-                <Text style={{ fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing }}>Upload image</Text>
+                <Text style={{ fontSize: 16, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing }}>Upload image</Text>
                 <View style={[styles.box, { paddingHorizontal: rounded === true ? Colors.spacing * 2 : Colors.spacing, borderRadius: rounded === true ? Colors.spacing * Colors.spacing : Colors.spacing * .75, borderWidth: isAndroid ? .35 : 0, borderColor: Colors.maidlyGrayText }]}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-
-                            <Text style={{ fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300" }}>{selected ? selected : "Upload image"}</Text>
+                            <Text style={{ fontSize: 16, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{selected ? selected : "Upload image"}</Text>
                         </View>
                     </View>
                 </View>
@@ -39,7 +38,7 @@ const AddImages = ({ label, type, placeholder, rounded, border, placeHolderTextC
 
             <View style={{ marginTop: Colors.spacing, flexDirection: 'row' }}>
                 <Text style={{ fontSize: 13, color: Colors.cancelledRed, marginTop: -4 }}>*</Text>
-                <Text style={{ fontSize: 13, color: Colors.madidlyThemeBlue, lineHeight: Colors.spacing * 1.5 }}>Image must be in jpg, jpeg or png format and hte image size should not exceed 5mb</Text>
+                <Text style={{ fontSize: 13, color: Colors.madidlyThemeBlue, lineHeight: Colors.spacing * 1.5, fontFamily: 'Outfit-Light', }}>Image must be in jpg, jpeg or png format and hte image size should not exceed 5mb</Text>
             </View>
 
         </>)

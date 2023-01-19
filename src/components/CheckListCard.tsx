@@ -46,7 +46,7 @@ const CheckListCard = ({ status, category, lable, name, date, required }) => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <IconM name="drag" size={20} color={Colors.maidlyGrayText} />
-                <Text style={{ marginLeft: Colors.spacing, fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", }}>{category}</Text>
+                <Text style={{ marginLeft: Colors.spacing, fontSize: 16, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Bold', }}>{category}</Text>
             </View>
 
 
@@ -57,7 +57,7 @@ const CheckListCard = ({ status, category, lable, name, date, required }) => {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                         <IconM name="dots-vertical" size={20} color={Colors.maidlyGrayText} />
-                        <Text style={{ marginLeft: Colors.spacing, fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{lable}</Text>
+                        <Text style={{ marginLeft: Colors.spacing, fontSize: 16, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium', }}>{lable}</Text>
                     </View>
 
                     <Icon name={status === "Completed" ? "radio-button-on" : "radio-button-off"} size={20} color={Colors.maidlyGrayText} />
@@ -73,13 +73,13 @@ const CheckListCard = ({ status, category, lable, name, date, required }) => {
                         <View style={{}}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                 <View style={{ backgroundColor: status === "In Progress" ? Colors.inProgreessOrangeBG : Colors.completedGreenBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing * .5, paddingHorizontal: Colors.spacing }}>
-                                    <Text style={{ fontSize: 10, color: status === "In Progress" ? Colors.inProgreessOrange : Colors.completedGreen, fontWeight: isAndroid ? "900" : "600" }}>{status}</Text>
+                                    <Text style={{ fontSize: 10, color: status === "In Progress" ? Colors.inProgreessOrange : Colors.completedGreen, fontFamily: 'Outfit-ExtraBold', }}>{status}</Text>
                                 </View>
-                                {date !== "" && <Text style={{ fontSize: 10, marginLeft: Colors.spacing, color: Colors.grayText, fontWeight: isAndroid ? "900" : "600" }}>on {date} at {'03:10 PM'}</Text>}
+                                {date !== "" && <Text style={{ fontSize: 10, marginLeft: Colors.spacing, color: Colors.grayText, fontFamily: 'Outfit-Medium', }}>on {date} at {'03:10 PM'}</Text>}
                             </View>
 
                             {name !== "" && <View style={{ marginTop: Colors.spacing }}>
-                                <Text style={{ fontSize: 10, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600" }}>{name}</Text>
+                                <Text style={{ fontSize: 10, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Bold', }}>{name}</Text>
                             </View>}
                         </View>
 
@@ -96,7 +96,7 @@ const CheckListCard = ({ status, category, lable, name, date, required }) => {
                     <View style={styles.dropDown}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <IconM name="checkbox-blank-outline" size={20} color={Colors.maidlyGrayText} />
-                            <Text style={{ marginLeft: Colors.spacing, fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600" }}>Required task</Text>
+                            <Text style={{ marginLeft: Colors.spacing, fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>Required task</Text>
                         </View>
                     </View>}
             </View>

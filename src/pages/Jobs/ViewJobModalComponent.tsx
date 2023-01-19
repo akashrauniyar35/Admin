@@ -109,45 +109,6 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDe
         dispatch(quoteStatusSuccess())
     }
 
-
-    // const deleteJobHandler = async () => {
-    //     let id = item._id
-    //     dispatch(deleteJobPending())
-
-    //     const x: any = await fetchDeleteJob(id)
-    //     if (x.data.status === "error") {
-    //         return dispatch(deleteJobFail(x.data.status));
-    //     }
-    //     dispatch(deleteJobSuccess(id))
-    //     toggleDelete()
-    //     onClose()
-    //     refresh(1)
-    //     Toast.show({
-    //         type: 'deleteToast',
-    //         visibilityTime: 3000,
-    //         text1: `${item.quoteReference}`,
-    //         props: { message: 'Deleted Successfully' }
-    //     });
-    // }
-
-    // const confirmBookingVisibleHandler = async () => {
-    //     let id = item._id;
-    //     dispatch(confirmBookingPending());
-
-    //     const x: any = await fetchConfirmBooking(id);
-    //     if (x.data.status === "error") {
-    //         return dispatch(confirmBookingFail(x.data.status));
-    //     }
-    //     dispatch(confirmBookingSuccess(id))
-    //     toggleConfirm()
-    //     Toast.show({
-    //         type: 'successToast',
-    //         visibilityTime: 3000,
-    //         text1: `${item.quoteReference}`,
-    //         props: { message: 'Booking Confirmed Successfully' }
-    //     });
-    // }
-
     return (
         <>
             <View>
@@ -208,9 +169,8 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDe
                         </Pressable>
 
 
-                        <View style={{ height: .35, width: '100%', marginBottom: Colors.spacing * 2, backgroundColor: Colors.maidlyGrayText }} />
+                        <View style={{ height: .35, width: '100%', marginBottom: Colors.spacing * 2, backgroundColor: Colors.borderColor }} />
                     </View>
-
 
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>

@@ -91,18 +91,17 @@ const AddCheckList = ({ onPress, isOpen, title }) => {
                             shadowColor: Colors.grayOne,
 
                         }}>
-                            <Text style={{ fontSize: 18, color: "white", fontWeight: isAndroid ? "900" : "600" }}>{title}</Text>
+                            <Text style={{ fontSize: 18, color: "white", fontFamily: 'Outfit-Bold', }}>{title}</Text>
                         </View>
 
 
                         <View style={styles.container}>
 
-
                             <View style={{ marginBottom: Colors.spacing * 2 }}>
-                                <InputBox  rounded={true} lable="Item name" placeholder="Add item name here..." />
+                                <InputBox rounded={true} lable="Item name" placeholder="Add item name here..." size={40} />
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing }}>
                                     <IconM name="checkbox-blank-outline" size={20} color={Colors.maidlyGrayText} />
-                                    <Text style={{ marginLeft: Colors.spacing, fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600" }}>Required</Text>
+                                    <Text style={{ marginLeft: Colors.spacing, fontSize: 14, color: Colors.maidlyGrayText,fontFamily: 'Outfit-Light', }}>Required</Text>
                                     <Text style={{ fontSize: 14, color: Colors.red, fontWeight: isAndroid ? "900" : "600" }}>*</Text>
                                 </View>
                             </View>
@@ -128,10 +127,10 @@ const AddCheckList = ({ onPress, isOpen, title }) => {
 
                             <View style={styles.footer}>
                                 <Pressable onPress={onPress}>
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", }}>Cancel</Text>
+                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText,fontFamily: 'Outfit-Bold',  }}>Cancel</Text>
                                 </Pressable>
                                 <Pressable style={styles.applyButton} >
-                                    <Text style={{ fontSize: 13, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>Save</Text>
+                                    <Text style={{ fontSize: 13, color: 'white',fontFamily: 'Outfit-Bold',  }}>Save</Text>
                                 </Pressable>
                             </View>
 

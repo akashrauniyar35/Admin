@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 const SelectionCard = ({ onPress, data, label, size, fontSize, icon, type, placeholder, rounded, border, phColor, loading }) => {
     const [selected, setSelected] = useState();
     const [isOpen, setIsOpen] = useState(false)
-    
+
     const onClickHandle = (visible) => {
         setIsOpen(visible)
     }
@@ -25,14 +25,14 @@ const SelectionCard = ({ onPress, data, label, size, fontSize, icon, type, place
     return (
         <>
             <Pressable onPress={() => onClickHandle(true)}>
-                {label && <Text style={{ fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing }}>{label}</Text>}
+                {label && <Text style={{ fontSize: 16, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Bold', marginBottom: Colors.spacing }}>{label}</Text>}
                 <View style={[styles.box, { height: size, paddingHorizontal: rounded === true ? Colors.spacing * 2 : Colors.spacing, borderRadius: rounded === true ? Colors.spacing * Colors.spacing : Colors.spacing * .75, borderWidth: isAndroid ? .35 : 0, borderColor: Colors.borderColor }]}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                            {type === "schedule" && <View style={{ borderRadius: 100, backgroundColor: (selected ? selected : placeholder) === "Cancelled" ? Colors.red : (selected ? selected : placeholder) === "Scheduled" ? Colors.orange : (selected ? selected : placeholder) === "In Progress" ? Colors.orange : (selected ? selected : placeholder) === "Completed" ? Colors.paid : Colors.orange, width: 18, height: 18, marginRight: Colors.spacing, }} />}
+                            {type === "schedule" && <View style={{ borderRadius: 100, backgroundColor: (selected ? selected : placeholder) === "Cancelled" ? Colors.red : (selected ? selected : placeholder) === "Scheduled" ? Colors.orange : (selected ? selected : placeholder) === "In Progress" ? Colors.orange : (selected ? selected : placeholder) === "Completed" ? Colors.paid : Colors.orange, width: 16, height: 16, marginRight: Colors.spacing, }} />}
 
-                            <Text style={{ fontSize: fontSize ? fontSize : 16, color: phColor, fontWeight: isAndroid ? "600" : "300" }}>{selected ? selected : placeholder}</Text>
+                            <Text style={{ fontSize: fontSize ? fontSize : 14, color: phColor, fontFamily: 'Outfit-Light', }}>{selected ? selected : placeholder}</Text>
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
@@ -48,13 +48,12 @@ const SelectionCard = ({ onPress, data, label, size, fontSize, icon, type, place
                 <View style={styles.container}>
                     <View style={styles.selectonContainer}>
 
-
                         <FlatList showsVerticalScrollIndicator={false} data={data} keyExtractor={(item) => item.id}
                             renderItem={({ item, index }) => {
                                 return (
                                     <Pressable onPress={() => onSelectHandler(item.name)}>
                                         <View key={item.id} style={{ flexDirection: 'row', borderColor: 'white', alignItems: 'center', justifyContent: 'space-between', paddingVertical: Colors.spacing * 1.5 }}>
-                                            <Text style={{ fontSize: 16, color: 'white', fontWeight: isAndroid ? "900" : "600" }}>{item.name}</Text>
+                                            <Text style={{ fontSize: 16, color: 'white', fontFamily: 'Outfit-Medium', }}>{item.name}</Text>
                                             <Icon name={(selected ? selected : placeholder) === item.name ? "radio-button-on" : "radio-button-off"} size={22} color={'white'} />
                                         </View>
                                     </Pressable>
@@ -62,7 +61,7 @@ const SelectionCard = ({ onPress, data, label, size, fontSize, icon, type, place
                             }} />
 
                         <Pressable onPress={() => setIsOpen(false)} style={{ position: 'absolute', marginTop: Colors.spacing, bottom: Colors.spacing * 1.5, right: Colors.spacing * 1.5, }}>
-                            <Text style={{ color: 'white', }}>Close</Text>
+                            <Text style={{ color: 'white', fontFamily: 'Outfit-Bold', }}>Close</Text>
                         </Pressable>
                     </View>
                 </View>

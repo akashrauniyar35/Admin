@@ -6,32 +6,28 @@ import Divider from './Divider';
 
 const x = new Date();
 const date = x.toDateString().substring(4, 10)
-const QuoteBanner = ({}) => {
+const QuoteBanner = ({ }) => {
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                <Text style={{ color: 'white', fontSize: 14, fontWeight: isAndroid ? "900" : "700", }}>Today</Text>
-                <Text style={{ color: 'white', fontSize: 14, fontWeight: isAndroid ? "900" : "700", opacity: .7, marginLeft: Colors.spacing }}>{date}</Text>
+                <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Outfit-Bold', }}>Today</Text>
+                <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Outfit-Medium', opacity: .7, marginLeft: Colors.spacing }}>{date}</Text>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: Colors.spacing * .5 }}>
 
                 <View style={{ width: '45%', alignItems: 'center', }}>
-                    <Text style={{ color: 'white', fontSize: 20, fontWeight: isAndroid ? "900" : "800", }}>0</Text>
-                    <Text style={{ marginTop: Colors.spacing * .25, fontSize: 10, color: 'white', fontWeight: isAndroid ? "900" : "600", opacity: .7, }}>New quotes</Text>
+                    <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Outfit-Bold' }}>0</Text>
+                    <Text style={{ marginTop: Colors.spacing * .25, fontSize: 10, color: 'white', fontFamily: 'Outfit-Light', opacity: .7, }}>New quotes</Text>
                 </View>
 
                 <View style={{ width: 35, marginVertical: Colors.spacing * 2, borderBottomWidth: 2, borderColor: 'white', transform: [{ rotate: '90deg' }], opacity: .7, }} />
 
                 <View style={{ width: '45%', alignItems: 'center', }}>
-                    <Text style={{ color: 'white', fontSize: 20, fontWeight: isAndroid ? "900" : "800", }}>0</Text>
-                    <Text style={{ marginTop: Colors.spacing * .25, fontSize: 10, color: 'white', fontWeight: isAndroid ? "900" : "600", opacity: .7, }}>Converted</Text>
+                    <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Outfit-Bold' }}>0</Text>
+                    <Text style={{ marginTop: Colors.spacing * .25, fontSize: 10, color: 'white', fontFamily: 'Outfit-Light', opacity: .7, }}>Converted</Text>
                 </View>
 
-            </View>
-
-            <View style={{ marginTop: Colors.spacing * .5, marginBottom: Colors.spacing * .5 }}>
-                <Divider height={1} color={'white'} width="105%" opacity={.5} />
             </View>
 
         </View>

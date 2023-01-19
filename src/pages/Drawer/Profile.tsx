@@ -75,7 +75,7 @@ const Profile = ({ navigation }) => {
         const result = await launchImageLibrary(options)
         const file = result?.assets[0]
         updateProfilePic(file, pic, id, getUserProfile)
-        console.log("response uploading ", res)
+        
     }
 
     const updateDetailsHandler = async () => {

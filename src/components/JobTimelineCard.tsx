@@ -12,12 +12,12 @@ const JobTimelineCard = ({ date, icon, title, createdBy }) => {
 
             <View style={{ marginLeft: Colors.spacing, }}>
 
-                <View style={{ width: isAndroid ? '80%' : '85%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * .5, }}>
-                    <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", }}>{title}</Text>
-                    <Text style={{ fontSize: 10, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{date.substring(0, 19)}</Text>
+                <View style={{ width: isAndroid ? '80%' : '83%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * .5,}}>
+                    <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', }}>{title}</Text>
+                    <Text style={{ fontSize: 10, color: Colors.black, fontFamily: 'Outfit-Medium', }}>{date.substring(0, 19)}</Text>
 
                 </View>
-                <Text style={{ color: Colors.grayText, fontSize: 12, fontWeight: isAndroid ? "900" : "600", }}>{createdBy}</Text>
+                <Text style={{ color: Colors.grayText, fontSize: 12, fontFamily: 'Outfit-Light', }}>{createdBy}</Text>
             </View>
 
         </View >
@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: Colors.spacing * 3,
+        marginBottom: Colors.spacing * 2,
     }
 })

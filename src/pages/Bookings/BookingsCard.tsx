@@ -106,20 +106,20 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
 
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                                    <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>#{item.bookingReference}</Text>
+                                    <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Bold', }}>#{item.bookingReference}</Text>
                                 </View>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * .5 }}>
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{bookingDate.toDateString()}</Text>
+                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium'}}>{bookingDate.toDateString()}</Text>
                                     <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>$ {price}</Text>
+                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium',}}>${price}</Text>
                                 </View>
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                 <View style={{ backgroundColor: item.bookingStatus.toLowerCase() === "in progress" ? Colors.orangeBG : item.bookingStatus.toLowerCase() === "completed" ? Colors.paidBG : item.bookingStatus.toLowerCase() === "cancelled" ? Colors.redBG : Colors.orangeBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing, marginRight: Colors.spacing, width: Colors.spacing * 7, alignItems: 'center' }}>
 
-                                    <Text style={{ fontSize: 10, color: item.bookingStatus.toLowerCase() === "in progress" ? Colors.orange : item.bookingStatus.toLowerCase() === "completed" ? Colors.green : item.bookingStatus.toLowerCase() === "cancelled" ? Colors.red : Colors.orange, fontWeight: isAndroid ? "900" : "600" }}>{item.bookingStatus}</Text>
+                                    <Text style={{ fontSize: 10, color: item.bookingStatus.toLowerCase() === "in progress" ? Colors.orange : item.bookingStatus.toLowerCase() === "completed" ? Colors.green : item.bookingStatus.toLowerCase() === "cancelled" ? Colors.red : Colors.orange, fontFamily: 'Outfit-ExtraBold', }}>{item.bookingStatus}</Text>
                                 </View>
                                 <Pressable onPress={() => swipeableOpen('text')}>
                                     <IconM name="dots-horizontal" size={28} color={Colors.maidlyGrayText} />
@@ -132,18 +132,18 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
 
                         <View style={{}}>
 
-                            <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{item.firstName} {item.lastName}</Text>
+                            <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium'}}>{item.firstName} {item.lastName}</Text>
                             <View style={{ marginTop: Colors.spacing * .5, marginBottom: Colors.spacing * .5 }}>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.address1} {street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) + " " + street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1)}</Text>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.city.toUpperCase()} {item.postcode}</Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.address1} {street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) + " " + street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1)}</Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.city.toUpperCase()} {item.postcode}</Text>
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                 <Pressable onPress={() => Linking.openURL(`tel:${phoneNumber}`)}>
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{phoneNumber}</Text>
+                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{phoneNumber}</Text>
                                 </Pressable>
                                 <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.email}</Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.email}</Text>
                             </View>
                         </View>
 

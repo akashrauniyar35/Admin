@@ -97,7 +97,6 @@ const Bookings = ({ navigation }) => {
         )
     }
 
-
     const viewBookingHandler = async (item: any) => {
         let id = item._id
         setSelectedBooking(item)
@@ -176,7 +175,7 @@ const Bookings = ({ navigation }) => {
                     </View>
                 </View>
 
-                <Filter setPageCount={setPageCount} dateRange={dateRange} title={"Filter jobs"} isOpen={filtersVisible} onClose={() => setFiltersVisible(!filtersVisible)} onPress={filterHandler} setDateRange={setDateRange} setFilter={setFilterBY} onClear={() => { setFilteredData([]); setPageCount(1) }} />
+                <Filter setPageCount={setPageCount} dateRange={dateRange} title={"Filter Bookings"} isOpen={filtersVisible} onClose={() => setFiltersVisible(!filtersVisible)} onPress={filterHandler} setDateRange={setDateRange} setFilter={setFilterBY} onClear={() => { setFilteredData([]); setPageCount(1) }} />
 
                 <Text style={{ color: 'red', fontSize: 14, fontWeight: isAndroid ? "900" : "700", }}>{"pagecount -" + pageCount + " - next -" + nextPage + " Bdata " + data.length}</Text>
                 <Text style={{ color: 'red', fontSize: 14, fontWeight: isAndroid ? "900" : "700", }}>{"pagecount -" + pageCount + " - next -" + nextPage + " Fildata " + filteredData.length}</Text>
@@ -187,7 +186,7 @@ const Bookings = ({ navigation }) => {
                         data={filteredData.length === 0 ? data : filteredData}
                         onEndReached={() => { nextPage > 0 && setPageCount(pageCount + 1) }}
                         refreshing={refreshLoading}
-                        onRefresh={() => { setPageCount(1) }}
+                        onRefresh={() => { setPageCount(1); getAllBookings() }}
                         onEndReachedThreshold={.5}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: Colors.spacing }}
