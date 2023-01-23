@@ -17,24 +17,17 @@ const JobsAgenda = ({ nav, data }) => {
     const dispatch = useDispatch();
     const [openAppointment, setOpenAppointment] = useState(false)
     const [dot, setDot] = useState({ key: '', color: Colors.red, selectedDotColor: Colors.red })
-    const [itemDate, setItemDate] = useState(String)
+    const [item, setItem] = useState(String)
 
-    const [items, setItems] = useState({
-        bookingDate: [{ name: '', price: '', address: '', contact: '', time: '', assigned: false, }]
-    })
+    const [items, setItems] = useState()
 
     // var obj = { '': [{ name: '', price: '', address: '', contact: '', time: '', assigned: false, }] }
 
     const renderer = () => {
 
-        data.map((item: any) => {
-            setItems({ bookingDate: item.bookingDate })
-        })
+        setItems(data.reduce((x: any, item: any) => ({ ...x, [item.bookingDate.substring(0, 10)]: [{ ref: item.bookingReference, name: `${item.firstName} ${item.lastName}`, price: item.subtotal, address: item.city + item.postcode + item.state, contact: item.phone, time: `${item.startHour}:${item.startMin} ${item.startMode}`, assigned: "" }] }), {}))
 
-        console.log('object', data)
     }
-
-
 
     function toggleAppointment() {
         setOpenAppointment(!openAppointment)
@@ -44,6 +37,7 @@ const JobsAgenda = ({ nav, data }) => {
         renderer()
     }, [])
 
+    console.log('new obj', items)
 
     const AgendaItems = ({ item, nav }) => {
 
@@ -90,15 +84,16 @@ const JobsAgenda = ({ nav, data }) => {
                     futureScrollRange={1}
                     onRefresh={() => console.log('refreshing...')}
 
-                    items={{
+                    items={items}
+                    // items={{
 
-                        '2023-01-25': [{ name: 'Sankar Thapa', price: '400', address: 'Strathfield NS@ 2135', contact: '0451569865', time: '9:00 AM', assigned: false, },
-                        { name: 'Pankar Thapa', price: '400', address: 'Strathfield NS@ 2135', contact: '0451569865', time: '9:00 AM', assigned: false, }],
+                    //     '2023-01-25': [{ name: 'Sankar Thapa', price: '400', address: 'Strathfield NS@ 2135', contact: '0451569865', time: '9:00 AM', assigned: false, },
+                    //     { name: 'Pankar Thapa', price: '400', address: 'Strathfield NS@ 2135', contact: '0451569865', time: '9:00 AM', assigned: false, }],
 
-                        '2023-01-26': [{ name: 'Bijay Chamling', address: 'Strathfield NS@ 2135', time: '2:00 PM', assigned: true, contact: '0451569865' }],
-                        '2023-01-30': [{ name: 'item 4' }],
-                        '2023-01-31': [{ name: 'item 3 - any js object' }, { name: 'item 3 any js object', }]
-                    }}
+                    //     '2023-01-26': [{ name: 'Bijay Chamling', address: 'Strathfield NS@ 2135', time: '2:00 PM', assigned: true, contact: '0451569865' }],
+                    //     '2023-01-30': [{ name: 'item 4' }],
+                    //     '2023-01-31': [{ name: 'item 3 - any js object' }, { name: 'item 3 any js object', }]
+                    // }}
 
 
                     markingType={'multi-dot'}

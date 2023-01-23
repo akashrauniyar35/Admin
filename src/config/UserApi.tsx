@@ -43,7 +43,7 @@ export const fetchUserProfile = (value: any) => {
             })
             resolve(res.data.user._doc);
         }
-        catch (err: any) {
+         catch (err: any) {
             reject(err.message)
         }
     })

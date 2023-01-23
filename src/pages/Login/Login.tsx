@@ -60,14 +60,13 @@ const Login = ({ navigation }) => {
 
           <View style={{ alignItems: 'center', justifyContent: 'center', top: Colors.spacing * 6 }}>
 
-            <Text style={{ color: Colors.black, fontWeight: '600', fontSize: 26 }}>Hello Again!</Text>
-            <Text style={{ color: 'white', fontSize: 14, width: '45%', paddingTop: Colors.spacing * 2, textAlign: 'center' }}>Wellcome back you've been missed!</Text>
+            <Text style={{ color: Colors.black, fontFamily: 'Outfit-Bold', fontSize: 26 }}>Hello Again!</Text>
+            <Text style={{ color: 'white', fontSize: 14, width: '45%', paddingTop: Colors.spacing * 2, textAlign: 'center', fontFamily: 'Outfit-Light', }}>Wellcome back you've been missed!</Text>
           </View>
 
           <View style={{ marginTop: Colors.spacing * 10 }}>
-
             <TextInput
-              style={{ fontSize: 16, backgroundColor: '#fff', padding: Colors.spacing, borderRadius: 5, color: Colors.grayText }}
+              style={{ fontSize: 16, backgroundColor: '#fff', padding: Colors.spacing, borderRadius: 5, color: Colors.grayText, fontFamily: 'Outfit-Light', }}
               placeholderTextColor={Colors.grayText}
               placeholder={'Enter eamil'}
               onChangeText={value => setEmail(value)}
@@ -81,6 +80,7 @@ const Login = ({ navigation }) => {
                   fontSize: 16,
                   color: Colors.grayText,
                   width: '85%',
+                  fontFamily: 'Outfit-Light',
                   backgroundColor: '#fff', borderRadius: 5, padding: Colors.spacing,
                 }}
                 placeholderTextColor={Colors.grayText}
@@ -98,7 +98,7 @@ const Login = ({ navigation }) => {
           </View>
 
           <Pressable onPress={() => navigation.navigate('recoverPassword')}>
-            <Text style={{ color: Colors.black, fontSize: 12, alignSelf: 'flex-end', marginTop: Colors.spacing }}>Recover Password</Text>
+            <Text style={{ color: Colors.black, fontSize: 12, alignSelf: 'flex-end', marginTop: Colors.spacing, fontFamily: 'Outfit-Light' }}>Recover Password</Text>
           </Pressable>
 
 
@@ -106,7 +106,7 @@ const Login = ({ navigation }) => {
 
           <Pressable onPress={loginHandle}>
             <View style={{ flexDirection: 'row', height: 40, alignItems: 'center', backgroundColor: Colors.darkBlue, borderRadius: 5, padding: Colors.spacing, alignItems: 'center', justifyContent: 'center' }}>
-              {loading ? <ActivityIndicator color="white" size={20} /> : <Text style={{ fontSize: 16, color: '#fff', fontWeight: '600' }}>Sign In</Text>
+              {loading ? <ActivityIndicator color="white" size={20} /> : <Text style={{ fontSize: 16, color: '#fff', fontFamily: 'Outfit-Bold', }}>Sign In</Text>
               }
             </View>
           </Pressable>

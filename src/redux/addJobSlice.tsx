@@ -239,6 +239,7 @@ const addJobSlice = createSlice({
         },
         postJobSuccess(state, action: any) {
             state.postJobLoading = false;
+            state.addJobData = action.payload.resetState
         },
         postJobFail(state, action: any) {
             state.postJobLoading = false;

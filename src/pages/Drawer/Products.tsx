@@ -109,15 +109,15 @@ const Expenses = ({ navigation }) => {
                     <View style={{ flexDirection: 'row', alignItems: 'center', }}>
 
                         <View style={{ width: 50, height: 50, alignItems: 'center', justifyContent: 'center', borderWidth: 4, borderColor: Colors.madidlyThemeBlue, borderRadius: Colors.spacing * Colors.spacing, marginRight: Colors.spacing }}>
-                            <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>{item.title === "Bedroom" ? "BD" : item.title === "Bathroom" ? "BR" : getInitials(item.title)}</Text>
+                            <Text style={{ fontSize: 18, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Bold', }}>{item.title === "Bedroom" ? "BD" : item.title === "Bathroom" ? "BR" : getInitials(item.title)}</Text>
                         </View>
 
                         <View style={{}}>
                             <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing }}>Per {item.title}</Text>
 
                             {item.title === 'Base Price' ?
-                                <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>Base price for all products</Text> :
-                                <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>Cost per {item.title.toLowerCase()}</Text>}
+                                <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>Base price for all products</Text> :
+                                <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>Cost per {item.title.toLowerCase()}</Text>}
                         </View>
 
                     </View>
@@ -131,23 +131,23 @@ const Expenses = ({ navigation }) => {
 
                         <View style={{}}>
 
-                            <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * .5 }}>$ {item.price.toFixed(2)}</Text>
-                            <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>Price</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * .5 }}>$ {item.price.toFixed(2)}</Text>
+                            <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>Price</Text>
                         </View>
 
                         <View style={{}}>
 
-                            <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * .5 }}>{'Standard'}</Text>
-                            <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>Type</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * .5 }}>{'Standard'}</Text>
+                            <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>Type</Text>
                         </View>
 
                         <View style={{ position: 'relative', }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ position: 'absolute', marginLeft: -Colors.spacing * 1.5, borderRadius: 100, backgroundColor: item.status === "Inactive" ? Colors.red : Colors.green, width: 10, height: 10, }}></View>
-                                <Text style={{ position: 'relative', fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>{item.status}</Text>
+                                <Text style={{ position: 'relative', fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', }}>{item.status}</Text>
                             </View>
 
-                            <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>Status</Text>
+                            <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>Status</Text>
                         </View>
                     </View>
 

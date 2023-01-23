@@ -1,6 +1,6 @@
 import { Pressable, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
-import Colors from '../../assets/Colors'
+import { Colors } from '../../assets/Colors'
 import BackButton from './BackButton'
 
 const RecoverPassword = ({ navigation }) => {

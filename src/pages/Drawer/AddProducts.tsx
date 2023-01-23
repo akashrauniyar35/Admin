@@ -1,6 +1,6 @@
 import {
     Dimensions, Modal, Pressable, TextInput, SafeAreaView, StyleSheet,
-    TouchableWithoutFeedback, FlatList, Text, View, ScrollView, Web
+    TouchableWithoutFeedback, FlatList, Text, View, ScrollView,
 } from 'react-native'
 import React, { useState } from 'react'
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -24,7 +24,6 @@ const statusData = [
         name: 'Active',
     },
 ]
-
 
 const AddProducts = ({ isOpen, onClose }) => {
     const [obj, setObj] = useState({ title: '', quantity: 0, price: 0, icon1: 'milan', status: 'Inactive' })
@@ -69,7 +68,7 @@ const AddProducts = ({ isOpen, onClose }) => {
                         <View style={styles.modalView}>
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Name</Text>
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Name</Text>
                                     <View style={{ width: "70%", }}>
                                         <InputBox value={obj.title} capitalize={"words"} onChange={(val) => setObj({ ...obj, title: val })} placeholder={obj.title} size={40} rounded={true} placeholderSize={12} />
                                     </View>
@@ -79,29 +78,26 @@ const AddProducts = ({ isOpen, onClose }) => {
 
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Total Net Price</Text>
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Total Net Price</Text>
                                     <View style={{ width: "70%", }}>
                                         <InputBox value={obj.price} onChange={(val) => setObj({ ...obj, price: parseInt(val) })} keyboardType="numeric" placeholder={`$ 0.00`} size={40} rounded={true} placeholderSize={12} />
                                     </View>
                                 </View>
                             </View>
 
-
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Status</Text>
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium',}}>Status</Text>
                                     <View style={{ width: "70%", }}>
                                         <SelectionCard phColor={Colors.maidlyGrayText} data={statusData} placeholder={obj.status} rounded={true} fontSize={12} onPress={(val) => setObj({ ...obj, status: val })} />
                                     </View>
                                 </View>
                             </View>
-
-
                         </View>
 
-                    </View >
-                </Modal >
-            </View >
+                    </View>
+                </Modal>
+            </View>
 
 
         </>

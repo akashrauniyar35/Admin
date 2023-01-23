@@ -36,7 +36,7 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
     const [notes] = useState(String)
     const [service] = useState(String)
     const [property] = useState(String)
-    const date = new Date()
+    const today = new Date();
 
     const [editJobData, seteditJobData] = useState<any>(
         {
@@ -67,6 +67,71 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
             quoteStatus: "",
         }
     );
+
+
+    const resetState: any = {
+        email: "",
+        companyName: "WeDo Cleaning Pty Ltd",
+        firstName: "",
+        lastName: "",
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        postcode: "",
+        startHour: "",
+        startMin: "",
+        startMode: "",
+        endHour: "",
+        endMin: "",
+        endMode: "",
+        bookingDate: today.toISOString(),
+        subscription: "One Time Cleaning",
+        customerNotes: "",
+        service: "",
+        notes: [],
+        phone: "",
+        products: [],
+        quoteStatus: "",
+        totals: [
+            {
+                _id: 1,
+                title: "Base Price",
+                amount: 0,
+                quantity: 0
+            },
+            {
+                _id: 2,
+                title: "1 Bathroom",
+                amount: 0,
+                quantity: 0
+            },
+            {
+                _id: 3,
+                title: "1 Bedroom",
+                amount: 0,
+                quantity: 0
+            },
+            {
+                _id: 4,
+                title: "Extras",
+                amount: 0,
+                quantity: 0
+            },
+            {
+                _id: 5,
+                title: "Tip",
+                amount: 0,
+                quantity: 0
+            },
+            {
+                _id: 6,
+                title: "To be paid by customer",
+                amount: 0,
+                quantity: 0
+            }
+        ]
+    }
 
     // console.log("editJobData editJobData.service - products", editJobData.products[0])
     console.log("editJobData editJobData. - totals", editJobData.totals)
@@ -318,11 +383,9 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
         console.log('pressed save')
 
         dispatch(postJobPending(addJobData))
-
         const x: any = await fetchPostJob(addJobData)
-
         if (x.data.status === "success") {
-            dispatch(postJobSuccess(x.data.status));
+            dispatch(postJobSuccess(resetState));
             console.log('pressed save', x.data)
             onClose();
             Toast.show({
@@ -330,7 +393,8 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }) => {
                 visibilityTime: 3000,
                 text1: `${'Success'}`,
                 props: { message: 'Quote creted successfully' }
-            });
+            })
+
             dispatch(getAllJobPending('data'))
             const y: any = await fetchAllJobs(1)
             if (x.data.status === "error") {

@@ -1,6 +1,6 @@
 import { Pressable, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
-import Colors from '../../assets/Colors'
+import {Colors} from '../../assets/Colors'
 import BackButton from './BackButton'
 
 const OTP = ({ navigation }) => {

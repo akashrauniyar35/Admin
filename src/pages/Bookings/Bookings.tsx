@@ -177,8 +177,8 @@ const Bookings = ({ navigation }) => {
 
                 <Filter setPageCount={setPageCount} dateRange={dateRange} title={"Filter Bookings"} isOpen={filtersVisible} onClose={() => setFiltersVisible(!filtersVisible)} onPress={filterHandler} setDateRange={setDateRange} setFilter={setFilterBY} onClear={() => { setFilteredData([]); setPageCount(1) }} />
 
-                <Text style={{ color: 'red', fontSize: 14, fontWeight: isAndroid ? "900" : "700", }}>{"pagecount -" + pageCount + " - next -" + nextPage + " Bdata " + data.length}</Text>
-                <Text style={{ color: 'red', fontSize: 14, fontWeight: isAndroid ? "900" : "700", }}>{"pagecount -" + pageCount + " - next -" + nextPage + " Fildata " + filteredData.length}</Text>
+                {/* <Text style={{ color: 'red', fontSize: 14, fontWeight: isAndroid ? "900" : "700", }}>{"pagecount -" + pageCount + " - next -" + nextPage + " Bdata " + data.length}</Text>
+                <Text style={{ color: 'red', fontSize: 14, fontWeight: isAndroid ? "900" : "700", }}>{"pagecount -" + pageCount + " - next -" + nextPage + " Fildata " + filteredData.length}</Text> */}
 
 
                 <View style={{ flex: 1, }}>

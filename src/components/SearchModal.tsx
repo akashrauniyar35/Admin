@@ -47,9 +47,6 @@ const SearchModal = ({ onClose, isOpen, search, route }) => {
         }
         setData(x.data.paginatedResults)
         dispatch(searchJobuccess())
-
-
-
     }
 
     const openJobHandler = async (id: string, ref: string) => {

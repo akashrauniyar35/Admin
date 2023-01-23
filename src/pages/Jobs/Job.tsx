@@ -59,11 +59,8 @@ const Jobs = ({ navigation }) => {
         <Header nav={navigation} title="Quotes" route="quote" />
 
 
-
-
-        <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
+        <View style={{ paddingHorizontal: Colors.spacing * 2,}}>
           <View style={{ marginVertical: Colors.spacing * 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-
             <View style={{ width: '35%', }}>
               {/* <Donut lable={"Total Quotes"} percentage={112} max={200} radius={40} /> */}
               <Donut lable={"Total Quotes"} percentage={120} max={400} radius={40} color={Colors.madidlyThemeBlue} />
@@ -78,7 +75,6 @@ const Jobs = ({ navigation }) => {
         {/* <Text style={{ color: 'red', fontSize: 14, fontWeight: isAndroid ? "900" : "700", }}>{"pagecount -" + pageCount + " - next -" + nextPage + " Bdata " + data.length}</Text> */}
 
         <View style={{ flex: 1 }}>
-
           <FlatList
             onEndReached={() => { nextPage > 0 && setPageCount(pageCount + 1) }}
             refreshing={refreshLoading}

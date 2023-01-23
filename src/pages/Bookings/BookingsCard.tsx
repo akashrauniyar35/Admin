@@ -17,7 +17,7 @@ import AddJob from '../Add/AddJob';
 const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, swipeableOptions, toggleDelete, selectedBooking }) => {
 
     const swipeableRef = useRef<Swipeable | null>(null);
-    const street = item.address1?.split(" ")
+    const street = item.address2?.split(" ")
 
     const swipeableOpen = (text: string) => {
         console.log(text)
@@ -59,9 +59,7 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
         slice(7)].join('')
 
     const price = [item.subtotal.toString().slice(0, 3), ".", item.subtotal.toString().slice(2)].join('')
-    const bookingDate = new Date(item.createdAt)
-
-
+    const bookingDate = new Date(item.bookingDate)
 
     const leftSwipe = (progress, dragX) => {
 
@@ -110,9 +108,9 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
                                 </View>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * .5 }}>
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium'}}>{bookingDate.toDateString()}</Text>
+                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{bookingDate.toDateString()}</Text>
                                     <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium',}}>${price}</Text>
+                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium', }}>${price}</Text>
                                 </View>
                             </View>
 
@@ -132,9 +130,9 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
 
                         <View style={{}}>
 
-                            <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium'}}>{item.firstName} {item.lastName}</Text>
+                            <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium' }}>{item.firstName} {item.lastName}</Text>
                             <View style={{ marginTop: Colors.spacing * .5, marginBottom: Colors.spacing * .5 }}>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.address1} {street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) + " " + street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1)}</Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.address1 ? item.address1 : null} {street[0] ? street[0] : null} {street[1] ? street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) : null} {street[2] ? street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1) : null}</Text>
                                 <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.city.toUpperCase()} {item.postcode}</Text>
                             </View>
 
@@ -150,13 +148,6 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
                     </View>
                 </Pressable>
             </Swipeable>
-
-            {/* <AddJob isOpen={editBooking} onClose={() => setEditBooking(false)} lable={"Edit Booking"} id={item._id} /> */}
-
-            {/*  <AddNotes animation="slide" title="Add notes" onClose={() => setAddNotesVisible(false)} isOpen={addNotesVisible} />
-            <DeleteModal id={item._id} phone={phoneNumber} price={price} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Delete Job" onClose={() => setDeleteJob(false)} isOpen={deleteJob} onPress={deleteJobHandler} />
-            <ConfirmBookingModal id={item._id} phone={phoneNumber} price={price} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Confirm Job" onClose={() => setConfirmBookingVisible(false)} isOpen={confirmBookingVisible} onPress={confirmBookingVisibleHandler} /> */}
-
         </>
     )
 };

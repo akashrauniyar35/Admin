@@ -108,11 +108,11 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                 <ScrollView showsVerticalScrollIndicator={false}>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: Colors.spacing * 2 }}>
-                        <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Bold', }}>{item.bookingReference}</Text>
+                        <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Bold', }}>#{item.bookingReference}</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium', }}> - {date}</Text>
                             <View style={{ opacity: .5, backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
-                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Bold', }}>${quotePrice}</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Bold', }}>${quotePrice}</Text>
                         </View>
                     </View>
 
@@ -135,7 +135,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                         <View style={{ marginVertical: Colors.spacing * 2, }}>
                             <SelectionCard phColor={Colors.black} data={techData} placeholder="Assign technician" onPress={techHandler} />
                         </View>
-                        <MapCard />
+                        <MapCard address={`${item.address1} ${item.address2} ${item.city} ${item.state} ${item.postcode}`} />
 
                         <View style={{ height: 2, width: '100%', marginVertical: Colors.spacing * 2, backgroundColor: Colors.borderColor }} />
                     </View>
