@@ -18,17 +18,17 @@ const AddCategory = ({ rounded }) => {
             <View style={{}}>
                 <Pressable onPress={toggle} style={{ flexDirection: 'row', alignItems: 'center', }}>
                     <Icon name={isVisible ? "chevron-up" : "chevron-down"} size={20} color={Colors.maidlyGrayText} />
-                    <Text style={{ marginLeft: Colors.spacing, fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", }}>New Category</Text>
+                    <Text style={{ marginLeft: Colors.spacing, fontSize: 16, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>New Category</Text>
                 </Pressable>
             </View>
 
             {
                 isVisible &&
-                <View>
-                    <InputBox placeholder="Add new category" rounded={true} />
+                <View style={{ marginTop: Colors.spacing }}>
+                    <InputBox placeholder="Add new category" rounded={true} size={40} />
                     <View style={{ marginTop: Colors.spacing * 1.5 }}>
                         <Pressable style={styles.applyButton} >
-                            <Text style={{ fontSize: 13, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>Add Category</Text>
+                            <Text style={{ fontSize: 13, color: 'white', fontFamily: 'Outfit-Bold', }}>Add Category</Text>
                         </Pressable>
                     </View>
                 </View>

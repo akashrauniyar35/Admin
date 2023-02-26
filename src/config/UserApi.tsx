@@ -7,7 +7,6 @@ import {
     getDownloadURL,
     uploadBytesResumable,
     deleteObject,
-    uploadBytes
 } from "firebase/storage";
 
 import storage from "../config/firebaseConfig";
@@ -90,6 +89,8 @@ export const updateProfilePic = async (file: any, pic: any, id: any, getUserProf
     const deleteRef = ref(storage, pic);
     const uploadTask = uploadBytesResumable(storageRef, bytes);
 
+    console.log("fileName", file)
+
     uploadTask.on(
         "state_changed",
         () => {
@@ -106,7 +107,9 @@ export const updateProfilePic = async (file: any, pic: any, id: any, getUserProf
                                 },
                             }
                         );
+                        getUserProfile()
                     }).catch(err => { console.log("delete err", err) })
+
                     : await endPoint.put(`customer/${id}`, {
                         profilePic: {
                             src: downloadURL,
@@ -117,6 +120,7 @@ export const updateProfilePic = async (file: any, pic: any, id: any, getUserProf
             }).catch(err => {
                 console.log(err)
             })
+
         }
-    );
+    )
 };

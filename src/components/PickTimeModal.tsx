@@ -18,7 +18,7 @@ const PickTimeModal = ({ isVisible, onPress, onClose, lable }) => {
                             {timeDataAM.map((item) => {
                                 return (
                                     <Pressable style={styles.timeCard} onPress={() => onPress(item.title)}>
-                                        <Text style={{ fontSize: 12, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>{item.title}</Text>
+                                        <Text style={{ fontSize: 12, color: 'white', fontFamily: 'Outfit-Medium', }}>{item.title}</Text>
                                     </Pressable>
                                 )
                             })}
@@ -32,13 +32,13 @@ const PickTimeModal = ({ isVisible, onPress, onClose, lable }) => {
                             {timeDataPM.map((item) => {
                                 return (
                                     <Pressable style={styles.timeCard} onPress={() => onPress(item.title)}>
-                                        <Text style={{ fontSize: 12, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>{item.title}</Text>
+                                        <Text style={{ fontSize: 12, color: 'white',fontFamily: 'Outfit-Medium', }}>{item.title}</Text>
                                     </Pressable>
                                 )
                             })}
                         </View>
                         <Pressable style={{ alignSelf: 'flex-end', marginTop: Colors.spacing, marginRight: Colors.spacing }} onPress={onClose}>
-                            <Text style={{ fontSize: 14, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>Close</Text>
+                            <Text style={{ fontSize: 14, color: 'white', fontFamily: 'Outfit-Bold',}}>Close</Text>
                         </Pressable>
                     </View>
                 </View>

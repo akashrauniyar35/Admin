@@ -202,7 +202,6 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
     const confirmBookingVisibleHandler = async () => {
         let id = item._id;
         dispatch(confirmBookingPending());
-
         const x: any = await fetchConfirmBooking(id);
         if (x.data.status === "error") {
             return dispatch(confirmBookingFail(x.data.status));
@@ -255,9 +254,10 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
                         <View style={{}}>
 
                             <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{item.firstName} {item.lastName}</Text>
-                            <View style={{ marginTop: Colors.spacing, marginBottom: Colors.spacing * .5 }}>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.address1} {street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) + " " + street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1)}</Text>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.city.toUpperCase()} {item.postcode}</Text>
+
+                            <View style={{ marginTop: Colors.spacing * .5, marginBottom: Colors.spacing * .5 }}>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.address1 ? item.address1 : null} {street[0] ? street[0] : null} {street[1] ? street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) : null} {street[2] ? street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1) : null}</Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.city.toUpperCase()} {item.postcode} {item.state.toUpperCase()}</Text>
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>

@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { endPoint } from './index';
 
 export const fetchTodayBookings = (from, to) => {
@@ -33,9 +34,15 @@ export const fetchBookingByID = (id: string) => {
 
 
 export const fetchAppointments = () => {
+
+    let today = new Date();
+    let lastMonth = moment(new Date(today.getFullYear(), today.getMonth() - 1)).format("YYYY-MM-DD")
+    let nextMonth = moment(new Date(today.getFullYear(), today.getMonth() + 2, 0)).format("YYYY-MM-DD")
+
+
     return new Promise(async (resolve, reject) => {
         try {
-            const res: any = await endPoint.get(`booking/all?page=1&limit=20&bookingDate=${'2023-01-01'}&to=${'2023-01-31'}`)
+            const res: any = await endPoint.get(`booking/all?page=1&limit=20&bookingDate=${lastMonth}&to=${nextMonth}`)
             console.log(res)
             resolve(res);
         }
@@ -51,7 +58,7 @@ export const fetchAllBookings = (page: number) => {
     console.log("page fetch", page)
     return new Promise(async (resolve, reject) => {
         try {
-            const res: any = await endPoint.get(`booking/all?page=${page}&limit=3`);
+            const res: any = await endPoint.get(`booking/all?page=${page}&limit=10`);
             console.log(res)
             resolve(res);
         }
@@ -82,7 +89,7 @@ export const fetchDeleteJobBooking = (id: String) => {
 export const fetchFilteredBookings = (page: any, status: any) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const res: any = await endPoint.get(`booking/all?page=${page}&limit=3&filter=bookingStatus&word=${status}`)
+            const res: any = await endPoint.get(`booking/all?page=${page}&limit=10&filter=bookingStatus&word=${status}`)
             resolve(res);
             console.log('status', res)
         }

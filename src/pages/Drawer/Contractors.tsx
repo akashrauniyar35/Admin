@@ -93,16 +93,16 @@ const Contractors = ({ navigation }) => {
                         <Image source={pic !== "" ? { uri: pic } : worker} style={{ width: 60, height: 60, borderRadius: 100 }} />
                     </View>
                     <View style={{ marginLeft: Colors.spacing }}>
-                        <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing }}>{`${firstName} ${lastName}`}</Text>
+                        <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing }}>{`${firstName} ${lastName}`}</Text>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <Pressable onPress={() => Linking.openURL(`tel:0${phone}`)}>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>0{phone}</Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>0{phone}</Text>
                             </Pressable>
                             < View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
-                            <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{email}</Text>
+                            <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{email}</Text>
                         </View>
-                        <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400", }}>{address}</Text>
+                        <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{address}</Text>
                     </View>
                 </View>
             </Pressable>

@@ -2,6 +2,8 @@ import { ActivityIndicator, Dimensions, FlatList, Image, Pressable, SafeAreaView
 import React, { useEffect, useState } from 'react'
 import { Colors, HEIGHT, isAndroid, WIDTH } from '../../assets/Colors';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
+import Toast from 'react-native-toast-message';
+
 import BarChart from '../../components/BarChart';
 import LineChart from '../../components/LineChart';
 
@@ -13,8 +15,8 @@ import Divider from '../../components/Divider';
 import Banner from '../../components/Banner';
 import BookingsCard from './Card';
 import ViewBookingModal from '../Bookings/ViewBookingModal';
-import { fetchBookingByID, fetchTodayBookings } from '../../config/BookingApi';
-import { getBookingbyIDFail, getBookingbyIDPending, getBookingbyIDSuccess, getTodayBookingsFail, getTodayBookingsPending, getTodayBookingsSuccess } from '../../redux/bookingSlice';
+import { fetchBookingByID, fetchDeleteJobBooking, fetchTodayBookings } from '../../config/BookingApi';
+import { deleteBookingFail, deleteBookingPending, deleteBookingSuccess, getBookingbyIDFail, getBookingbyIDPending, getBookingbyIDSuccess, getTodayBookingsFail, getTodayBookingsPending, getTodayBookingsSuccess } from '../../redux/bookingSlice';
 import ShowToast from '../../components/ShowToast';
 import moment from 'moment';
 
@@ -57,7 +59,7 @@ const Home = ({ navigation }) => {
     const [bokingVisible, setBookingVisible] = useState(false)
     const [selectedBookingID, setSelectedBookingID] = useState(String)
     const [deleteBooking, setDeleteBooking] = useState(false);
-
+    const [ref, setRef] = useState<string>();
 
     const loading = useSelector((state: any) => state.bookingReducer.dashboardLoading)
     const data = useSelector((state: any) => state.bookingReducer.dashboardData)
@@ -71,12 +73,12 @@ const Home = ({ navigation }) => {
     let yesterday = moment().subtract(1, 'days').startOf('day').format('YYYY-MM-DD');
 
 
-
-
-
-    const viewBookingHandler = async (id: string) => {
+    const viewBookingHandler = async (id: string, ref: string) => {
         setSelectedBookingID(id)
-        setBookingVisible(!bokingVisible)
+        setRef(ref)
+
+        setBookingVisible(true)
+
         dispatch(getBookingbyIDPending())
         const x: any = await fetchBookingByID(id)
         if (x.data.status === "error") {
@@ -84,6 +86,8 @@ const Home = ({ navigation }) => {
         }
         dispatch(getBookingbyIDSuccess(x.data.result))
     }
+
+
 
 
     const todayBookingsHandler = async () => {
@@ -96,10 +100,28 @@ const Home = ({ navigation }) => {
 
     }
 
+    const deleteBookingHandler = async (id: any) => {
+        dispatch(deleteBookingPending())
+        const x: any = await fetchDeleteJobBooking(id)
+        if (x.data.status === "error") {
+            return dispatch(deleteBookingFail());
+        }
+        dispatch(deleteBookingSuccess())
+        setDeleteBooking(false);
+        todayBookingsHandler()
+        setBookingVisible(false)
+        Toast.show({
+            type: 'deleteToast',
+            visibilityTime: 3000,
+            text1: ref,
+            props: { message: 'Deleted Successfully' }
+        });
+    }
+
 
 
     const renderItem = ({ item }: any) => {
-        return <BookingsCard onPress={viewBookingHandler} id={item._id} fName={item.firstName} lName={item.lastName} status={item.bookingStatus} price={item.subtotal} />
+        return <BookingsCard tech={item.assignedTech[0] ? `${item.assignedTech[0].firstName}` : ""} onPress={() => viewBookingHandler(item._id, item.bookingReference)} id={item._id} fName={item.firstName} lName={item.lastName} status={item.bookingStatus} price={item.subtotal} />
     }
 
     useEffect(() => {
@@ -121,7 +143,7 @@ const Home = ({ navigation }) => {
                     {homeFilters.map((item) => {
                         return (
                             <Pressable key={item.id} onPress={() => setSelectdPeriod(item)} style={{ backgroundColor: item.label == selectedPeriod?.label ? Colors.madidlyThemeBlue : 'transparent', width: '25%', paddingVertical: Colors.spacing * .5, borderRadius: Colors.spacing * .5 }}>
-                                <Text style={{ fontSize: 10, color: item.label == selectedPeriod?.label ? 'white' : Colors.black, alignSelf: 'center', fontWeight: isAndroid ? "900" : "600" }}>{item.label}</Text>
+                                <Text style={{ fontSize: 12, color: item.label == selectedPeriod?.label ? 'white' : Colors.black, alignSelf: 'center', fontFamily: 'Outfit-Medium', }}>{item.label}</Text>
                             </Pressable>
                         )
                     })}
@@ -131,24 +153,24 @@ const Home = ({ navigation }) => {
                     <View style={[styles.viewBox, { flex: .95, }]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <IconM name={'calendar-check'} size={18} color={Colors.black} />
-                            <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginLeft: Colors.spacing }}>Jobs</Text>
+                            <Text style={{ fontSize: 18, color: Colors.black, marginLeft: Colors.spacing, fontFamily: 'Outfit-Bold', }}>Jobs</Text>
                         </View>
 
-                        <View style={{ marginTop: Colors.spacing, marginBottom: Colors.spacing * .5 }}>
-                            <Divider height={.5} colors={'gray'} width="110%" opacity={.1} />
+                        <View style={{ marginTop: Colors.spacing, marginBottom: Colors.spacing * 1 }}>
+                            <Divider height={.5} colors={Colors.borderColor} width="110%" />
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
 
-                            <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600", width: isAndroid ? "35%" : "40%" }}>Customer</Text>
-                            <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600", width: isAndroid ? '25%' : '25%' }}>Assigned</Text>
-                            <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600", width: isAndroid ? '25%' : '23%', }}>Status</Text>
-                            <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "600", width: isAndroid ? '20%' : '20%' }}>Total</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, width: isAndroid ? "35%" : "35%", fontFamily: 'Outfit-Medium', }}>Customer</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '25%' : '20%' }}>Assigned</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '25%' : '23%', }}>Status</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '20%' : '20%' }}>Total</Text>
 
                         </View>
 
-                        <View style={{ marginTop: Colors.spacing * .5, marginBottom: Colors.spacing, }}>
-                            <Divider height={.5} colors={'gray'} width="110%" opacity={.1} />
+                        <View style={{ marginTop: Colors.spacing * 1, marginBottom: Colors.spacing, }}>
+                            <Divider height={.5} color={Colors.borderColor} width="110%" />
                         </View>
 
 
@@ -159,9 +181,7 @@ const Home = ({ navigation }) => {
                                     showsVerticalScrollIndicator={false}
                                     contentContainerStyle={{
                                         paddingBottom: Colors.spacing * 4,
-                                        // backgroundColor: 'red',
                                     }}
-                                    // pagingEnabled
                                     data={data}
                                     keyExtractor={item => item._id}
                                     renderItem={(item: any) => renderItem(item)} />
@@ -173,8 +193,8 @@ const Home = ({ navigation }) => {
 
             </View>
             <ShowToast />
-            <ViewBookingModal isOpen={bokingVisible} onClose={() => setBookingVisible(false)} id={selectedBookingID} refresh={todayBookingsHandler}
-                deleteOpen={deleteBooking} toggleDelete={() => setDeleteBooking(!deleteBooking)} />
+            <ViewBookingModal isOpen={bokingVisible} onClose={() => setBookingVisible(false)} id={selectedBookingID} refresh={viewBookingHandler}
+                deleteOpen={deleteBooking} deleteHandler={deleteBookingHandler} toggleDelete={() => setDeleteBooking(!deleteBooking)} />
         </>
     )
 }

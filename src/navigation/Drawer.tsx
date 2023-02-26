@@ -16,13 +16,12 @@ function MyDrawer() {
 
     return (
         <Drawer.Navigator drawerContent={props => <CustomDrawer {...props} />} screenOptions={{ headerShown: false, drawerPosition: 'right', }}>
-            <Drawer.Screen name="BottomTabs" component={BottomTabs} options={{ headerShown: false, }} />
-            <Drawer.Screen name="profile" component={Profile} />
-            <Drawer.Screen name="appointments" component={Appointments} />
-            <Drawer.Screen name="contractors" component={Contractors} />
-            <Drawer.Screen name="expenses" component={Expenses} />
-            <Drawer.Screen name="completedBookings" component={CompletedBookings} />
-            {/* <Drawer.Screen name="completedBookings" component={CompletedBookings} /> */}
+            <Drawer.Screen name="BottomTabs" component={BottomTabs} options={{ headerShown: false, unmountOnBlur: true, }} />
+            <Drawer.Screen name="profile" component={Profile} options={{ headerShown: false, unmountOnBlur: true, }} />
+            <Drawer.Screen name="appointments" component={Appointments} options={{ headerShown: false, }} />
+            <Drawer.Screen name="contractors" component={Contractors} options={{ headerShown: false, unmountOnBlur: true, }} />
+            <Drawer.Screen name="expenses" component={Expenses} options={{ headerShown: false, unmountOnBlur: true, }} />
+            <Drawer.Screen name="completedBookings" component={CompletedBookings} options={{ headerShown: false, unmountOnBlur: true, }} />
         </Drawer.Navigator>
     )
 }

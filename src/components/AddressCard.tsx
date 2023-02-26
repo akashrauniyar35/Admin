@@ -35,7 +35,7 @@ const bathroomsData = [
     },
 ];
 const AddressCard = ({ unit, streetAddress, suburb, postCode, state,
-    unitHandler, streetAddressHandler, suburbHandler, postCodeHandler, stateHandler }) => {
+    unitHandler, streetAddressHandler, suburbHandler, postCodeHandler, stateHandler }: any) => {
 
     const regionHandler = (value) => {
         const x = value.substring(0, 1)
@@ -49,22 +49,22 @@ const AddressCard = ({ unit, streetAddress, suburb, postCode, state,
             <View style={styles.container}>
 
                 <View style={{}}>
-                    <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing * 2 }}>Address</Text>
+                    <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * 2 }}>Address</Text>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Unit</Text>
+                        <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Unit</Text>
                         <View style={{ width: "70%", }}>
                             <InputBox value={unit} keyboardType="numeric" capitalize={"characters"} placeholder={unit} size={40} maxLength={4} rounded={true} placeholderSize={12} onChange={unitHandler} />
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2 }}>
-                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Street Address</Text>
+                        <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Street Address</Text>
                         <View style={{ width: "70%" }}>
                             <InputBox value={streetAddress} capitalize={"words"} onChange={streetAddressHandler} size={40} rounded={true} placeholder={streetAddress} placeholderSize={12} />
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2 }}>
-                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Suburb</Text>
+                        <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Suburb</Text>
                         <View style={{ width: "70%" }}>
                             <InputBox value={suburb} capitalize={"words"} onChange={suburbHandler} size={40} rounded={true} placeholder={suburb} placeholderSize={12} />
                         </View>
@@ -72,7 +72,7 @@ const AddressCard = ({ unit, streetAddress, suburb, postCode, state,
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Colors.spacing * 2, }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: "22%", }}>
-                            <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Post code</Text>
+                            <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Post code</Text>
                         </View>
 
                         <View style={{ marginLeft: Colors.spacing * 3, marginRight: Colors.spacing * .25, width: '70%', flexDirection: 'row', alignItems: 'center', }}>
@@ -81,7 +81,7 @@ const AddressCard = ({ unit, streetAddress, suburb, postCode, state,
                                 <InputBox value={postCode} size={40} rounded={true} placeholder={postCode} onChange={postCodeHandler} keyboardType="numeric" placeholderSize={12} maxLength={4} />
                             </View>
                             <View style={{ width: "40%" }}>
-                                <SelectionCard onPress={regionHandler} size={40} fontSize={12} phColor={Colors.maidlyGrayText} rounded={true} data={bathroomsData} type={'filter'} placeholder={state.toUpperCase()} />
+                                <SelectionCard onPress={regionHandler} size={40} fontSize={12} phColor={Colors.maidlyGrayText} rounded={true} data={bathroomsData} type={'filter'} placeholder={state?.toUpperCase()} />
                             </View>
                         </View>
 

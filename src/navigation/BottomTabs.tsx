@@ -157,6 +157,7 @@ function MyTabs() {
             <Tab.Navigator
 
                 screenOptions={() => ({
+                    
                     headerShown: false,
                     backgroundColor: "white",
                     tabBarShowLabel: false, tabBarActiveTintColor: Colors.madidlyThemeBlue,
@@ -166,6 +167,7 @@ function MyTabs() {
 
                 <Tab.Screen name="Home" component={Home}
                     options={{
+                        unmountOnBlur: true,
                         tabBarLabel: 'Home',
                         tabBarIcon: ({ color, focused }) => (
                             <IconM name="view-dashboard" color={color} size={26} style={{ transform: [focused ? { scale: 1.3 } : { scale: .8 }] }} />
@@ -174,6 +176,7 @@ function MyTabs() {
 
                 <Tab.Screen name="Bookings" component={Bookings}
                     options={{
+                        unmountOnBlur: true,
                         tabBarLabel: 'Bookings',
                         tabBarIcon: ({ focused, color }) => (
                             <IconM name="alpha-b-circle" color={color} size={30} style={{ transform: [focused ? { scale: 1.3 } : { scale: .8 }] }} />
@@ -183,6 +186,7 @@ function MyTabs() {
 
                 <Tab.Screen name="Jobs" component={Jobs}
                     options={{
+                        unmountOnBlur: true,
                         tabBarLabel: 'Home',
                         tabBarIcon: ({ focused, color }) => (
                             <IconM name="file" color={color} size={26} style={{ transform: [focused ? { scale: 1.3 } : { scale: .8 }] }} />
@@ -190,10 +194,9 @@ function MyTabs() {
                     }} />
 
 
-
-
                 <Tab.Screen name="Appointments" component={Appointments}
                     options={{
+                        unmountOnBlur: true,
                         tabBarLabel: 'Home',
                         tabBarIcon: ({ color, focused }) => (
                             <Icon zIndex={-4} name="calendar" color={color} size={26} style={{ transform: [focused ? { scale: 1.3 } : { scale: .8 }] }} />

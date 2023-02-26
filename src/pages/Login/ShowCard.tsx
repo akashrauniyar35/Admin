@@ -16,8 +16,8 @@ const ShowCard = ({ navigation }) => {
 
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('login')}>
 
-                    <View style={{ backgroundColor: Colors.skyColor, width: '100%', padding: Colors.spacing * 1, borderRadius: 4, alignItems: 'center', justifyContent: 'center', }}>
-                        <Text style={{ color: Colors.black, fontWeight: '600', fontSize: 12, }}>Login</Text>
+                    <View style={{ backgroundColor: Colors.madidlyThemeBlue, width: '100%', padding: Colors.spacing * 1, borderRadius: 4, alignItems: 'center', justifyContent: 'center', }}>
+                        <Text style={{ color: 'white', fontFamily: 'Outfit-Bold', fontSize: 12, }}>Login</Text>
                     </View>
                 </TouchableWithoutFeedback>
 
@@ -39,13 +39,13 @@ const ShowCard = ({ navigation }) => {
                     <View style={{ paddingTop: Colors.spacing * 6, alignItems: 'center', justifyContent: 'center' }}>
 
 
-                        <Text style={{ fontWeight: '600', color: Colors.black, fontSize: 26, }}>Welome!</Text>
-                        <Text style={{ fontWeight: '600', color: Colors.black, fontSize: 26, }}>WeDo Amin App</Text>
+                        <Text style={{ fontFamily: 'Outfit-Medium', color: Colors.black, fontSize: 26, }}>Welome!</Text>
+                        <Text style={{ fontFamily: 'Outfit-Medium', color: Colors.black, fontSize: 26, }}>WeDo Amin App</Text>
 
                         <Text style={{ color: 'white', fontSize: 14, width: '55%', paddingTop: Colors.spacing * 2, textAlign: 'center' }}>Explore all the most recent jobs based on your web bookings & phone calls.</Text>
 
                         <LoginButtons />
-                        <Donut lable={"Total Jobs"} percentage={112} radius={40} max={200} />
+                        {/* <Donut lable={"Total Jobs"} percentage={112} radius={40} max={200} /> */}
 
                     </View>
 

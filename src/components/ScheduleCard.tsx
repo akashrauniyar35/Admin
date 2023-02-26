@@ -1,5 +1,5 @@
 import { Modal, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import InputBox from './InputBox'
 import { Colors, HEIGHT, isAndroid, WIDTH } from '../assets/Colors'
 import CalandarDatePicker from "./CalandarDatePicker";
@@ -8,7 +8,23 @@ import PickTimeModal from './PickTimeModal'
 
 import { formatDate } from './dataConverters'
 
+// : FC<ScheduleCardProps> 
+// type ScheduleCardProps = {
+//     date: Date,
+//     jobNotesHandler: (value: string) => void;
+//     startTimeHandler: (value: string) => void;
+//     endTimeHandler: (value: string) => void;
+//     onDateChangeHandler: (value: Date) => void;
+//     notes: string;
+//     startHour: string;
+//     startMin: string;
+//     startMode: string;
+//     endHour: string;
+//     endMin: string;
+//     endMode: string;
 
+
+// }
 
 const ScheduleCard = ({ date, onDateChangeHandler, notes, jobNotesHandler, startHour, startMin, startMode, endHour, endMin, endMode, startTimeHandler, endTimeHandler, }) => {
     // date, onDateChangeHandler, notes, jobNotesHandler 
@@ -49,27 +65,27 @@ const ScheduleCard = ({ date, onDateChangeHandler, notes, jobNotesHandler, start
                 <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing * 2 }}>Schedule</Text>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Booking date</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Booking date</Text>
                     <Pressable style={{ width: "70%" }} onPress={() => setCalendarVisible(true)}>
                         <InputBox onPress={() => setCalendarVisible(true)} placeholderSize={12} width="70%" size={40} rounded={true} placeholder={new Date(date).toDateString()} editable={false} />
                     </Pressable>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Start Time</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Start Time</Text>
                     <Pressable onPress={() => setstartTimeVisible(true)} style={{ width: "70%" }}>
                         <InputBox onPress={() => setstartTimeVisible(true)} placeholderSize={12} size={40} rounded={true} placeholder={startHour && `${startHour}:${startMin} ${startMode}`} editable={false} />
                     </Pressable >
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>End Time</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>End Time</Text>
                     <Pressable onPress={() => setEndTimeVisible(true)} style={{ width: "70%" }}>
                         <InputBox onPress={() => setEndTimeVisible(true)} placeholderSize={12} size={40} rounded={true} placeholder={endHour && `${endHour}:${endMin} ${endMode}`} editable={false} />
                     </Pressable >
                 </View>
 
                 <View style={{ marginBottom: Colors.spacing * 2, }}>
-                    <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing, }}>Job notes</Text>
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing, }}>Job notes</Text>
                     <View style={{}}>
                         <TextInput autoCapitalize={"sentences"} value={notes} placeholder={notes} onChangeText={(value) => handleNotes(value)} style={styles.notes} multiline={true} maxLength={300} />
                     </View>
@@ -81,7 +97,7 @@ const ScheduleCard = ({ date, onDateChangeHandler, notes, jobNotesHandler, start
                             <View style={styles.selectonContainer}>
                                 <CalandarDatePicker onPress={handleDatePicker} date={date} />
                                 <Pressable style={{ alignSelf: 'flex-end', marginTop: Colors.spacing, marginRight: Colors.spacing }} onPress={() => setCalendarVisible(false)}>
-                                    <Text style={{ fontSize: 14, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>Close</Text>
+                                    <Text style={{ fontSize: 14, color: 'white', fontFamily: 'Outfit-Bold', }}>Close</Text>
                                 </Pressable>
                             </View>
                         </View>
@@ -121,6 +137,7 @@ const styles = StyleSheet.create({
         shadowColor: Colors.black,
         borderWidth: isAndroid ? .35 : 0,
         borderRadius: Colors.spacing * 1.5,
+        fontFamily: 'Outfit-Light',
 
     },
     container: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.transparentGloss },

@@ -9,11 +9,20 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* AdminTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AdminTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-Admin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-Admin.a */; };
+		10BBE6882C4848578F0FFEDE /* Outfit-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC4EF979A4674503B1BE624F /* Outfit-Light.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1463ED4A8E7843B785023634 /* Outfit-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FDA818D96AA847D0BEB4C001 /* Outfit-Black.ttf */; };
+		29C30FC8782A4CFDB719CB79 /* Outfit-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66BD26EBFE6E48C2B1A001D5 /* Outfit-Medium.ttf */; };
+		447BA8D5EA01447A8C595E0C /* Outfit-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09655F10438E45D192DE4D3D /* Outfit-ExtraBold.ttf */; };
+		6205C83BA5ED4D679A7F544B /* Outfit-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E74C21C7FCCB47A594BDFA3C /* Outfit-SemiBold.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-Admin-AdminTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Admin-AdminTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		87AB4557DF054AE98FCBC13D /* Outfit-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE25743A2CBC4B3B8B55F3C2 /* Outfit-Thin.ttf */; };
+		A31609ABAFE346A6A3C797DC /* Outfit-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3041CC8208C84A8C890F462A /* Outfit-Regular.ttf */; };
+		BA20DD18C5034293A143BBA9 /* Outfit-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F4CA7923E8E4E9AA98DC6CA /* Outfit-Bold.ttf */; };
+		C1010266BD8D48B99E581931 /* Outfit-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AE08568D30E4D0A830A232A /* Outfit-ExtraLight.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +39,7 @@
 		00E356EE1AD99517003FC87E /* AdminTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdminTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* AdminTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdminTests.m; sourceTree = "<group>"; };
+		09655F10438E45D192DE4D3D /* Outfit-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-ExtraBold.ttf"; path = "../src/assets/fonts/Outfit-ExtraBold.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Admin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Admin/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Admin/AppDelegate.mm; sourceTree = "<group>"; };
@@ -37,13 +47,21 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Admin/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Admin/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-Admin-AdminTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Admin-AdminTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F4CA7923E8E4E9AA98DC6CA /* Outfit-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Bold.ttf"; path = "../src/assets/fonts/Outfit-Bold.ttf"; sourceTree = "<group>"; };
+		3041CC8208C84A8C890F462A /* Outfit-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Regular.ttf"; path = "../src/assets/fonts/Outfit-Regular.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-Admin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Admin.debug.xcconfig"; path = "Target Support Files/Pods-Admin/Pods-Admin.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-Admin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Admin.release.xcconfig"; path = "Target Support Files/Pods-Admin/Pods-Admin.release.xcconfig"; sourceTree = "<group>"; };
+		5AE08568D30E4D0A830A232A /* Outfit-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-ExtraLight.ttf"; path = "../src/assets/fonts/Outfit-ExtraLight.ttf"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-Admin-AdminTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Admin-AdminTests.debug.xcconfig"; path = "Target Support Files/Pods-Admin-AdminTests/Pods-Admin-AdminTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-Admin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Admin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		66BD26EBFE6E48C2B1A001D5 /* Outfit-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Medium.ttf"; path = "../src/assets/fonts/Outfit-Medium.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Admin/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Admin-AdminTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Admin-AdminTests.release.xcconfig"; path = "Target Support Files/Pods-Admin-AdminTests/Pods-Admin-AdminTests.release.xcconfig"; sourceTree = "<group>"; };
+		AE25743A2CBC4B3B8B55F3C2 /* Outfit-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Thin.ttf"; path = "../src/assets/fonts/Outfit-Thin.ttf"; sourceTree = "<group>"; };
+		DC4EF979A4674503B1BE624F /* Outfit-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Light.ttf"; path = "../src/assets/fonts/Outfit-Light.ttf"; sourceTree = "<group>"; };
+		E74C21C7FCCB47A594BDFA3C /* Outfit-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-SemiBold.ttf"; path = "../src/assets/fonts/Outfit-SemiBold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FDA818D96AA847D0BEB4C001 /* Outfit-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Black.ttf"; path = "../src/assets/fonts/Outfit-Black.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +124,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2F34D37999F04A5480A7EF01 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FDA818D96AA847D0BEB4C001 /* Outfit-Black.ttf */,
+				1F4CA7923E8E4E9AA98DC6CA /* Outfit-Bold.ttf */,
+				09655F10438E45D192DE4D3D /* Outfit-ExtraBold.ttf */,
+				5AE08568D30E4D0A830A232A /* Outfit-ExtraLight.ttf */,
+				DC4EF979A4674503B1BE624F /* Outfit-Light.ttf */,
+				66BD26EBFE6E48C2B1A001D5 /* Outfit-Medium.ttf */,
+				3041CC8208C84A8C890F462A /* Outfit-Regular.ttf */,
+				E74C21C7FCCB47A594BDFA3C /* Outfit-SemiBold.ttf */,
+				AE25743A2CBC4B3B8B55F3C2 /* Outfit-Thin.ttf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +157,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				2F34D37999F04A5480A7EF01 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -244,6 +280,15 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				1463ED4A8E7843B785023634 /* Outfit-Black.ttf in Resources */,
+				BA20DD18C5034293A143BBA9 /* Outfit-Bold.ttf in Resources */,
+				447BA8D5EA01447A8C595E0C /* Outfit-ExtraBold.ttf in Resources */,
+				C1010266BD8D48B99E581931 /* Outfit-ExtraLight.ttf in Resources */,
+				10BBE6882C4848578F0FFEDE /* Outfit-Light.ttf in Resources */,
+				29C30FC8782A4CFDB719CB79 /* Outfit-Medium.ttf in Resources */,
+				A31609ABAFE346A6A3C797DC /* Outfit-Regular.ttf in Resources */,
+				6205C83BA5ED4D679A7F544B /* Outfit-SemiBold.ttf in Resources */,
+				87AB4557DF054AE98FCBC13D /* Outfit-Thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

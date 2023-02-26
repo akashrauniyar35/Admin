@@ -27,7 +27,7 @@ const { width, height } = Dimensions.get('screen')
 
 
 
-const SearchModal = ({ onClose, isOpen, search, route }) => {
+const SearchModal = ({ onClose, isOpen, search, route }: any) => {
     const [searchValue, setSearchValue] = useState(String)
     const [selected, setSelected] = useState({ id: "", ref: "" })
     const [isVisible, setIsVisible] = useState(false)
@@ -47,9 +47,6 @@ const SearchModal = ({ onClose, isOpen, search, route }) => {
         }
         setData(x.data.paginatedResults)
         dispatch(searchJobuccess())
-
-
-
     }
 
     const openJobHandler = async (id: string, ref: string) => {

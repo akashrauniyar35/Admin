@@ -8,7 +8,6 @@ import {
     StyleSheet,
 } from 'react-native';
 import Svg, { G, Circle, Rect } from 'react-native-svg';
-import { isAndroid, Colors } from '../assets/Colors';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
@@ -23,14 +22,14 @@ export default function Donut({
     strokeWidth = 10,
     duration = 500,
 
-}) {
+}: any) {
     const animated = React.useRef(new Animated.Value(0)).current;
-    const circleRef = React.useRef();
-    const inputRef = React.useRef();
-    const circumference = 2 * Math.PI * radius;
-    const halfCircle = radius + strokeWidth;
+    const circleRef: any = React.useRef();
+    const inputRef: any = React.useRef();
+    const circumference: any = 2 * Math.PI * radius;
+    const halfCircle: any = radius + strokeWidth;
 
-    const animation = (toValue) => {
+    const animation = (toValue: any) => {
         return Animated.timing(animated, {
             delay: 1000,
             toValue,
@@ -57,12 +56,11 @@ export default function Donut({
                     strokeDashoffset,
                 });
             }
-        }, [max, percentage]);
-
+        });
         return () => {
             animated.removeAllListeners();
         };
-    });
+    }, [max, percentage]);
 
     return (
         <View style={{ width: radius * 3, height: radius * 3, }}>
@@ -97,7 +95,6 @@ export default function Donut({
                     />
                 </G>
             </Svg>
-            {/* <View style={{}}> */}
             <AnimatedTextInput
                 ref={inputRef}
                 underlineColorAndroid="transparent"
@@ -105,13 +102,12 @@ export default function Donut({
                 defaultValue="0"
                 style={[
                     StyleSheet.absoluteFillObject,
-                    { fontSize: radius / 2, color: textColor ?? color },
+                    { fontSize: radius / 2, color: textColor ?? color, fontFamily: 'Outfit-Medium', },
                     styles.text,
                 ]}
             />
-            <Text style={{ position: "absolute", alignSelf: 'center', marginTop: radius * 1.8, color, fontWeight: isAndroid ? "900" : "600", fontSize: 8 }}>{lable}</Text>
+            <Text style={{ position: "absolute", alignSelf: 'center', marginTop: radius * 1.8, color, fontFamily: 'Outfit-Bold', fontSize: 8 }}>{lable}</Text>
 
-            {/* </View> */}
 
         </View>
     );
@@ -121,33 +117,3 @@ const styles = StyleSheet.create({
     text: { fontWeight: '900', textAlign: 'center', },
 });
 
-// donutMAP
-// const data = [
-//     {
-//         percentage: 8,
-//         color: 'tomato',
-//         max: 10
-//     },
-//     {
-//         percentage: 14,
-//         color: 'skyblue',
-//         max: 20
-//     },
-//     {
-//         percentage: 92,
-//         color: 'gold',
-//         max: 100
-//     },
-//     {
-//         percentage: 240,
-//         color: '#222',
-//         max: 500
-//     },
-// ]
-//     < View style = {{ flexDirection: 'row', justifyContent: 'space-evenly', flexWrap: 'wrap', alignItems: 'center' }}>
-//     {
-//         data.map((p, i) => {
-//             return <Donut key={i} percentage={p.percentage} color={p.color} delay={500 + 100 * i} max={p.max} />
-//         })
-//     }
-// </View >

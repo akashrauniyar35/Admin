@@ -109,56 +109,17 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDe
         dispatch(quoteStatusSuccess())
     }
 
-
-    // const deleteJobHandler = async () => {
-    //     let id = item._id
-    //     dispatch(deleteJobPending())
-
-    //     const x: any = await fetchDeleteJob(id)
-    //     if (x.data.status === "error") {
-    //         return dispatch(deleteJobFail(x.data.status));
-    //     }
-    //     dispatch(deleteJobSuccess(id))
-    //     toggleDelete()
-    //     onClose()
-    //     refresh(1)
-    //     Toast.show({
-    //         type: 'deleteToast',
-    //         visibilityTime: 3000,
-    //         text1: `${item.quoteReference}`,
-    //         props: { message: 'Deleted Successfully' }
-    //     });
-    // }
-
-    // const confirmBookingVisibleHandler = async () => {
-    //     let id = item._id;
-    //     dispatch(confirmBookingPending());
-
-    //     const x: any = await fetchConfirmBooking(id);
-    //     if (x.data.status === "error") {
-    //         return dispatch(confirmBookingFail(x.data.status));
-    //     }
-    //     dispatch(confirmBookingSuccess(id))
-    //     toggleConfirm()
-    //     Toast.show({
-    //         type: 'successToast',
-    //         visibilityTime: 3000,
-    //         text1: `${item.quoteReference}`,
-    //         props: { message: 'Booking Confirmed Successfully' }
-    //     });
-    // }
-
     return (
         <>
             <View>
                 <ScrollView showsVerticalScrollIndicator={false}>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: Colors.spacing * 2 }}>
-                        <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{item.quoteReference}</Text>
+                        <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>#{item.quoteReference}</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>  -  {date}</Text>
                             <View style={{ opacity: .5, backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing, borderRadius: 100, }} />
-                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "400" }}>$ {quotePrice}</Text>
+                            <Text style={{ fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "600" : "400" }}>$ {quotePrice}</Text>
                         </View>
                     </View>
 
@@ -179,7 +140,7 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDe
                         </View>
 
                         <View style={{ marginVertical: Colors.spacing * 2, }}>
-                            <MapCard />
+                            <MapCard address={`${item.address2} ${item.city} ${item.state} ${item.postcode}`} />
                         </View>
 
                         <View style={{ height: .35, width: '100%', marginBottom: Colors.spacing * 2, backgroundColor: Colors.maidlyGrayText }} />
@@ -208,9 +169,8 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDe
                         </Pressable>
 
 
-                        <View style={{ height: .35, width: '100%', marginBottom: Colors.spacing * 2, backgroundColor: Colors.maidlyGrayText }} />
+                        <View style={{ height: .35, width: '100%', marginBottom: Colors.spacing * 2, marginTop: Colors.spacing, backgroundColor: Colors.borderColor }} />
                     </View>
-
 
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
@@ -378,7 +338,7 @@ const styles = StyleSheet.create({
     },
     buttonsFull: {
         alignItems: "center",
-        marginBottom: Colors.spacing * 2,
+        marginBottom: Colors.spacing * 1,
         justifyContent: "center",
         backgroundColor: Colors.madidlyThemeBlue,
         height: isAndroid ? 45 : 45,

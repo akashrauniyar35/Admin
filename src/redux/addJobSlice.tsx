@@ -1,33 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { jobsData } from '../interfaces/jobInterfaces';
-
-
 
 const today = new Date();
 
 const jobData: any = {
 
-    email: "email@email.com",
+    email: "",
     companyName: "WeDo Cleaning Pty Ltd",
     firstName: "",
-    lastName: "last",
-    address1: "s",
-    address2: "s",
-    city: "s",
-    state: "s",
-    postcode: "1234",
-    startHour: "10",
-    startMin: "30",
-    startMode: "AM",
-    endHour: "01",
-    endMin: "30",
-    endMode: "PM",
+    lastName: "",
+    address1: "",
+    address2: "",
+    city: "",
+    state: "NSW",
+    postcode: "",
+    startHour: "",
+    startMin: "",
+    startMode: "",
+    endHour: "",
+    endMin: "",
+    endMode: "",
     bookingDate: today.toISOString(),
     subscription: "One Time Cleaning",
     customerNotes: "",
     service: "EOL",
     notes: [],
-    phone: "041589987",
+    phone: "",
     products: [],
     quoteStatus: "",
     totals: [
@@ -66,7 +63,20 @@ const jobData: any = {
             title: "To be paid by customer",
             amount: 0,
             quantity: 0
-        }
+        },
+        {
+            _id: 7,
+            title: "Discount",
+            amount: 0,
+            quantity: 0
+        },
+        {
+            _id: 8,
+            title: "Payment received",
+            amount: 0,
+            quantity: 0
+        },
+
     ]
 }
 
@@ -82,7 +92,6 @@ const initialState = {
     addJobData: jobData,
 };
 
-console.log('jobData.products', jobData.products)
 
 const addJobSlice = createSlice({
     name: 'getAllQuotes',
@@ -143,28 +152,49 @@ const addJobSlice = createSlice({
             // state.addJobData.service = action.payload;
         },
         addJobCustomerBedroom(state, action: any) {
+
+            let count = action.payload.substring(0, 1)
             const newState: any = state.addJobData.products.map((x: any) => {
                 if (x.title.toLowerCase() === "bedrooms") {
                     return { ...x, quantity: parseInt(action.payload) };
                 }
                 return x;
             })
-            state.addJobData.products = newState;
 
-            state.addJobData.totals[1].title = action.payload;
-            state.addJobData.totals[1].quantity = parseInt(action.payload.slice(0))
+            const newTotals: any = state.addJobData.totals.map((x: any) => {
+                if (x.title.toLowerCase().split(" ").pop() === "bedroom") {
+                    return { ...x, title: `${count} Bedroom`, quantity: parseInt(count), };
+                }
+                return x;
+            })
+
+            state.addJobData.products = newState;
+            state.addJobData.totals = newTotals;
+
         },
         addJobBedroomPrice(state, action: any) {
-            state.addJobData.totals[1].amount = parseInt(action.payload)
+            const newTotals: any = state.addJobData.totals.map((x: any) => {
+                if (x.title.toLowerCase().split(" ").pop() === "bedroom") {
+                    return { ...x, amount: parseInt(action.payload), };
+                }
+                return x;
+            })
+            state.addJobData.totals = newTotals;
         },
 
-
         addJobBathroomPrice(state, action: any) {
-            state.addJobData.totals[2].amount = parseInt(action.payload)
+            const newTotals: any = state.addJobData.totals.map((x: any) => {
+                if (x.title.toLowerCase().split(" ").pop() === "bathroom") {
+                    return { ...x, amount: parseInt(action.payload), };
+                }
+                return x;
+            })
+            state.addJobData.totals = newTotals;
         },
 
         addJobCustomerBathroom(state, action: any) {
 
+            let count = action.payload.substring(0, 1)
             const newState: any = state.addJobData.products.map((x: any) => {
                 if (x.title.toLowerCase() === "bathrooms") {
                     return { ...x, quantity: parseInt(action.payload.slice(0)) };
@@ -172,14 +202,47 @@ const addJobSlice = createSlice({
                 return x;
             })
 
+
+            const newTotals: any = state.addJobData.totals.map((x: any) => {
+                if (x.title.toLowerCase().split(" ").pop() === "bathroom") {
+                    return { ...x, title: `${count} Bathroom`, quantity: parseInt(count), };
+                }
+                return x;
+            })
+
             state.addJobData.products = newState;
-            state.addJobData.totals[2].title = action.payload;
-            state.addJobData.totals[2].quantity = parseInt(action.payload.slice(0))
+            state.addJobData.totals = newTotals;
         },
 
         addBasePrice(state, action: any) {
-            state.addJobData.totals[0].quantity = 1
-            state.addJobData.totals[0].amount = parseInt(action.payload)
+
+            const newTotals: any = state.addJobData.totals.map((x: any) => {
+                if (x.title.toLowerCase() === "base price") {
+                    return { ...x, quantity: 1, amount: parseInt(action.payload), };
+                }
+                return x;
+            })
+            state.addJobData.totals = newTotals;
+        },
+
+        addDiscountPrice(state, action: any) {
+            const newTotals: any = state.addJobData.totals.map((x: any) => {
+                if (x.title.toLowerCase() === "discount") {
+                    return { ...x, quantity: 1, amount: parseInt(action.payload), };
+                }
+                return x;
+            })
+            state.addJobData.totals = newTotals;
+        },
+   
+        addExtraPrice(state, action: any) {
+            const newTotals: any = state.addJobData.totals.map((x: any) => {
+                if (x.title.toLowerCase() === "extras") {
+                    return { ...x, quantity: 1, amount: parseInt(action.payload), };
+                }
+                return x;
+            })
+            state.addJobData.totals = newTotals;
         },
 
         addJobBookingDate(state, action: any) {
@@ -213,7 +276,6 @@ const addJobSlice = createSlice({
             state.addJobData.products = newState;
         },
         addJobRemoveAddons(state, action: any) {
-
             const newState: any = state.addJobData.products.map((x: any) => {
                 if (x.title === action.payload.title) {
                     return { ...x, quantity: 0 };
@@ -224,7 +286,6 @@ const addJobSlice = createSlice({
         },
 
         addJobIncreaseAddons(state, action: any) {
-
             const newState: any = state.addJobData.products.map((x: any) => {
                 if (x.title === action.payload.title) {
                     return { ...x, quantity: action.payload.quantity };
@@ -234,36 +295,35 @@ const addJobSlice = createSlice({
             state.addJobData.products = newState;
         },
 
-        postJobPending(state, action: any) {
+        postJobPending(state) {
             state.postJobLoading = true;
         },
         postJobSuccess(state, action: any) {
             state.postJobLoading = false;
+            state.addJobData = action.payload
         },
         postJobFail(state, action: any) {
             state.postJobLoading = false;
         },
 
-        postEditPending(state, action: any) {
+        postEditPending(state) {
             state.editLoading = true;
         },
-        postEditSuccess(state, action: any) {
+        postEditSuccess(state) {
             state.editLoading = false;
         },
-        postEditFail(state, action: any) {
+        postEditFail(state) {
             state.editLoading = false;
         },
 
     }
 })
 
-
-
 export const {
     postJobPending, postJobSuccess, postJobFail,
     addJobCustomerFirstName, addJobCustomerLastName, addJobCompanyName, addJobCustomerEmail, addJobCustomerState, addJobCustomerPostcode,
     addJobCustomerUnit, addJobCustomerStreetAddress, addJobCustomerNumber, addJobCustomerSuburb, addJobCustomerNotes, addJobCustomerService, addJobCustomerProperty, addJobCustomerBedroom, addJobCustomerBathroom, addJobBookingDate, addJobStartTime, addJobEndTime, addJobAddAddons, addJobIncreaseAddons, addJobBathroomPrice, addBasePrice,
-    addJobRemoveAddons, addProductsSuccess, addProductsFail, postEditPending, postEditSuccess, postEditFail, addJobBedroomPrice
+    addJobRemoveAddons, addProductsSuccess, addProductsFail, postEditPending, postEditSuccess, postEditFail, addJobBedroomPrice, addDiscountPrice, addExtraPrice
 
 } = addJobSlice.actions;
 export default addJobSlice.reducer;

@@ -70,7 +70,7 @@ const AddTechnician = ({ isOpen, onClose }) => {
                 text2: Colors.green,
                 props: { message: 'Technician created successfully' }
             });
-            setAddData({firstName: "", lastName: "", email: "", phone: 0, address1: "", address2: "", city: "", postcode: 0, state: "" })
+            setAddData({ firstName: "", lastName: "", email: "", phone: 0, address1: "", address2: "", city: "", postcode: 0, state: "" })
         }
     }
 
@@ -104,48 +104,48 @@ const AddTechnician = ({ isOpen, onClose }) => {
                                     </View>
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, marginTop: Colors.spacing }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>First Name</Text>
+                                        <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>First Name</Text>
                                         <View style={{ width: "70%", }}>
                                             <InputBox placeholder={addData.firstName} onChange={(val) => setAddData({ ...addData, firstName: val })} size={40} rounded={true} placeholderSize={12} />
                                         </View>
                                     </View>
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Last Name</Text>
+                                        <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Last Name</Text>
                                         <View style={{ width: "70%", }}>
                                             <InputBox placeholder={addData.lastName} value={addData.lastName} size={40} rounded={true} placeholderSize={12} onChange={(val) => setAddData({ ...addData, lastName: val })} />
                                         </View>
                                     </View>
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Phone number</Text>
+                                        <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Phone number</Text>
                                         <View style={{ width: "70%", }}>
                                             <InputBox maxLength={10} value={addData.phone} onChange={(val) => setAddData({ ...addData, phone: parseInt(val) })} placeholder={""} size={40} rounded={true} placeholderSize={12} keyboardType="numeric" />
                                         </View>
                                     </View>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Email</Text>
+                                        <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Email</Text>
                                         <View style={{ width: "70%", }}>
                                             <InputBox keyboardType={"email-address"} value={addData.email} onChange={(val) => setAddData({ ...addData, email: val })} placeholder={addData.email} size={40} rounded={true} placeholderSize={12} capitalize={"none"} />
                                         </View>
                                     </View>
 
                                     {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Unit</Text>
+                                        <Text style={{ fontSize: 12, color: Colors.black,  fontFamily: 'Outfit-Medium', }}>Unit</Text>
                                         <View style={{ width: "70%", }}>
                                             <InputBox value={addData.address1} placeholder={addData.address1} onChange={(val) => setAddData({ ...addData, address1: val })} size={40} capitalize={"characters"} rounded={true} placeholderSize={12} maxLength={4} />
                                         </View>
                                     </View> */}
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", width: "30%", }}>Street address</Text>
+                                        <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', width: "30%", }}>Street address</Text>
                                         <View style={{ width: "70%", }}>
                                             <InputBox value={addData.address2} placeholder={addData.address2} onChange={(val) => setAddData({ ...addData, address2: val })} size={40} rounded={true} placeholderSize={12} />
                                         </View>
                                     </View>
 
                                     {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Suburb</Text>
+                                        <Text style={{ fontSize: 12, color: Colors.black,  fontFamily: 'Outfit-Medium', }}>Suburb</Text>
                                         <View style={{ width: "70%", }}>
                                             <InputBox value={addData.city} onChange={(val) => setAddData({ ...addData, city: val })} placeholder={addData.city} size={40} rounded={true} placeholderSize={12} />
                                         </View>
@@ -154,7 +154,7 @@ const AddTechnician = ({ isOpen, onClose }) => {
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Colors.spacing * 1, }}>
                                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: "22%", }}>
-                                            <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Post code</Text>
+                                            <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Post code</Text>
                                         </View>
 
                                         <View style={{ marginLeft: Colors.spacing * 3, marginRight: Colors.spacing * .25, width: '70%', flexDirection: 'row', alignItems: 'center', }}>

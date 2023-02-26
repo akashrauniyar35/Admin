@@ -68,7 +68,7 @@ const Card = () => {
 }
 
 
-const NotificationModal = ({ isOpen, onPress, onClose, id }) => {
+const NotificationModal = ({ isOpen, onPress, onClose, id }: any) => {
 
     const jobData: any = useSelector((state: any) => state.jobReducer.jobByIdData)
     // const loading = useSelector((state: any) => state.jobReducer.selectedJobLoading)

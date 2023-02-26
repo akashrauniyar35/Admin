@@ -15,6 +15,5 @@ const url = 'https://wedo-backend.herokuapp.com/v1/';
 
 export const endPoint = axios.create({
     baseURL: url,
-    
 });
 

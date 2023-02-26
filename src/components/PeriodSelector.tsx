@@ -23,16 +23,16 @@ const PeriodSelector = ({ fromPicker, setFromPicker, toPicker, setToPicker, hand
     return (
         <>
 
-            <Text style={{ fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing * 1 }}>Period</Text>
+            <Text style={{ fontSize: 16, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Bold', marginBottom: Colors.spacing * 1 }}>Period</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ width: '45 %' }}>
-                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing }}>From</Text>
+                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Bold', marginBottom: Colors.spacing }}>From</Text>
                     <Pressable onPress={() => setFromPicker(true)} >
                         <InputBox placeholderSize={14} size={40} rounded={true} placeholder={dateRange.from} bg={'white'} itemsCenter={false} editable={false} />
                     </Pressable>
                 </View>
                 <View style={{ width: '45 %' }}>
-                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing }}>To</Text>
+                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Bold', marginBottom: Colors.spacing }}>To</Text>
                     <Pressable onPress={() => setToPicker(true)}>
                         <InputBox placeholderSize={14} size={40} rounded={true} placeholder={dateRange.to} bg={'white'} itemsCenter={false} editable={false} />
                     </Pressable>
@@ -48,7 +48,7 @@ const PeriodSelector = ({ fromPicker, setFromPicker, toPicker, setToPicker, hand
                         <View style={{}}>
                             <CalandarDatePicker onPress={fromHandler} date={new Date()} />
                             <Pressable style={{ alignSelf: 'flex-end', marginTop: Colors.spacing, marginRight: Colors.spacing }} onPress={() => setFromPicker(false)}>
-                                <Text style={{ fontSize: 14, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>Close</Text>
+                                <Text style={{ fontSize: 14, color: 'white', fontFamily: 'Outfit-Bold', }}>Close</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -61,7 +61,7 @@ const PeriodSelector = ({ fromPicker, setFromPicker, toPicker, setToPicker, hand
                         <View style={{}}>
                             <CalandarDatePicker onPress={toHandler} date={new Date()} />
                             <Pressable style={{ alignSelf: 'flex-end', marginTop: Colors.spacing, marginRight: Colors.spacing }} onPress={() => setToPicker(false)}>
-                                <Text style={{ fontSize: 14, color: 'white', fontWeight: isAndroid ? "900" : "600", }}>Close</Text>
+                                <Text style={{ fontSize: 14, color: 'white', fontFamily: 'Outfit-Bold', }}>Close</Text>
                             </Pressable>
                         </View>
                     </View>

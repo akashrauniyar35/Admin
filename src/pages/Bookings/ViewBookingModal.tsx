@@ -16,7 +16,7 @@ const ViewBookingModal = ({ isOpen, onPress, onClose, id, refresh, deleteOpen, t
     const data: any = useSelector((state: any) => state.bookingReducer.id)
     const loading = useSelector((state: any) => state.bookingReducer.bookingbyID)
 
-const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
 
     const statusHandler = async (value: string) => {

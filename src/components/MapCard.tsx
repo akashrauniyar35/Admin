@@ -1,27 +1,81 @@
-import { View, Text, Platform, Image } from 'react-native'
-import React from 'react'
+import { View, Text, Platform, Image, StyleSheet, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Colors } from '../assets/Colors'
-import { sub } from 'react-native-reanimated'
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import fetchLatLong from '../config/MapsApi'
+import MapView, { Marker, PROVIDER_GOOGLE, AnimatedRegion, Animated, MarkerAnimated } from 'react-native-maps'
 const isAndroid = Platform.OS == 'android' ? true : false
-const MapCard = ({ lable }) => {
+
+const MapCard = ({ address }: any) => {
+
+    // const p = "53 Mosely St Strathfield NSW 2135"
+
+    const [region, setRegion] = useState({
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: 0.0043,
+        longitudeDelta: 0.0034
+    })
+    const [loading, setLoading] = useState(true)
+
+    const getLatLong = async () => {
+        let data: any = await fetchLatLong(address)
+        console.log("promise res", data)
+        setRegion({ ...region, latitude: data.latitude, longitude: data.longitude })
+    }
+
+    useEffect(() => {
+        getLatLong()
+        setTimeout(() => setLoading(false), 1500)
+    }, [address])
+
+    const CustomMarker = () => {
+        return (
+            <View>
+                <Icon name="md-location" size={35} color={Colors.red} />
+            </View>
+        )
+    }
+
     return (
         <View>
-            {lable && <Text style={{ fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing, color: Colors.green, fontSize: 16, marginRight: Colors.spacing }}>Map</Text>
-            }
-            <View style={{
-                backgroundColor: 'white',
-            }}>
-
-                <View style={{}}>
-                    <Image source={{ uri: 'https://pp.walk.sc/apartments/e/1/460x400/AU-NSW/Sydney/Strathfield.png' }} style={{ width: '100%', height: 200 }} />
-                </View>
-
-
+            <View>
+                {loading ?
+                    <View style={[styles.map, { alignItems: 'center', justifyContent: 'center' }]}>
+                        <ActivityIndicator color={Colors.madidlyThemeBlue} animating={loading} />
+                    </View> :
+                    <View>
+                        <MapView
+                            initialRegion={region}
+                            region={region}
+                            provider={PROVIDER_GOOGLE}
+                            style={styles.map}
+                        >
+                            <Marker
+                                coordinate={{ latitude: region.latitude, longitude: region.longitude }}
+                            >
+                                <CustomMarker />
+                            </Marker>
+                        </MapView>
+                    </View>
+                }
 
             </View>
+
         </View>
     )
 }
 
+const styles = StyleSheet.create({
+    container: {
+
+    },
+
+    map: {
+        height: 250,
+    },
+})
+
 export default MapCard
+

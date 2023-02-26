@@ -59,13 +59,9 @@ const Jobs = ({ navigation }) => {
         <Header nav={navigation} title="Quotes" route="quote" />
 
 
-
-
         <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
           <View style={{ marginVertical: Colors.spacing * 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-
             <View style={{ width: '35%', }}>
-              {/* <Donut lable={"Total Quotes"} percentage={112} max={200} radius={40} /> */}
               <Donut lable={"Total Quotes"} percentage={120} max={400} radius={40} color={Colors.madidlyThemeBlue} />
             </View>
             <View style={{ width: '60%' }}>
@@ -75,10 +71,7 @@ const Jobs = ({ navigation }) => {
         </View>
 
 
-        <Text style={{ color: 'red', fontSize: 14, fontWeight: isAndroid ? "900" : "700", }}>{"pagecount -" + pageCount + " - next -" + nextPage + " Bdata " + data.length}</Text>
-      
         <View style={{ flex: 1 }}>
-
           <FlatList
             onEndReached={() => { nextPage > 0 && setPageCount(pageCount + 1) }}
             refreshing={refreshLoading}
@@ -88,7 +81,7 @@ const Jobs = ({ navigation }) => {
             contentContainerStyle={{ paddingBottom: Colors.spacing }}
             data={data}
             keyExtractor={item => item?._id}
-            renderItem={({ item, index }) => <JobCard setPageCount={setPageCount} key={item?._id} item={item} index={index} refresh={() => setPageCount(1)} />}
+            renderItem={({ item, index }) => <JobCard setPageCount={setPageCount} key={item?._id} item={item} index={index} refresh={() => { setPageCount(1); refreshHandler() }} />}
           />
 
         </View>

@@ -4,12 +4,10 @@ import { endPoint } from './index';
 export const fetchAllJobs = (page: number) => {
     console.log("page fetch", page)
     return new Promise(async (resolve, reject) => {
-
         try {
             const res: any = await endPoint.get(`quote/all?page=${page}&limit=${5}`);
             console.log(res)
             resolve(res);
-
         }
         catch (err) {
             console.log(err)
