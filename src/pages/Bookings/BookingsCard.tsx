@@ -4,21 +4,15 @@ import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux'
 
 
-import Toast from 'react-native-toast-message';
 import { Swipeable, } from 'react-native-gesture-handler';
 
-import DeleteModal from './DeletetModal';
-import ConfirmBookingModal from './ConfirmBookingModal';
 import { Colors, isAndroid } from '../../assets/Colors';
-import ViewBookingModal from './ViewBookingModal';
-import AddJob from '../Add/AddJob';
 
 
-const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, swipeableOptions, toggleDelete, selectedBooking }) => {
+const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, swipeableOptions, toggleDelete, selectedBooking }: any) => {
 
     const swipeableRef = useRef<Swipeable | null>(null);
     const street = item.address2?.split(" ")
-
     const swipeableOpen = (text: string) => {
         console.log(text)
         if (swipeableRef.current) {
@@ -53,7 +47,7 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
     }
 
 
-
+    let newState = item.state.toLowerCase().substring(0, 1) === "q" ? "QLD" : item.state.toLowerCase().substring(0, 1) === "v" ? "VIC" : item.state.toLowerCase().substring(0, 1) === "t" ? "TAS" : item.state.toLowerCase().substring(0, 1) === "w" ? "WA" : item.state.toLowerCase().substring(0, 1) === "s" ? "SA" : item.state.toLowerCase().substring(0, 1) === "s" ? "SA" : "NSW"
 
     const phoneNumber = [item.phone.slice(0, 4), " ", item.phone.slice(4, 7), " ", item.phone.
         slice(7)].join('')
@@ -61,7 +55,7 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
     const price = [item.subtotal.toString().slice(0, 3), ".", item.subtotal.toString().slice(2)].join('')
     const bookingDate = new Date(item.bookingDate)
 
-    const leftSwipe = (progress, dragX) => {
+    const leftSwipe = (progress: any, dragX: any) => {
 
         const lastIndex = swipeableOptions.length - 1
         const lastItemID = swipeableOptions[lastIndex].id
@@ -90,7 +84,6 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
         )
     }
 
-
     return (
         <>
             <Swipeable renderLeftActions={leftSwipe} ref={swipeableRef}
@@ -115,15 +108,14 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                                <View style={{ backgroundColor: item.bookingStatus.toLowerCase() === "in progress" ? Colors.orangeBG : item.bookingStatus.toLowerCase() === "completed" ? Colors.paidBG : item.bookingStatus.toLowerCase() === "cancelled" ? Colors.redBG : Colors.orangeBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing, marginRight: Colors.spacing, width: Colors.spacing * 7, alignItems: 'center' }}>
+                                <View style={{ backgroundColor: item.bookingStatus.toLowerCase() === "in progress" ? Colors.orangeBG : item.bookingStatus.toLowerCase() === "completed" ? Colors.paidBG : item.bookingStatus.toLowerCase() === "cancelled" ? Colors.redBG : item.bookingStatus.toLowerCase() === "recall" ? Colors.redBG : Colors.orangeBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing, marginRight: Colors.spacing, width: Colors.spacing * 7, alignItems: 'center' }}>
 
-                                    <Text style={{ fontSize: 10, color: item.bookingStatus.toLowerCase() === "in progress" ? Colors.orange : item.bookingStatus.toLowerCase() === "completed" ? Colors.green : item.bookingStatus.toLowerCase() === "cancelled" ? Colors.red : Colors.orange, fontFamily: 'Outfit-ExtraBold', }}>{item.bookingStatus}</Text>
+                                    <Text style={{ fontSize: 10, color: item.bookingStatus.toLowerCase() === "in progress" ? Colors.orange : item.bookingStatus.toLowerCase() === "completed" ? Colors.green : item.bookingStatus.toLowerCase() === "cancelled" ? Colors.red : item.bookingStatus.toLowerCase() === "recall" ? Colors.red : Colors.orange, fontFamily: 'Outfit-ExtraBold', }}>{item.bookingStatus}</Text>
                                 </View>
                                 <Pressable onPress={() => swipeableOpen('text')}>
                                     <IconM name="dots-horizontal" size={28} color={Colors.maidlyGrayText} />
                                 </Pressable>
                             </View>
-
                         </View>
 
                         <View style={{ width: '100%', marginVertical: Colors.spacing * 2, borderBottomWidth: .35, borderColor: Colors.borderColor }} />
@@ -133,7 +125,7 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
                             <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium' }}>{item.firstName} {item.lastName}</Text>
                             <View style={{ marginTop: Colors.spacing * .5, marginBottom: Colors.spacing * .5 }}>
                                 <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.address1 ? item.address1 : null} {street[0] ? street[0] : null} {street[1] ? street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) : null} {street[2] ? street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1) : null}</Text>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.city.toUpperCase()} {item.postcode}</Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.city.toUpperCase()} {item.postcode} {newState.toUpperCase()}</Text>
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>

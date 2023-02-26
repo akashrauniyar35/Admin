@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Colors, isAndroid, WIDTH } from '../assets/Colors'
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const AddButtonHeader = ({ onPress, lable, onClose, loading, saveOption }) => {
+const AddButtonHeader = ({ onPress, lable, onClose, loading, saveOption }: any) => {
 
     return (
         <View style={{

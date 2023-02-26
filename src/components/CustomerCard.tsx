@@ -6,7 +6,7 @@ import AddressCard from './AddressCard'
 
 
 const CustomerCard = ({ firstName, lastName, phone, email, unit, streetAddress, suburb, postCode, state,
-    firstNameHandler, lastNameHandler, phoneHandler, emailHandler, unitHandler, streetAddressHandler, suburbHandler, postCodeHandler, stateHandler, companyName, companyNameHandler }) => {
+    firstNameHandler, lastNameHandler, phoneHandler, emailHandler, unitHandler, streetAddressHandler, suburbHandler, postCodeHandler, stateHandler, companyName, companyNameHandler }: any) => {
 
     const [predectionsVisible, setPredectionsVisible] = useState(false)
     const toggleLocations = () => { setPredectionsVisible(!predectionsVisible) }
@@ -16,6 +16,7 @@ const CustomerCard = ({ firstName, lastName, phone, email, unit, streetAddress, 
         console.log('123124', value)
     }
 
+    let newState = state.toLowerCase().substring(0, 1) === "q" ? "QLD" : state.toLowerCase().substring(0, 1) === "v" ? "VIC" : state.toLowerCase().substring(0, 1) === "t" ? "TAS" : state.toLowerCase().substring(0, 1) === "w" ? "WA" : state.toLowerCase().substring(0, 1) === "s" ? "SA" : state.toLowerCase().substring(0, 1) === "s" ? "SA" : "NSW"
 
     return (
 
@@ -60,7 +61,7 @@ const CustomerCard = ({ firstName, lastName, phone, email, unit, streetAddress, 
             <View style={{}}>
 
                 <View style={{ width: "100%" }}>
-                    <AddressCard unit={unit} streetAddress={streetAddress} suburb={suburb} postCode={postCode} state={state} unitHandler={unitHandler} streetAddressHandler={streetAddressHandler} suburbHandler={suburbHandler} postCodeHandler={postCodeHandler} stateHandler={stateHandler} />
+                    <AddressCard unit={unit} streetAddress={streetAddress} suburb={suburb} postCode={postCode} state={newState} unitHandler={unitHandler} streetAddressHandler={streetAddressHandler} suburbHandler={suburbHandler} postCodeHandler={postCodeHandler} stateHandler={stateHandler} />
                 </View>
 
             </View>

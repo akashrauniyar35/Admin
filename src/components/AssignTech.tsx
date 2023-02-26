@@ -1,73 +1,105 @@
-import { Pressable, StyleSheet, Text, View,  } from 'react-native'
-import React, { useState } from 'react'
-import { Colors, isAndroid } from '../assets/Colors'
-import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
-
-const PaymentCard = ({ lable, selected, onPress }) => {
-    return (
-        <Pressable onPress={onPress(lable)} style={[styles.paymentCard, { borderWidth: isAndroid ? .35 : 0, borderColor: Colors.maidlyGrayText }]}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                <IconM name={selected == "" ? "checkbox-marked-outline" : "checkbox-blank-outline"} size={28} color={Colors.maidlyGrayText} />
-                <Text style={{ marginLeft: Colors.spacing, fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{lable}</Text>
-            </View>
-            <IconM name={"account-hard-hat"} size={28} color={Colors.maidlyGrayText} />
-        </Pressable>
-    )
-}
-
-const AssignTech = () => {
-
-    const [paymentMethod, setPaymentMethod] = useState(String)
+import { ActivityIndicator, Alert, FlatList, Modal, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Colors, isAndroid, lightenColor, WIDTH } from '../assets/Colors'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 
-    const data = [
-        {
-            id: '00',
-            title: 'Umesh Ji',
-            selected: paymentMethod
-        },
-        {
-            id: '01',
-            title: 'Narayan Kumar',
-            selected: paymentMethod
-        },
-        {
-            id: '02',
-            title: 'Sukhveendar Shing',
-            selected: paymentMethod
-        },
-    ]
 
+const SelectionCard = ({ onPress, data, placeholder, loading, clearTech }) => {
+    const [selected, setSelected] = useState("");
+    const [isOpen, setIsOpen] = useState(false)
+
+    const onClickHandle = (visible) => {
+        setIsOpen(visible)
+    }
+
+    const onSelectHandler = (item) => {
+        const fullName = item.firstName + " " + item.lastName
+        setIsOpen(false)
+        setSelected(fullName)
+        onPress(item)
+    }
+
+    const onClear = () => {
+        setIsOpen(false)
+        setSelected("")
+        clearTech()
+    }
 
 
     return (
-        <View>
-            <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>Assign technician</Text>
-            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing * 2 }}>Available technician</Text>
+        <>
+            <Pressable onPress={() => onClickHandle(true)}>
 
-            {data.map((item) => <PaymentCard onPress={setPaymentMethod} key={item.id} lable={item.title} selected={item.selected} />)}
+                <View style={[styles.box, { paddingHorizontal: Colors.spacing, borderRadius: Colors.spacing * .75, borderWidth: isAndroid ? .35 : 0, borderColor: Colors.borderColor }]}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
 
-        </View>
-    )
+                        <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Light', }}>{selected ? selected : placeholder}</Text>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                            {loading ? <ActivityIndicator style={{ transform: [{ scale: .5 }] }} color={Colors.madidlyThemeBlue} animating={loading} /> : <Icon name={"chevron-down"} style={{ marginTop: 2 }} size={14} color={Colors.maidlyGrayText} />}
+
+                        </View>
+                    </View>
+                </View>
+            </Pressable>
+
+            <Modal style={{ flex: 1, }} animationType="fade" transparent={true} visible={isOpen} >
+                <View style={styles.container}>
+                    <View style={styles.selectonContainer}>
+
+                        <FlatList showsVerticalScrollIndicator={false} initialNumToRender={2} data={data} keyExtractor={(item) => item.id}
+                            renderItem={({ item, index }) => {
+                                return (
+                                    <Pressable onPress={() => onSelectHandler(item)}>
+                                        <View key={item.id} style={{ flexDirection: 'row', borderColor: 'white', alignItems: 'center', justifyContent: 'space-between', paddingVertical: Colors.spacing * 1.5 }}>
+                                            <Text style={{ fontSize: 16, color: 'white', fontFamily: 'Outfit-Medium', }}>{item.firstName + " " + item.lastName}</Text>
+                                            <Icon name={selected === item.firstName + " " + item.lastName ? "radio-button-on" : "radio-button-off"} size={22} color={'white'} />
+                                        </View>
+                                    </Pressable>
+                                )
+                            }} />
+
+                        <Pressable onPress={() => onClear()} style={{ position: 'absolute', marginTop: Colors.spacing, bottom: Colors.spacing * 1.5, right: Colors.spacing * 8, }}>
+                            <Text style={{ color: 'white', fontFamily: 'Outfit-Bold', }}>Clear</Text>
+                        </Pressable>
+                        <Pressable onPress={() => setIsOpen(false)} style={{ position: 'absolute', marginTop: Colors.spacing, bottom: Colors.spacing * 1.5, right: Colors.spacing * 1.5, }}>
+                            <Text style={{ color: 'white', fontFamily: 'Outfit-Bold', }}>Close</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal >
+
+        </>)
 }
 
-export default AssignTech
+export default SelectionCard
 
 const styles = StyleSheet.create({
 
-    paymentCard: {
-        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+
+    box: {
         backgroundColor: 'white',
-        marginBottom: Colors.spacing * 1,
         borderColor: Colors.maidlyGrayText,
+        padding: Colors.spacing * 1,
         shadowRadius: 2,
         shadowOffset: { width: 0, height: .5 },
         shadowOpacity: .2,
         elevation: 2,
-        borderRadius: Colors.spacing * .5,
+        shadowColor: Colors.madidlyThemeBlue,
+    },
+    container: { flex: 1, alignItems: 'center', justifyContent: 'center', },
+    selectonContainer: {
+        backgroundColor: Colors.maidlyGrayText,
+        width: WIDTH * .8,
         padding: Colors.spacing * 2,
-        shadowColor: Colors.maidlyGrayText,
+        position: 'relative',
+        paddingVertical: Colors.spacing * 4,
 
     },
+
+
 })

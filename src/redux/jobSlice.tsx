@@ -52,10 +52,9 @@ const getAllJobSlice = createSlice({
     name: 'getAllJob',
     initialState,
     reducers: {
-        getAllJobPending(state, action: any) {
+        getAllJobPending(state) {
             state.listLoading = true;
             state.refreshLoading = true;
-            console.log("Login Pending Slice", action.payload)
         },
         getAllJobSuccess(state) {
             state.listLoading = false;

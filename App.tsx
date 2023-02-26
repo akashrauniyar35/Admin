@@ -20,9 +20,12 @@ import { Provider, useSelector } from 'react-redux';
 import store from './src/redux/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 import AuthenticationStack from './src/navigation/AuthenticationStack';
 import Drawer from './src/navigation/Drawer'
 
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Sending `onAnimatedValueUpdate` with no listeners registered.",]);
 
 const navTheme = {
   ...DefaultTheme,
@@ -31,8 +34,6 @@ const navTheme = {
     background: 'transparent',
   },
 };
-
-
 
 
 const App = () => {

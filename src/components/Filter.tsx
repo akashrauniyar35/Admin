@@ -54,7 +54,7 @@ const scheduleData = [
     },
 ]
 
-const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setFilter, onClear, setPageCount }) => {
+const Filter = ({ onPress, isOpen, title, setDateRange, filter, dateRange, onClose, setFilter, onClear, setPageCount }) => {
     const [fromPicker, setFromPicker] = useState(false);
     const [toPicker, setToPicker] = useState(false);
 
@@ -65,20 +65,20 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setF
         console.log("handleDatePicker",)
     }
 
-    const data = [
-        {
-            id: '00',
-            title: 'Completed'
-        },
-        {
-            id: '00',
-            title: 'Amit Raja'
-        },
-        {
-            id: '00',
-            title: 'From 2023/01-01 To 2023/01-31'
-        },
-    ]
+    // const data = [
+    //     {
+    //         id: '00',
+    //         title: 'Completed'
+    //     },
+    //     {
+    //         id: '00',
+    //         title: 'Amit Raja'
+    //     },
+    //     {
+    //         id: '00',
+    //         title: 'From 2023/01-01 To 2023/01-31'
+    //     },
+    // ]
 
     return (
 
@@ -93,23 +93,37 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setF
                         </View>
                     </Pressable>
 
-                    {/* <View style={{ width: '60%', alignItems: "center" }}>
+                    <View style={{ width: '60%', alignItems: "flex-start", marginLeft: Colors.spacing, paddingRight: Colors.spacing }}>
                         <ScrollView horizontal contentContainerStyle={{ alignItems: "center" }}>
-                            {data.map((item) => {
-                                return (
-                                    <Pressable>
-                                        <View style={{ backgroundColor: Colors.completedGreenBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing, marginRight: Colors.spacing, paddingHorizontal: Colors.spacing, alignItems: 'center' }}>
-                                            <Text style={{ marginRight: Colors.spacing, fontSize: 10, color: Colors.green, fontWeight: isAndroid ? "900" : "600" }}>{item.title}</Text>
-                                        </View>
-                                    </Pressable>
-                                )
-                            })}
-                        </ScrollView>
-                    </View> */}
 
-                    {/* <Pressable onPress={onClear}>
-                        <Icon name="md-close-circle" color={Colors.madidlyThemeBlue} size={20} />
-                    </Pressable> */}
+                            {filter &&
+                                <View style={{ backgroundColor: Colors.completedGreenBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing, marginRight: Colors.spacing, paddingHorizontal: Colors.spacing, alignItems: 'center' }}>
+                                    <Text style={{ fontSize: 10, color: Colors.green, fontWeight: isAndroid ? "900" : "600", fontFamily: 'Outfit-Medium', }}>{filter}</Text>
+                                </View>
+                            }
+
+                            {
+                                dateRange.from && dateRange.to &&
+                                <View style={{ backgroundColor: Colors.completedGreenBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing, marginRight: Colors.spacing, paddingHorizontal: Colors.spacing, alignItems: 'center' }}>
+                                    <Text style={{ fontSize: 10, color: Colors.green, fontWeight: isAndroid ? "900" : "600" }}>{`${dateRange.from} - ${dateRange.to}`}</Text>
+                                </View>
+                            }
+
+                        </ScrollView>
+                    </View>
+
+                    {dateRange.from !== "" && dateRange.to !== "" || filter !== "" &&
+                        <Pressable onPress={onClear}>
+                            <Icon name="md-close-circle" color={Colors.madidlyThemeBlue} size={20} />
+                        </Pressable>
+                    }
+
+                    {dateRange.from && dateRange.to &&
+                        <Pressable onPress={onClear}>
+                            <Icon name="md-close-circle" color={Colors.madidlyThemeBlue} size={20} />
+                        </Pressable>
+                    }
+
 
                 </View>
             </View>
@@ -149,7 +163,7 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setF
 
                         <View style={styles.container}>
 
-                            <SelectionCard phColor={Colors.maidlyGrayText} border={true} rounded={true} data={data} type={'filter'} label="Technician" placeholder="Select Technician" />
+                            {/* <SelectionCard phColor={Colors.maidlyGrayText} border={true} rounded={true} data={data} type={'filter'} label="Technician" placeholder="Select Technician" /> */}
 
                             <View style={{ marginTop: Colors.spacing }}>
                                 <PeriodSelector
@@ -160,11 +174,11 @@ const Filter = ({ onPress, isOpen, title, setDateRange, dateRange, onClose, setF
                             </View>
 
                             <View style={{ marginTop: Colors.spacing }}>
-                                <SelectionCard onPress={(value) => setFilter(value)} phColor={Colors.maidlyGrayText} border={true} rounded={true} data={scheduleData} type={'filter'} label="Status" placeholder="Select status" />
+                                <SelectionCard onPress={(value) => setFilter(value)} phColor={Colors.maidlyGrayText} border={true} rounded={true} data={scheduleData} type={'filter'} label="Status" placeholder={filter ? filter : "Select status"} />
                             </View>
 
                             <Pressable style={styles.applyButton} onPress={onPress}>
-                                <Text style={{ fontSize: 16, color: 'white',  fontFamily: 'Outfit-Bold',}}>Apply Filter</Text>
+                                <Text style={{ fontSize: 16, color: 'white', fontFamily: 'Outfit-Bold', }}>Apply Filter</Text>
                             </Pressable>
 
                         </View>

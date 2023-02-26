@@ -35,7 +35,7 @@ const bathroomsData = [
     },
 ];
 const AddressCard = ({ unit, streetAddress, suburb, postCode, state,
-    unitHandler, streetAddressHandler, suburbHandler, postCodeHandler, stateHandler }) => {
+    unitHandler, streetAddressHandler, suburbHandler, postCodeHandler, stateHandler }: any) => {
 
     const regionHandler = (value) => {
         const x = value.substring(0, 1)
@@ -81,7 +81,7 @@ const AddressCard = ({ unit, streetAddress, suburb, postCode, state,
                                 <InputBox value={postCode} size={40} rounded={true} placeholder={postCode} onChange={postCodeHandler} keyboardType="numeric" placeholderSize={12} maxLength={4} />
                             </View>
                             <View style={{ width: "40%" }}>
-                                <SelectionCard onPress={regionHandler} size={40} fontSize={12} phColor={Colors.maidlyGrayText} rounded={true} data={bathroomsData} type={'filter'} placeholder={state.toUpperCase()} />
+                                <SelectionCard onPress={regionHandler} size={40} fontSize={12} phColor={Colors.maidlyGrayText} rounded={true} data={bathroomsData} type={'filter'} placeholder={state?.toUpperCase()} />
                             </View>
                         </View>
 

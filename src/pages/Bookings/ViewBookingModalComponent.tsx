@@ -1,5 +1,5 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import { Alert, PermissionsAndroid, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Colors, isAndroid, WIDTH } from '../../assets/Colors'
 import SelectionCard from '../../components/SelectionCard'
 
@@ -17,7 +17,17 @@ import Toast from 'react-native-toast-message'
 import MapCard from '../../components/MapCard'
 import DeleteModal from '../../components/DeletetModal'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { AddSystemNote, DeleteSystemNote, RemoveFile, uploadFiles } from '../../config/NoteApi'
+import { addNoteFail, addNotePending, addNoteSuccess, deleteNoteFail, deleteNotePending, deleteNoteSuccess, deleteFilePending, deleteFileFail, deleteFileSuccess } from '../../redux/noteSlice'
+import uuid from "react-uuid";
+import { launchImageLibrary } from 'react-native-image-picker'
+import ViewFiles from '../../components/ViewFiles'
+import { assignTechFail, assignTechPending, assignTechSuccess, getAllTechFail, getAllTechPending, getAllTechSuccess } from '../../redux/technicianSlice'
+import { assignTechnician, clearAssignTechnician, fetchAllTechnician } from '../../config/TechApi'
+import AssignTech from '../../components/AssignTech'
+import { clockRunning } from 'react-native-reanimated'
 
+// import RNFetchBlob from 'rn-fetch-blob'
 
 
 
@@ -42,27 +52,13 @@ const scheduleData = [
         name: 'Completed',
         color: "",
     },
-];
-
-
-const techData = [
-    {
-        id: '00',
-        name: 'Ninja Prasad',
-    },
-    {
-        id: '01',
-        name: 'Ashwin Nigga',
-    },
-    {
-        id: '02',
-        name: 'Milan Prasad',
-    },
     {
         id: '03',
-        name: 'Rajesh Hamal',
+        name: 'Recall',
+        color: "",
     },
 ];
+
 
 
 const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, toggleDelete, deleteHandler }) => {
@@ -70,9 +66,14 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
     const [checkListVisible, setCheckListVisible] = useState(false)
     const [addNoteVisible, setAddNoteVisible] = useState(false)
     const [editJobVisible, setEditJobVisible] = useState(false);
+    const [viewFiles, setViewFiles] = useState(false);
+    const [techData, setTechData] = useState()
+
     const statusLoading = useSelector((state: any) => state.jobReducer.statusUpdateLoading)
     const deleteBooking = useSelector((state: any) => state.bookingReducer.deleteLoading)
-
+    const notesLoading = useSelector((state: any) => state.noteReducer.loading)
+    const assignTechLoading = useSelector((state: any) => state.technicianReducer.assignTech)
+    const user = useSelector((state: any) => state.userReducer.data)
 
     const dispatch = useDispatch()
 
@@ -85,22 +86,199 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
     const date = [item.createdAt.slice(0, 4), "/", item.createdAt.slice(5, 7), "/", item.createdAt.slice(8, 15), item.createdAt.slice(8)].join('').substring(0, 10)
 
 
-    const bd = item.products.find((x: any) => x.title.toLowerCase() === "bedrooms")
-    const ba = item.products.find((x: any) => x.title.toLowerCase() === "bathrooms")
+    const bd = item.products.find((x: any) => x.title?.toLowerCase() === "bedrooms")
+    const ba = item.products.find((x: any) => x.title?.toLowerCase() === "bathrooms")
 
 
     const checkListHandler = () => {
         setCheckListVisible(!checkListVisible)
     }
 
-    const addNotesHandler = () => {
-        setAddNoteVisible(!addNoteVisible)
+    const addNotesHandler = async (text: string) => {
+        dispatch(addNotePending())
+        const previousNote = item.notes
+        const newNote = {
+            id: uuid(), by: `${user.firstName} ${user.lastName}`, addedDate: new Date(), text: text
+        }
+        const res: any = await AddSystemNote(id, previousNote, newNote)
+        console.log("res notes", id)
+        if (res.status === "error") {
+            return dispatch(addNoteFail());
+        }
+        dispatch(addNoteSuccess())
+
+        refresh(id)
+        setAddNoteVisible(false)
+        Toast.show({
+            type: 'successToast',
+            visibilityTime: 3000,
+            text1: `${item?.bookingReference} `,
+            props: { message: 'Booking note added successfully' }
+        });
+    }
+
+    const deleteNotesHandler = async (text: string) => {
+        dispatch(deleteNotePending())
+        let newNotes = item?.notes?.filter((x: any) => x.id !== text);
+        const res: any = await DeleteSystemNote(id, newNotes)
+        if (res.status === "error") {
+            return dispatch(deleteNoteFail());
+        }
+        dispatch(deleteNoteSuccess())
+        refresh(id)
+        setAddNoteVisible(false)
+        Toast.show({
+            type: 'deleteToast',
+            visibilityTime: 3000,
+            text1: `${item?.bookingReference} `,
+            props: { message: 'Booking note deleted successfully' }
+        });
     }
 
 
-    const techHandler = (value) => {
-        console.log(value)
+    const uploadFile = async () => {
+        const previousFiles = item.files
+        const options: any = {
+            mediaType: 'photo',
+            maxWidth: 1024,
+            maxHeight: 1024,
+            quality: 0.9,
+        }
+        const result = await launchImageLibrary(options)
+        const file = result?.assets[0]
+        uploadFiles(file, previousFiles, id, refresh)
+        refresh(id)
     }
+
+
+
+    const deleteFile = async (url: any) => {
+        console.log(item.files.length)
+        dispatch(deleteFilePending())
+        let newFiles = item?.files?.filter((item: any) => url !== item);
+        console.log(newFiles.length)
+        RemoveFile(id, url, newFiles);
+        refresh(id)
+        setViewFiles(false)
+    }
+
+
+    const checkPermission = async (url: string) => {
+
+        // Function to check the platform
+        // If iOS then start downloading
+        // If Android then ask for permission
+
+        const obj: { title: string, message: string } = {
+            title: 'Storage Permission Required',
+            message: 'App needs access to your storage to download Photos',
+        }
+
+        if (Platform.OS === 'ios') {
+            downloadImage(url);
+        } else {
+            try {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                    obj
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    // Once user grant the permission start downloading
+                    console.log('Storage Permission Granted.');
+                    downloadImage(url);
+                } else {
+                    // If permission denied then show alert
+                    Alert.alert('Storage Permission Not Granted');
+                }
+            } catch (err) {
+                // To handle permission related exception
+                console.warn(err);
+            }
+        }
+    };
+
+    const getExtention = (filename: string) => {
+        // To get the file extension
+        return /[.]/.exec(filename) ?
+            /[^.]+$/.exec(filename) : undefined;
+    };
+
+    const downloadImage = (url: string) => {
+        // Main function to download the image
+
+        // To add the time suffix in filename
+        let date = new Date();
+        // Image URL which we want to download
+        // Getting the extention of the file
+        let ext: any = getExtention(url);
+        ext = '.' + ext[0];
+        // Get config and fs from RNFetchBlob
+        // config: To pass the downloading related options
+        // fs: Directory path where we want our image to download
+        const { config, fs } = RNFetchBlob;
+        let PictureDir = fs.dirs.PictureDir;
+        let options = {
+            fileCache: true,
+            addAndroidDownloads: {
+                // Related to the Android only
+                useDownloadManager: true,
+                notification: true,
+                path:
+                    PictureDir +
+                    '/image_' +
+                    Math.floor(date.getTime() + date.getSeconds() / 2) +
+                    ext,
+                description: 'Image',
+            },
+        };
+        config(options)
+            .fetch('GET', url)
+            .then(res => {
+                // Showing alert after successful downloading
+                console.log('res -> ', JSON.stringify(res));
+                Alert.alert('Image Downloaded Successfully.');
+            });
+    };
+
+
+
+    const getAllTech = async () => {
+        dispatch(getAllTechPending())
+        const x: any = await fetchAllTechnician()
+        if (x.data.status === "error") {
+            dispatch(getAllTechFail())
+        } else {
+            dispatch(getAllTechSuccess())
+            setTechData(x.data.paginatedResults)
+        }
+    }
+
+    const techHandler = async (item: any) => {
+        console.log("techHandler", item)
+        dispatch(assignTechPending())
+        const result: any = await assignTechnician(id, item);
+        if (result.status === "error") {
+            return dispatch(assignTechFail());
+        }
+        dispatch(assignTechSuccess())
+    };
+
+    const clearTechHandler = async () => {
+        console.log("techHandler", item)
+        dispatch(assignTechPending())
+        const result: any = await clearAssignTechnician(id);
+        if (result.status === "error") {
+            return dispatch(assignTechFail());
+        }
+        dispatch(assignTechSuccess())
+    };
+
+
+
+
+    useEffect(() => {
+        getAllTech()
+    }, [])
 
     return (
         <>
@@ -133,9 +311,12 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                         </View>
 
                         <View style={{ marginVertical: Colors.spacing * 2, }}>
-                            <SelectionCard phColor={Colors.black} data={techData} placeholder="Assign technician" onPress={techHandler} />
+
+                            <AssignTech loading={assignTechLoading} clearTech={clearTechHandler} data={techData} onPress={techHandler} placeholder={item.assignedTech[0] ? `${item.assignedTech[0].firstName + " " + item.assignedTech[0].lastName}` : "Assign technician"} />
+
+
                         </View>
-                        <MapCard address={`${item.address1} ${item.address2} ${item.city} ${item.state} ${item.postcode}`} />
+                        <MapCard address={`${item.address2} ${item.city} ${item.state} ${item.postcode} `} />
 
                         <View style={{ height: 2, width: '100%', marginVertical: Colors.spacing * 2, backgroundColor: Colors.borderColor }} />
                     </View>
@@ -167,7 +348,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
 
-                            <Pressable>
+                            <Pressable onPress={() => refresh(id)}>
                                 <View style={[styles.buttonsHalf, { backgroundColor: Colors.red }]}>
                                     <Text style={{
                                         fontSize: 12,
@@ -274,7 +455,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' }}>
 
-                            <Pressable onPress={addNotesHandler}>
+                            <Pressable onPress={() => setAddNoteVisible(true)}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                     <IconM name="text-box-plus" color={Colors.madidlyThemeBlue} size={20} />
                                     <Text style={{ fontSize: 16, marginLeft: Colors.spacing, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', }}>Add note</Text>
@@ -283,7 +464,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
                             <View style={{ height: Colors.spacing * 4, width: 2, marginVertical: Colors.spacing * 1, backgroundColor: Colors.borderColor }} />
 
-                            <Pressable>
+                            <Pressable onPress={uploadFile}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                     <IconM name="image-plus" color={Colors.madidlyThemeBlue} size={20} />
                                     <Text style={{ fontSize: 16, marginLeft: Colors.spacing, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', }}>Add file</Text>
@@ -295,13 +476,17 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
                     </View>
 
-
+                    {item.notes.length > 0 &&
+                        <View style={{ paddingHorizontal: Colors.spacing * 2, marginBottom: item.notes.length >= 0 ? Colors.spacing * 1 : Colors.spacing * 3 }}>
+                            <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * 1 }}>System notes</Text>
+                            {item.notes.map((item) => ((<JobNotesCard by={item.by} key={item.id} onPress={deleteNotesHandler} id={item.id} text={item.text} date={item.addedDate} />)))}
+                        </View>
+                    }
                     <View style={{ paddingHorizontal: Colors.spacing * 2, marginBottom: Colors.spacing * 3 }}>
-                        <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * 1 }}>System notes</Text>
-                        <JobNotesCard />
+                        <ViewFiles onDelete={deleteFile} data={item.files} isOpen={viewFiles} onClose={() => setViewFiles(false)} onOpen={() => setViewFiles(true)} />
                     </View>
 
-                    <View style={{ paddingHorizontal: Colors.spacing * 2, marginTop: Colors.spacing }}>
+                    <View style={{ paddingHorizontal: Colors.spacing * 2 }}>
                         <Pressable onPress={checkListHandler}   >
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Colors.spacing, justifyContent: 'space-between' }}>
                                 <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', }}>Checklist</Text>
@@ -310,11 +495,10 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                         </Pressable>
 
 
-                        <View style={{ paddingBottom: Colors.spacing * 4 }}>
+                        <View style={{ marginBottom: Colors.spacing * 4 }}>
                             <Checklist title="Checklist" onPress={checkListHandler} isOpen={checkListVisible} />
                         </View>
-
-                        <AddNotes title="Checklist" onClose={() => setAddNoteVisible(false)} onPress={addNotesHandler} isOpen={addNoteVisible} />
+                        <AddNotes onClose={() => setAddNoteVisible(false)} onPress={addNotesHandler} isOpen={addNoteVisible} id={item.bookingReference} loading={notesLoading} />
                     </View>
 
 

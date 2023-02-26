@@ -8,7 +8,7 @@ import NotificationModal from './NotificationModal';
 
 
 
-const Header = ({ nav, title, searchOption, route, searchEnabled }) => {
+const Header = ({ nav, title, searchOption, route, searchEnabled }: any) => {
     const [isOpen, setIsOpen] = useState(false)
     const [notificationVisible, setnotificationVisible] = useState(false)
 
@@ -39,7 +39,7 @@ const Header = ({ nav, title, searchOption, route, searchEnabled }) => {
                 </Pressable>
 
                 <View style={{ marginLeft: Colors.spacing * 3 }}>
-                    <Text style={{ fontFamily: 'Outfit-Bold', fontSize: 12, color: Colors.black,}}>{title}</Text>
+                    <Text style={{ fontFamily: 'Outfit-Bold', fontSize: 12, color: Colors.black, }}>{title}</Text>
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', }}>

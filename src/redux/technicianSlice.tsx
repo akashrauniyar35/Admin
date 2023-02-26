@@ -7,6 +7,7 @@ const initialState = {
     searchValue: '',
     deleteLoading: false,
     viewIDLoading: false,
+    assignTech: false,
 };
 
 const technicianSlice = createSlice({
@@ -58,6 +59,15 @@ const technicianSlice = createSlice({
         deleteTechFail(state) {
             state.deleteLoading = false;
         },
+        assignTechPending(state) {
+            state.assignTech = true
+        },
+        assignTechSuccess(state) {
+            state.assignTech = false
+        },
+        assignTechFail(state) {
+            state.assignTech = false
+        },
     }
 })
 
@@ -69,6 +79,7 @@ export const {
     editTechPending, editTechSuccess, editTechFail,
     deleteTechPending, deleteTechSuccess, deleteTechFail,
     viewTechIDPending, viewTechIDFail, viewTechIDSuccess,
+    assignTechPending, assignTechSuccess, assignTechFail,
 
 } = technicianSlice.actions;
 export default technicianSlice.reducer;

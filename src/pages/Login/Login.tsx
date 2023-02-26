@@ -10,11 +10,11 @@ import axios from 'axios';
 import { endPoint } from '../../config/index'
 import { getUserSuccess } from '../../redux/userSlice';
 
-const Login = ({ navigation }) => {
-  const [email, setEmail] = useState("isha@gmail.com")
-  const [password, setPassword] = useState("Manakamana123")
+const Login = ({ navigation }: any) => {
+  const [email, setEmail] = useState<any>("sivam@gmail.com")
+  const [password, setPassword] = useState<any>("Manakamana123")
   // const data = { "email": email, "password": password }
-  const [data, setData] = useState({ "email": email, "password": password });
+  const [data, setData] = useState<any>({ "email": email, "password": password });
   const [hiddenPassword, setHiddenPassword] = useState(false)
   const dispatch = useDispatch();
 
@@ -38,7 +38,7 @@ const Login = ({ navigation }) => {
       }
       dispatch(loginSuccess(isAuth));
       console.log("Respone isAuth", isAuth.accessJWT)
-      const res = await fetchUserProfile(isAuth.accessJWT);
+      const res: any = await fetchUserProfile(isAuth.accessJWT);
       dispatch(getUserSuccess(res));
     } catch (e: any) {
       dispatch(loginFail(e.message));
@@ -47,9 +47,7 @@ const Login = ({ navigation }) => {
 
 
   useEffect(() => {
-
   }, [])
-
 
   return (
     <>

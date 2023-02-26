@@ -10,6 +10,7 @@ import appointmentSlice from './appointmentSlice';
 import productSlice from './productSlice';
 import userSlice from './userSlice';
 import technicianSlice from './technicianSlice';
+import noteSlice from './noteSlice';
 
 const middlewares = getDefaultMiddleware({
     // https://github.com/reduxjs/redux-toolkit/issues/415
@@ -32,6 +33,7 @@ export default configureStore({
         productReducer: productSlice,
         userReducer: userSlice,
         technicianReducer: technicianSlice,
+        noteReducer: noteSlice,
 
         // quoteSearchReducer: quoteSearchSlice
     },

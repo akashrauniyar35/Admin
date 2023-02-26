@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, Modal, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, Dimensions, FlatList, Modal, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Colors, HEIGHT } from '../assets/Colors';
@@ -9,15 +9,11 @@ const { width, height } = Dimensions.get('screen')
 
 
 
-const AddNotes = ({ onPress, animation, isOpen, title, onClose, id, reference }) => {
-    const [defaultChecklist, setDefaultChecklist] = useState(true);
-    const [addCheckList, setAddChecklist] = useState(false);
-
+const AddNotes = ({ onPress, animation, isOpen, onClose, id, loading }) => {
+    const [text, setText] = useState<string>("")
 
     return (
-
         <>
-
             <Modal
                 animationType={animation ? animation : "fade"}
                 transparent={true}
@@ -56,16 +52,18 @@ const AddNotes = ({ onPress, animation, isOpen, title, onClose, id, reference })
 
                         <View style={styles.container}>
 
-                            <Text style={{ alignSelf: 'center', fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing * 2 }}>{`Add a note to job #${reference}`}</Text>
+                            <Text style={{ alignSelf: 'center', fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing * 2 }}>{`Add a note to job #${id}`}</Text>
 
                             <View style={[styles.textBox, { borderWidth: isAndroid ? .35 : 0, borderColor: Colors.maidlyGrayText, borderRadius: Colors.spacing * 1 }]}>
-                                <TextInput multiline style={[styles.input, { height: isAndroid ? 180 : 250 }]} maxLength={500} />
+                                <TextInput multiline style={[styles.input, { height: isAndroid ? 180 : 250 }]} maxLength={500} onChangeText={(value) => setText(value)} />
                             </View>
 
+                            <Pressable style={styles.save} onPress={() => onPress(text)}>
+                                {loading ?
+                                    <ActivityIndicator color="#fff" size={'small'} animating={loading} style={{ transform: [{ scale: .8 }], }} />
+                                    : <Text style={{ color: 'white', fontSize: 16, fontWeight: isAndroid ? "900" : "600" }}>Save</Text>
+                                }
 
-
-                            <Pressable style={styles.save}>
-                                <Text style={{ color: 'white', fontSize: 16, fontWeight: isAndroid ? "900" : "600" }}>Save</Text>
                             </Pressable>
 
                         </View>

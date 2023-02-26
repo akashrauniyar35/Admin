@@ -1,10 +1,10 @@
 import { StyleSheet, Text, Dimensions, View, TextInput, Animated, LayoutAnimation, Image, TouchableWithoutFeedback, Pressable, Switch } from 'react-native'
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, FC } from 'react'
 import InputBox from './InputBox'
 import { Colors, HEIGHT, isAndroid, WIDTH } from '../assets/Colors'
 import SelectionCard from './SelectionCard'
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import { addJobRemoveAddons, addProductsFail, addProductsSuccess } from '../redux/addJobSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAllProducts } from '../config/ProductsApi'
@@ -38,7 +38,7 @@ const bedroomsData = [
 const bathroomsData = [
     {
         id: '00',
-        name: '1  Bathroom',
+        name: '1  Bathrooms',
     },
     {
         id: '01',
@@ -87,21 +87,27 @@ const propertyTypes = [
         id: "02",
         title: 'House'
     },
-]
+];
 
-const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, bedrooms, bedroomHandler, bathrooms, bathroomHandler, addOns, addOnsAddButton, addOnsRemoveButton, data, addonsIncreaseHandler }) => {
+
+
+const PropertyDetails = ({ serviceHandler, service, propertyHandler, bedroomHandler, bathroomHandler, addOnsAddButton, data, addOnsRemoveButton, addonsIncreaseHandler, noProduct }: any) => {
 
     const [addCheckList, setAddChecklist] = useState(false);
+    const [error, setError] = useState(false);
     const animationController = useRef(new Animated.Value(0)).current
     const [selectedService, setSelectedService] = useState(service ? service === "e" ? services[1].title : services[0].title : "")
     const [selectedProperty, setSelectedProperty] = useState(String)
-    const bd = data.find((x: any) => x.title.toLowerCase() === "bedrooms")?.quantity
-    const ba = data.find((x: any) => x.title.toLowerCase() === "bathrooms")?.quantity
 
-
-
-
+    const [datas, setData] = useState<any>()
     const dispatch = useDispatch()
+
+    const bd = data?.find((x: any) => x?.title?.toLowerCase() === "bedrooms")?.quantity
+    const ba = data?.find((x: any) => x?.title?.toLowerCase() === "bathrooms")?.quantity
+    // const bd = data.length ? data?.find((x: any) => x?.title?.toLowerCase() === "bedrooms")?.quantity : null
+    // const ba = data.length ? data?.find((x: any) => x?.title?.toLowerCase() === "bathrooms")?.quantity : null
+
+
 
     const getProducts = async () => {
         let data: any = await fetchAllProducts()
@@ -144,15 +150,13 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
         dropdown()
     }
 
-    const jobServiceHandler = (value) => {
+    const jobServiceHandler = (value: any) => {
         serviceHandler(value)
         setSelectedService(value)
     }
 
-    const jobPropertyTypesHandler = (value) => {
+    const jobPropertyTypesHandler = (value: any) => {
         propertyHandler(value)
-
-
         setSelectedProperty(value)
     }
 
@@ -173,29 +177,28 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
         addonsIncreaseHandler(p)
     }
 
-
-
     useEffect(() => {
         getProducts()
     }, [])
 
     useEffect(() => {
-    }, [data])
+        bd <= 0 && ba <= 0 ? setError(true) : setError(false)
+    }, [ba, bd])
+
 
     return (
         <View style={{ overflow: 'hidden' }}>
 
-            {/* <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>{bd + " " + ba}</Text>
-
+            {/* <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>{bd + " --- " + ba}</Text>
 
             {
-                data.map((item) => {
+                data.length ? data?.slice(2)?.map((item: any) => {
                     return (
                         <View key={item._id} style={{}}>
                             <Text style={{ color: 'black' }}>{`${item.title} - ${item.quantity} x ${item.price} - Total ${item.quantity * item.amount}`}</Text>
                         </View>
                     )
-                })
+                }) : null
 
             } */}
 
@@ -234,6 +237,10 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
                 </View>
             </View>
 
+            {error && noProduct ? <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Colors.spacing * 2 }}>
+                <IconM name="alert-circle-outline" size={18} style={{ color: Colors.red }} />
+                <Text style={{ color: Colors.red, fontFamily: 'Outfit-medium', fontSize: 12, marginLeft: Colors.spacing * .5 }}>Please add atleast one bedroom or bathroom</Text>
+            </View> : null}
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                 <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "600", }}>Bedrooms</Text>
@@ -249,9 +256,8 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
                 </View>
             </View>
 
-
             {
-                data.slice(2).map((item: any) => {
+                data?.slice(2).map((item: any) => {
                     if (item.quantity >= 1) {
 
                         let newData = [
@@ -298,7 +304,7 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
 
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing, }}>
-                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium',  }}>Addons</Text>
+                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Addons</Text>
                 <View style={{}}>
                     <Switch
                         trackColor={{ false: "#767577", true: Colors.black }}
@@ -309,14 +315,10 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
                 </View>
             </View>
 
-
-
-
             {
                 addCheckList &&
                 <View style={styles.productsContainer}>
-
-                    {data.slice(2).map((item) => {
+                    {data?.slice(2)?.map((item) => {
                         return (
                             <View style={[styles.productsCard, {}]} key={item._id}>
                                 <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Light', }}>{item.title}</Text>
@@ -325,7 +327,6 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
                                         <Text style={{ alignSelf: 'center', fontSize: 12, color: 'white', fontFamily: 'Outfit-Bold', }}>{item.quantity >= 1 ? "remove" : 'Add'}</Text>
                                     </View>
                                 </Pressable>
-
                             </View>
                         )
                     })}
@@ -334,8 +335,12 @@ const PropertyDetails = ({ serviceHandler, service, property, propertyHandler, b
 
             <View style={{ opacity: .35, marginTop: Colors.spacing, marginBottom: Colors.spacing * 2, borderBottomWidth: 2, borderColor: Colors.borderColor }} />
         </View >
+
     )
+
 }
+
+
 
 export default PropertyDetails
 

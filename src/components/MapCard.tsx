@@ -8,6 +8,9 @@ import MapView, { Marker, PROVIDER_GOOGLE, AnimatedRegion, Animated, MarkerAnima
 const isAndroid = Platform.OS == 'android' ? true : false
 
 const MapCard = ({ address }: any) => {
+
+    // const p = "53 Mosely St Strathfield NSW 2135"
+
     const [region, setRegion] = useState({
         latitude: 0,
         longitude: 0,

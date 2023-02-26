@@ -3,17 +3,24 @@ import React from 'react'
 import { Colors, isAndroid } from '../../assets/Colors'
 import Divider from '../../components/Divider'
 
-const Card = ({ onPress, id, fName, status, lName, price }) => {
+const Card = ({ onPress, id, fName, status, lName, price, tech }) => {
     return (
         <Pressable onPress={() => onPress(id)}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
                 <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Regular', width: isAndroid ? "35%" : "35%" }}>{fName + " " + lName}</Text>
-                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Regular', width: '25%' }}>Umesh Ji</Text>
 
+                {tech ?
+                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Regular', width: isAndroid ? '25%' : "20%" }}>{tech}</Text> :
+                    <View style={{ width: isAndroid ? '25%' : "20%", justifyContent: 'center' }}>
+                        <View style={{ backgroundColor: 'red', width: 25, height: 25, alignItems: 'center', justifyContent: 'center', borderRadius: 100 }}>
+                            <Text style={{ fontSize: 10, color: "white", fontFamily: 'Outfit-Bold', }}>NA</Text>
+                        </View>
+                    </View>
+                }
 
                 <View style={{ width: isAndroid ? '25%' : '23%', }}>
-                    <View style={{ backgroundColor: status.toLowerCase() === "in progress" ? Colors.orangeBG : status.toLowerCase() === "completed" ? Colors.paidBG : status.toLowerCase() === "cancelled" ? Colors.redBG : Colors.orangeBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing, alignItems: 'center', width: isAndroid ? "80%" : "100%", marginLeft: isAndroid ? -Colors.spacing * .5 : -Colors.spacing * 1 }}>
-                        <Text style={{ fontSize: 10, color: status.toLowerCase() === "in progress" ? Colors.orange : status.toLowerCase() === "completed" ? Colors.green : status.toLowerCase() === "cancelled" ? Colors.red : Colors.orange, fontFamily: 'Outfit-ExtraBold', }}>{status}</Text>
+                    <View style={{ backgroundColor: status.toLowerCase() === "in progress" ? Colors.orangeBG : status.toLowerCase() === "completed" ? Colors.paidBG : status.toLowerCase() === "cancelled" ? Colors.redBG : status.toLowerCase() === "recall" ? Colors.redBG : Colors.orangeBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing, alignItems: 'center', width: isAndroid ? "80%" : "100%", marginLeft: isAndroid ? -Colors.spacing * .5 : -Colors.spacing * 1 }}>
+                        <Text style={{ fontSize: 10, color: status.toLowerCase() === "in progress" ? Colors.orange : status.toLowerCase() === "completed" ? Colors.green : status.toLowerCase() === "cancelled" ? Colors.red : status.toLowerCase() === "recall" ? Colors.red : Colors.orange, fontFamily: 'Outfit-ExtraBold', }}>{status}</Text>
                     </View>
                 </View>
 
@@ -22,7 +29,7 @@ const Card = ({ onPress, id, fName, status, lName, price }) => {
             <View style={{ marginVertical: Colors.spacing * 1 }}>
                 <Divider height={.6} color={Colors.borderColor} width="100%" opacity={.1} />
             </View>
-        </Pressable>
+        </Pressable >
     )
 }
 

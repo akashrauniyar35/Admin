@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { Colors, isAndroid } from '../assets/Colors'
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const InputBox = ({ maxLength, onChange, keyboardType, onPress, editable, rounded, placeholderSize, lable, placeholder, size, icon, bg, phColor, itemsCenter, capitalize, value, isPrice }) => {
 
+const InputBox = ({ maxLength, onChange, keyboardType, onPress, editable, rounded, placeholderSize, lable, placeholder, size, icon, bg, phColor, itemsCenter, capitalize, value, }: any) => {
 
     return (
         <>
@@ -16,10 +16,8 @@ const InputBox = ({ maxLength, onChange, keyboardType, onPress, editable, rounde
                 <TextInput value={value} maxLength={maxLength ? maxLength : 50} autoCapitalize={capitalize} keyboardType={keyboardType} onChangeText={(value) => onChange(value)} onPressIn={() => onPress} editable={editable} placeholderTextColor={phColor ? phColor : Colors.maidlyGrayText} placeholder={placeholder} style={{ width: '100%', textAlign: itemsCenter ? 'center' : 'left', fontSize: placeholderSize ? placeholderSize : 16, color: phColor ? phColor : Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}
                     onSubmitEditing={Keyboard.dismiss}
                 />
-
             </View>
         </>
-
 
     )
 }

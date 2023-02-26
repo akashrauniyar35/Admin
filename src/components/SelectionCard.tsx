@@ -30,7 +30,7 @@ const SelectionCard = ({ onPress, data, label, size, fontSize, icon, type, place
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                            {type === "schedule" && <View style={{ borderRadius: 100, backgroundColor: (selected ? selected : placeholder) === "Cancelled" ? Colors.red : (selected ? selected : placeholder) === "Scheduled" ? Colors.orange : (selected ? selected : placeholder) === "In Progress" ? Colors.orange : (selected ? selected : placeholder) === "Completed" ? Colors.paid : Colors.orange, width: 16, height: 16, marginRight: Colors.spacing, }} />}
+                            {type === "schedule" && <View style={{ borderRadius: 100, backgroundColor: (selected ? selected : placeholder) === "Cancelled" ? Colors.red : (selected ? selected : placeholder) === "Scheduled" ? Colors.orange : (selected ? selected : placeholder) === "In Progress" ? Colors.orange : (selected ? selected : placeholder) === "Completed" ? Colors.paid : (selected ? selected : placeholder) === "Recall" ? Colors.red : Colors.orange, width: 16, height: 16, marginRight: Colors.spacing, }} />}
 
                             <Text style={{ fontSize: fontSize ? fontSize : 14, color: phColor, fontFamily: 'Outfit-Light', }}>{selected ? selected : placeholder}</Text>
                         </View>

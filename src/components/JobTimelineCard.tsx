@@ -3,7 +3,7 @@ import React from 'react'
 import { Colors, isAndroid } from '../assets/Colors'
 import { getInitials } from './dataConverters'
 import Icon from 'react-native-vector-icons/Ionicons';
-const JobTimelineCard = ({ date, icon, title, createdBy }) => {
+const JobTimelineCard = ({ date, icon, title, createdBy }: any) => {
     return (
         <View style={styles.container}>
 
@@ -12,7 +12,7 @@ const JobTimelineCard = ({ date, icon, title, createdBy }) => {
 
             <View style={{ marginLeft: Colors.spacing, }}>
 
-                <View style={{ width: isAndroid ? '80%' : '83%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * .5,}}>
+                <View style={{ width: isAndroid ? '80%' : '83%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * .5, }}>
                     <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', }}>{title}</Text>
                     <Text style={{ fontSize: 10, color: Colors.black, fontFamily: 'Outfit-Medium', }}>{date.substring(0, 19)}</Text>
 

@@ -15,6 +15,7 @@ import { launchImageLibrary } from 'react-native-image-picker'
 import { getUserFail, getUserPending, getUserSuccess, updateUserFail, updateUserPending, updateUserSuccess } from '../../redux/userSlice';
 import Toast from 'react-native-toast-message';
 import ShowToast from '../../components/ShowToast';
+import { clockRunning } from 'react-native-reanimated';
 
 const bathroomsData = [
     {
@@ -50,6 +51,8 @@ const Profile = ({ navigation }) => {
     const detailsLoading = useSelector((state: any) => state.userReducer.detailsLoading)
     const pic = useSelector((state: any) => state.userReducer.data.profilePic.src)
 
+    console.log("pic pic", pic)
+
     const phoneNumber = [data?.phone?.toString().slice(0, 4), " ", data?.phone?.toString().slice(4, 7), " ", data?.phone?.toString().
         slice(7)].join('')
 
@@ -71,11 +74,15 @@ const Profile = ({ navigation }) => {
     const uploadProfileHandler = async () => {
         const pic = data.profilePic.src
         const id = data._id
-        const options: any = { mediaType: 'photo' }
+        const options: any = {
+            mediaType: 'photo',
+            maxWidth: 1024,
+            maxHeight: 1024,
+            quality: 0.9,
+        }
         const result = await launchImageLibrary(options)
         const file = result?.assets[0]
         updateProfilePic(file, pic, id, getUserProfile)
-        
     }
 
     const updateDetailsHandler = async () => {
@@ -107,7 +114,6 @@ const Profile = ({ navigation }) => {
             <View style={styles.container}>
                 <Header nav={navigation} title="Profile" searchEnabled={true} />
 
-
                 <ScrollView style={{ marginTop: Colors.spacing * 2, marginBottom: Colors.spacing * 3, paddingHorizontal: Colors.spacing * 2, flex: 1 }}>
 
                     <View style={[styles.shadow, { marginBottom: Colors.spacing * 2, }]}>
@@ -119,7 +125,10 @@ const Profile = ({ navigation }) => {
                         </View>
 
                         <View style={{ alignSelf: 'center', borderRadius: 100, alignItems: 'center', borderWidth: 5, borderColor: Colors.madidlyThemeBlue, justifyContent: 'center', padding: 4, }}>
-                            <Image source={{ uri: pic }} style={{ width: 120, height: 120, borderRadius: 100 }} />
+                            {loading ? <View style={{ width: 120, height: 120, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
+                                <ActivityIndicator color={Colors.madidlyThemeBlue} animating={loading} size={'small'} style={{}} />
+                            </View>
+                                : <Image source={{ uri: pic }} style={{ width: 120, height: 120, borderRadius: 100 }} />}
                         </View>
                     </View>
 

@@ -140,7 +140,7 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDe
                         </View>
 
                         <View style={{ marginVertical: Colors.spacing * 2, }}>
-                            <MapCard address={`${item.address1} ${item.address2} ${item.city} ${item.state} ${item.postcode}`} />
+                            <MapCard address={`${item.address2} ${item.city} ${item.state} ${item.postcode}`} />
                         </View>
 
                         <View style={{ height: .35, width: '100%', marginBottom: Colors.spacing * 2, backgroundColor: Colors.maidlyGrayText }} />

@@ -72,6 +72,42 @@ export const addTech = (data: any) => {
 
     })
 };
+export const assignTechnician = (id: string, tech: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const res: any = await endPoint.put(`booking/${id}`, {
+                assignedTech: [
+                    tech
+                ],
+            })
+            console.log("notes api res", res)
+            resolve(res.data)
+        }
+        catch (err) {
+            console.log(err)
+            reject(err)
+        }
+    })
+}
+
+export const clearAssignTechnician = (id: string) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const res: any = await endPoint.put(`booking/${id}`, {
+                assignedTech: [],
+            })
+            console.log("notes api res", res)
+            resolve(res.data)
+        }
+        catch (err) {
+            console.log(err)
+            reject(err)
+        }
+    })
+}
+
+
+
 export const ABC = (data: any) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -83,3 +119,5 @@ export const ABC = (data: any) => {
 
     })
 };
+
+
