@@ -30,7 +30,19 @@ export const fetchBookingByID = (id: string) => {
     })
 };
 
+export const fetchBookingCount = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const res: any = await endPoint.get(`booking/counts`)
+            resolve(res);
+        }
+        catch (err) {
+            console.log(err)
+            reject(err)
+        }
 
+    })
+};
 
 
 export const fetchAppointments = () => {

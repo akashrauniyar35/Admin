@@ -5,13 +5,13 @@ import { Colors, isAndroid, lightenColor, WIDTH } from '../../assets/Colors';
 import HeaderComponent from '../../components/AddButtonHeader';
 
 
-import { quoteStatusFail, quoteStatusPending, quoteStatusSuccess, viewQuoteFail, viewQuotePending, viewQuoteSuccess } from '../../redux/jobSlice';
+import { quoteStatusFail, quoteStatusPending, quoteStatusSuccess, } from '../../redux/jobSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchQuoteByID, fetchStatusUpdate } from '../../config/JobApi';
+import { fetchStatusUpdate } from '../../config/JobApi';
 import ViewBookingModalComponent from './ViewBookingModalComponent'
+import ShowToast from '../../components/ShowToast';
 
-
-const ViewBookingModal = ({ isOpen, onPress, onClose, id, refresh, deleteOpen, toggleDelete, deleteHandler }) => {
+const ViewBookingModal = ({ isOpen, onClose, id, refresh, deleteOpen, toggleDelete, deleteHandler }: any) => {
 
     const data: any = useSelector((state: any) => state.bookingReducer.id)
     const loading = useSelector((state: any) => state.bookingReducer.bookingbyID)
@@ -32,40 +32,40 @@ const ViewBookingModal = ({ isOpen, onPress, onClose, id, refresh, deleteOpen, t
 
 
     return (
-        < View >
-            <View>
+        <>
+            < View >
+                <View>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={isOpen}
+                        onRequestClose={onClose}
 
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={isOpen}
-                    onRequestClose={onClose}
+                    ><SafeAreaView />
+                        <View style={styles.centeredView}>
+                            <Pressable>
+                                <HeaderComponent saveOption={false} onClose={onClose} lable={`#${id?.substring(0)}`} />
+                            </Pressable>
 
-                ><SafeAreaView />
-                    <View style={styles.centeredView}>
+                            {loading && <ActivityIndicator color={Colors.madidlyThemeBlue} animating={loading} size={'small'} style={{}} />}
 
-                        <Pressable>
-                            <HeaderComponent saveOption={false} onClose={onClose} lable={`#${id?.substring(0, 40)}`} />
-                        </Pressable>
+                            <View style={styles.modalView}>
+                                {data.map((item: any) => {
+                                    return (
+                                        <ViewBookingModalComponent
+                                            statusHandler={statusHandler} key={item._id} id={id} item={item} refresh={refresh}
+                                            deleteOpen={deleteOpen}
+                                            toggleDelete={toggleDelete}
+                                            deleteHandler={deleteHandler} />
+                                    )
+                                })}
+                            </View>
 
-                        {loading && <ActivityIndicator color={Colors.madidlyThemeBlue} animating={loading} size={'small'} style={{}} />}
-
-                        <View style={styles.modalView}>
-                            {data.map((item: any) => {
-                                return (
-                                    <ViewBookingModalComponent
-                                        statusHandler={statusHandler} key={item._id} id={id} item={item} refresh={refresh}
-                                        deleteOpen={deleteOpen}
-                                        toggleDelete={toggleDelete}
-                                        deleteHandler={deleteHandler} />
-                                )
-                            })}
                         </View>
-
-                    </View>
-                </Modal >
-            </View >
-        </View>
+                    </Modal >
+                </View >
+            </View>
+        </>
     )
 }
 

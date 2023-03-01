@@ -11,7 +11,6 @@ target 'Admin' do
   # React Native Maps dependencies
   rn_maps_path = '../node_modules/react-native-maps'
   pod 'react-native-google-maps', :path => rn_maps_path
-
   pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
 
 

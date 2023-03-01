@@ -4,7 +4,7 @@ import { Colors, isAndroid } from '../assets/Colors'
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getInitials } from './dataConverters';
 
-const JobNotesCard = ({ text, date, id, onPress, by }) => {
+const JobNotesCard = ({ text, date, id, onPress, by, selectedNote, loading }: any) => {
 
     const day = new Date(date).getDate();
     const month = new Date(date).toLocaleString('default', { month: 'long' })
@@ -13,9 +13,9 @@ const JobNotesCard = ({ text, date, id, onPress, by }) => {
     return (
         <View style={styles.container}>
 
-            <View style={{ marginRight: Colors.spacing, width: 35, height: 35, borderRadius: 100, backgroundColor: Colors.madidlyThemeBlue, alignItems: 'center', justifyContent: 'center' }}>
+            {by ? <View style={{ marginRight: Colors.spacing, width: 35, height: 35, borderRadius: 100, backgroundColor: Colors.madidlyThemeBlue, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Outfit-Bold', }}>{getInitials(by)}</Text>
-            </View>
+            </View> : null}
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1 }}>
                 <View style={{}}>
@@ -24,9 +24,12 @@ const JobNotesCard = ({ text, date, id, onPress, by }) => {
                         <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{text}</Text>
                     </View>
                 </View>
-                <Pressable onPress={() => onPress(id)}>
-                    <Text style={{ fontSize: 12, color: Colors.red, fontFamily: 'Outfit-Light', }}>delete</Text>
-                </Pressable>
+
+                {id === selectedNote ? <ActivityIndicator color={Colors.red} size={'small'} animating={loading} style={{ transform: [{ scale: .8 }], }} />
+                    :
+                    <Pressable onPress={() => onPress(id)}>
+                        <Text style={{ fontSize: 12, color: Colors.red, fontFamily: 'Outfit-Light', }}>delete</Text>
+                    </Pressable>}
             </View>
 
         </View >

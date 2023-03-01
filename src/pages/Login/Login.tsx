@@ -1,4 +1,4 @@
-import { ActivityIndicator, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
+import { ActivityIndicator, Image, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors } from '../../assets/Colors'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -6,9 +6,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { loginPending, loginFail, loginSuccess } from '../../redux/authenticationSlice';
 import { fetchUserProfile, userLogin } from '../../config/UserApi'
 import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios';
-import { endPoint } from '../../config/index'
+import google from "../../assets/newlogo.png";
 import { getUserSuccess } from '../../redux/userSlice';
+
 
 const Login = ({ navigation }: any) => {
   const [email, setEmail] = useState<any>("sivam@gmail.com")
@@ -20,6 +20,7 @@ const Login = ({ navigation }: any) => {
 
   const rootUrl = "https://wedo-backend.herokuapp.com/v1/";
   const loginUrl = rootUrl + "customer/login";
+
 
 
   const loading = useSelector((state: any) => state.authReducer.loading)
@@ -46,12 +47,9 @@ const Login = ({ navigation }: any) => {
   }
 
 
-  useEffect(() => {
-  }, [])
-
   return (
     <>
-      <StatusBar barStyle='dark-content' />
+      <StatusBar barStyle='light-content' />
       <SafeAreaView style={{ backgroundColor: Colors.skyColor }} />
       <View style={{ backgroundColor: Colors.skyColor, flex: 1 }}>
         <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
@@ -59,8 +57,11 @@ const Login = ({ navigation }: any) => {
           <View style={{ alignItems: 'center', justifyContent: 'center', top: Colors.spacing * 6 }}>
 
             <Text style={{ color: Colors.black, fontFamily: 'Outfit-Bold', fontSize: 26 }}>Hello Again!</Text>
-            <Text style={{ color: 'white', fontSize: 14, width: '45%', paddingTop: Colors.spacing * 2, textAlign: 'center', fontFamily: 'Outfit-Light', }}>Wellcome back you've been missed!</Text>
+            <Text style={{ color: 'white', fontSize: 14, width: '45%', paddingTop: Colors.spacing * .5, textAlign: 'center', fontFamily: 'Outfit-Light', }}>Wellcome back you've been missed!</Text>
+
+            <Image source={google} style={{ width: 150, height: 100, marginTop: 30 }} />
           </View>
+
 
           <View style={{ marginTop: Colors.spacing * 10 }}>
             <TextInput
@@ -103,7 +104,7 @@ const Login = ({ navigation }: any) => {
           <View style={{ marginBottom: Colors.spacing * 6 }} />
 
           <Pressable onPress={loginHandle}>
-            <View style={{ flexDirection: 'row', height: 40, alignItems: 'center', backgroundColor: Colors.darkBlue, borderRadius: 5, padding: Colors.spacing, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ flexDirection: 'row', height: 40, alignItems: 'center', backgroundColor: Colors.madidlyThemeBlue, borderRadius: 5, padding: Colors.spacing, justifyContent: 'center' }}>
               {loading ? <ActivityIndicator color="white" size={20} /> : <Text style={{ fontSize: 16, color: '#fff', fontFamily: 'Outfit-Bold', }}>Sign In</Text>
               }
             </View>

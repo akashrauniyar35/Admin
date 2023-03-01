@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Colors, HEIGHT } from '../assets/Colors';
 import SelectTechnicianCard from './SelectionCard';
 import PeriodSelector from './PeriodSelector';
-import StatusCard from './Sc';
 import SelectionCard from './SelectionCard';
 import CheckListCard from './CheckListCard';
 import AddCheckList from './AddCheckList';
@@ -52,7 +51,7 @@ const data = [
 ];
 
 
-const Checklist = ({ onPress, isOpen, title }) => {
+const Checklist = ({ onPress, isOpen, title }: any) => {
     const [defaultChecklist, setDefaultChecklist] = useState(true);
     const [addCheckList, setAddChecklist] = useState(false);
 
@@ -137,7 +136,7 @@ const Checklist = ({ onPress, isOpen, title }) => {
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2 }}>
 
-                                    <Text style={{ marginLeft: Colors.spacing, fontSize: 16, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light',}}>Use Default Checklist</Text>
+                                    <Text style={{ marginLeft: Colors.spacing, fontSize: 16, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>Use Default Checklist</Text>
                                     <Switch
                                         trackColor={{ false: "#767577", true: Colors.madidlyThemeBlue }}
                                         thumbColor={'white'}

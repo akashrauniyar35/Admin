@@ -5,17 +5,14 @@ import { Colors } from '../../assets/Colors'
 import Agenda from '../../components/Agenda'
 import ShowToast from '../../components/ShowToast'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchAppointments, fetchTodayBookings } from '../../config/BookingApi'
+import { fetchAppointments } from '../../config/BookingApi'
 import { getAppointmentsFail, getAppointmentsPending, getAppointmentsSuccess } from '../../redux/appointmentSlice'
-import { useIsFocused, useFocusEffect } from '@react-navigation/native';
 
-const Appointments = ({ navigation }) => {
+const Appointments = ({ navigation }: any) => {
     const dispatch = useDispatch();
     const data = useSelector((state: any) => state.appointmentReducer.data)
     const loadings = useSelector((state: any) => state.appointmentReducer.loading)
-    const isFocused = useIsFocused()
     const [loading, setLoading] = useState(true)
-
     const getAllAppointments = async () => {
         console.log("refresg")
         dispatch(getAppointmentsPending())
@@ -43,14 +40,12 @@ const Appointments = ({ navigation }) => {
 
                     <View style={{ backgroundColor: Colors.madlyBGBlue, }}>
                         <Agenda nav={navigation} data={data} refresh={getAllAppointments} />
-                    
+                        {loading ?
 
-                        {loading &&
                             <View style={{ position: 'absolute', zIndex: 1, top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }}>
                                 <ActivityIndicator color={Colors.madidlyThemeBlue} animating={loading} />
-                            </View>
+                            </View> : null
                         }
-
                     </View>
 
                 </View>

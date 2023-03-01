@@ -93,18 +93,6 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
             type: 'editJob',
         },
         {
-            id: '02',
-            title: 'Add notes',
-            icon: 'text-box-plus',
-            type: 'addNotes',
-        },
-        {
-            id: '03',
-            title: 'View/Send invoice',
-            icon: 'file-pdf-box',
-            type: 'viewPDF',
-        },
-        {
             id: '04',
             title: 'Delete',
             icon: 'trash-can',
@@ -123,11 +111,8 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
             outputRange: [-20, 0, 0, 1],
             extrapolate: 'clamp'
         });
-
-        console.log('lastItemID', lastItemID)
-
         return (
-            <View style={[styles.leftContainer, { backgroundColor: index % 2 === 0 ? 'white' : "transparent", }]} >
+            <View style={[styles.leftContainer, {}]} >
                 {swipeableOptions.map((item) => {
                     return (
                         <Pressable
@@ -152,14 +137,8 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
             setEditJobVisible(true)
             editJobHandler()
         }
-        if (value === "addNotes") {
-            setAddNotesVisible(true)
-        }
         if (value === "delete") {
             setDeleteJob(true)
-        }
-        if (value === "viewPDF") {
-
         }
         if (value === "confirmBooking") {
             setConfirmBookingVisible(true);
@@ -293,11 +272,14 @@ const styles = StyleSheet.create({
     },
     leftContainer: {
         width: 200,
+        marginVertical: 10,
+        backgroundColor: Colors.madidlyThemeBlue,
         justifyContent: 'center',
         overflow: 'hidden'
     },
     leftCard: {
         width: 200,
+        justifyContent: 'center',
         paddingVertical: Colors.spacing * 1,
         backgroundColor: Colors.madidlyThemeBlue,
         overflow: 'hidden'

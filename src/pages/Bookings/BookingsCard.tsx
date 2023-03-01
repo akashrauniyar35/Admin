@@ -9,7 +9,7 @@ import { Swipeable, } from 'react-native-gesture-handler';
 import { Colors, isAndroid } from '../../assets/Colors';
 
 
-const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, swipeableOptions, toggleDelete, selectedBooking }: any) => {
+const BookingsCard = ({ toggleNotes, addPaymentHandler, editBookingHandler, item, index, onPress, swipeableOptions, toggleDelete, selectedBooking }: any) => {
 
     const swipeableRef = useRef<Swipeable | null>(null);
     const street = item.address2?.split(" ")
@@ -34,8 +34,8 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
         if (value === "delete") {
             toggleDelete()
         }
-        if (value === "viewPDF") {
-
+        if (value === "addPayment") {
+            addPaymentHandler()
         }
         if (value === "confirmBooking") {
             // setConfirmBookingVisible(true);
@@ -90,7 +90,6 @@ const BookingsCard = ({ toggleNotes, editBookingHandler, item, index, onPress, s
                 friction={1}
             >
                 <Pressable onPress={onPress}>
-
 
                     <View style={[styles.container, { backgroundColor: index % 2 === 0 ? 'white' : "transparent", elevation: index % 2 === 0 ? 0 : 1 },]}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>

@@ -1,4 +1,4 @@
-import { Alert, PermissionsAndroid, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Alert, PermissionsAndroid, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors, isAndroid, WIDTH } from '../../assets/Colors'
 import SelectionCard from '../../components/SelectionCard'
@@ -18,7 +18,7 @@ import MapCard from '../../components/MapCard'
 import DeleteModal from '../../components/DeletetModal'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AddSystemNote, DeleteSystemNote, RemoveFile, uploadFiles } from '../../config/NoteApi'
-import { addNoteFail, addNotePending, addNoteSuccess, deleteNoteFail, deleteNotePending, deleteNoteSuccess, deleteFilePending, deleteFileFail, deleteFileSuccess } from '../../redux/noteSlice'
+import { addNoteFail, addNotePending, addNoteSuccess, deleteNoteFail, deleteNotePending, deleteNoteSuccess, deleteFilePending, deleteFileFail, deleteFileSuccess, uploadFilePending, uploadFileSuccess, uploadFileFail } from '../../redux/noteSlice'
 import uuid from "react-uuid";
 import { launchImageLibrary } from 'react-native-image-picker'
 import ViewFiles from '../../components/ViewFiles'
@@ -27,9 +27,7 @@ import { assignTechnician, clearAssignTechnician, fetchAllTechnician } from '../
 import AssignTech from '../../components/AssignTech'
 import { clockRunning } from 'react-native-reanimated'
 
-// import RNFetchBlob from 'rn-fetch-blob'
-
-
+import RNFetchBlob from 'rn-fetch-blob'
 
 const scheduleData = [
     {
@@ -61,19 +59,19 @@ const scheduleData = [
 
 
 
-const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, toggleDelete, deleteHandler }) => {
-    console.log('job component modal item', id)
-    const [checkListVisible, setCheckListVisible] = useState(false)
+const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, toggleDelete, deleteHandler }: any) => {
     const [addNoteVisible, setAddNoteVisible] = useState(false)
     const [editJobVisible, setEditJobVisible] = useState(false);
     const [viewFiles, setViewFiles] = useState(false);
     const [techData, setTechData] = useState()
-
+    const [selectedNote, setSelectedNote] = useState("")
     const statusLoading = useSelector((state: any) => state.jobReducer.statusUpdateLoading)
     const deleteBooking = useSelector((state: any) => state.bookingReducer.deleteLoading)
     const notesLoading = useSelector((state: any) => state.noteReducer.loading)
+    const deleteLoading = useSelector((state: any) => state.noteReducer.deleteLoading)
     const assignTechLoading = useSelector((state: any) => state.technicianReducer.assignTech)
     const user = useSelector((state: any) => state.userReducer.data)
+    const fileLoading = useSelector((state: any) => state.noteReducer.fileLoading)
 
     const dispatch = useDispatch()
 
@@ -90,9 +88,9 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
     const ba = item.products.find((x: any) => x.title?.toLowerCase() === "bathrooms")
 
 
-    const checkListHandler = () => {
-        setCheckListVisible(!checkListVisible)
-    }
+    // const checkListHandler = () => {
+    //     setCheckListVisible(!checkListVisible)
+    // }
 
     const addNotesHandler = async (text: string) => {
         dispatch(addNotePending())
@@ -110,7 +108,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
         refresh(id)
         setAddNoteVisible(false)
         Toast.show({
-            type: 'successToast',
+            type: 'modalSuccessToast',
             visibilityTime: 3000,
             text1: `${item?.bookingReference} `,
             props: { message: 'Booking note added successfully' }
@@ -118,6 +116,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
     }
 
     const deleteNotesHandler = async (text: string) => {
+        setSelectedNote(text)
         dispatch(deleteNotePending())
         let newNotes = item?.notes?.filter((x: any) => x.id !== text);
         const res: any = await DeleteSystemNote(id, newNotes)
@@ -128,10 +127,21 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
         refresh(id)
         setAddNoteVisible(false)
         Toast.show({
-            type: 'deleteToast',
+            type: 'modalDeleteToast',
             visibilityTime: 3000,
             text1: `${item?.bookingReference} `,
             props: { message: 'Booking note deleted successfully' }
+        });
+    }
+
+
+
+    const addPayment = () => {
+        Toast.show({
+            type: 'modalSuccessToast',
+            visibilityTime: 3000,
+            text1: `${item?.bookingReference} `,
+            props: { message: 'Booking note added successfully' }
         });
     }
 
@@ -142,46 +152,38 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
             mediaType: 'photo',
             maxWidth: 1024,
             maxHeight: 1024,
-            quality: 0.9,
+            quality: 1,
         }
-        const result = await launchImageLibrary(options)
+        const result: any = await launchImageLibrary(options)
         const file = result?.assets[0]
-        uploadFiles(file, previousFiles, id, refresh)
-        refresh(id)
+        await uploadFiles(file, previousFiles, id, refresh, dispatch)
     }
-
-
 
     const deleteFile = async (url: any) => {
         console.log(item.files.length)
         dispatch(deleteFilePending())
         let newFiles = item?.files?.filter((item: any) => url !== item);
         console.log(newFiles.length)
-        RemoveFile(id, url, newFiles);
-        refresh(id)
-        setViewFiles(false)
+        RemoveFile(id, url, newFiles, refresh)
+        dispatch(deleteFileSuccess())
     }
 
-
-    const checkPermission = async (url: string) => {
-
-        // Function to check the platform
-        // If iOS then start downloading
-        // If Android then ask for permission
-
+    const checkPermission = async (url: any) => {
         const obj: { title: string, message: string } = {
             title: 'Storage Permission Required',
             message: 'App needs access to your storage to download Photos',
         }
 
         if (Platform.OS === 'ios') {
-            downloadImage(url);
+            downloadImage(url)
+
         } else {
             try {
+
                 const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                    obj
-                );
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE, obj
+                )
+
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     // Once user grant the permission start downloading
                     console.log('Storage Permission Granted.');
@@ -197,46 +199,31 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
         }
     };
 
-    const getExtention = (filename: string) => {
-        // To get the file extension
-        return /[.]/.exec(filename) ?
-            /[^.]+$/.exec(filename) : undefined;
-    };
-
-    const downloadImage = (url: string) => {
-        // Main function to download the image
-
-        // To add the time suffix in filename
+    const downloadImage = (fileUrl: any) => {
         let date = new Date();
-        // Image URL which we want to download
-        // Getting the extention of the file
-        let ext: any = getExtention(url);
-        ext = '.' + ext[0];
-        // Get config and fs from RNFetchBlob
-        // config: To pass the downloading related options
-        // fs: Directory path where we want our image to download
+        let FILE_URL = fileUrl;
         const { config, fs } = RNFetchBlob;
-        let PictureDir = fs.dirs.PictureDir;
+        let RootDir = fs.dirs.PictureDir + "/Wedo_Pictures";
+
         let options = {
             fileCache: true,
             addAndroidDownloads: {
-                // Related to the Android only
-                useDownloadManager: true,
-                notification: true,
                 path:
-                    PictureDir +
-                    '/image_' +
-                    Math.floor(date.getTime() + date.getSeconds() / 2) +
-                    ext,
-                description: 'Image',
+                    RootDir +
+                    `/${item.quoteReference}_` +
+                    Math.floor(date.getTime() + date.getSeconds() / 2) + '.jpeg',
+                description: 'downloading file...',
+                notification: true,
+                // useDownloadManager works with Android only
+                useDownloadManager: true,
             },
         };
+
         config(options)
-            .fetch('GET', url)
+            .fetch('GET', FILE_URL)
             .then(res => {
-                // Showing alert after successful downloading
+                // Alert after successful downloading
                 console.log('res -> ', JSON.stringify(res));
-                Alert.alert('Image Downloaded Successfully.');
             });
     };
 
@@ -272,8 +259,6 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
         }
         dispatch(assignTechSuccess())
     };
-
-
 
 
     useEffect(() => {
@@ -317,7 +302,6 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
                         </View>
                         <MapCard address={`${item.address2} ${item.city} ${item.state} ${item.postcode} `} />
-
                         <View style={{ height: 2, width: '100%', marginVertical: Colors.spacing * 2, backgroundColor: Colors.borderColor }} />
                     </View>
 
@@ -348,12 +332,12 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
 
-                            <Pressable onPress={() => refresh(id)}>
+                            <Pressable onPress={() => addPayment()}>
                                 <View style={[styles.buttonsHalf, { backgroundColor: Colors.red }]}>
                                     <Text style={{
                                         fontSize: 12,
                                         color: 'white', fontFamily: 'Outfit-Bold',
-                                    }}>Job buttons</Text>
+                                    }}>Add payment</Text>
                                 </View>
                                 <ShowToast />
 
@@ -380,8 +364,6 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                         <View style={{ height: 2, width: '100%', marginVertical: Colors.spacing * 2, backgroundColor: Colors.borderColor }} />
 
                     </View>
-
-
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -452,41 +434,44 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
 
-
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' }}>
 
-                            <Pressable onPress={() => setAddNoteVisible(true)}>
+                            <Pressable onPress={() => setAddNoteVisible(true)} style={{ width: "30%" }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                     <IconM name="text-box-plus" color={Colors.madidlyThemeBlue} size={20} />
                                     <Text style={{ fontSize: 16, marginLeft: Colors.spacing, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', }}>Add note</Text>
                                 </View>
                             </Pressable>
 
+
+
                             <View style={{ height: Colors.spacing * 4, width: 2, marginVertical: Colors.spacing * 1, backgroundColor: Colors.borderColor }} />
 
-                            <Pressable onPress={uploadFile}>
+
+                            {fileLoading ? <ActivityIndicator color={Colors.madidlyThemeBlue} size={'small'} animating={fileLoading} style={{ transform: [{ scale: 1 }], width: "30%" }} /> : <Pressable style={{ width: "30%" }} onPress={uploadFile}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                     <IconM name="image-plus" color={Colors.madidlyThemeBlue} size={20} />
                                     <Text style={{ fontSize: 16, marginLeft: Colors.spacing, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', }}>Add file</Text>
                                 </View>
-                            </Pressable>
+                            </Pressable>}
+
                         </View>
 
                         <View style={{ height: 2, width: '100%', marginVertical: Colors.spacing * 2, backgroundColor: Colors.borderColor }} />
-
                     </View>
 
-                    {item.notes.length > 0 &&
+                    {item.notes.length > 0 ?
                         <View style={{ paddingHorizontal: Colors.spacing * 2, marginBottom: item.notes.length >= 0 ? Colors.spacing * 1 : Colors.spacing * 3 }}>
                             <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * 1 }}>System notes</Text>
-                            {item.notes.map((item) => ((<JobNotesCard by={item.by} key={item.id} onPress={deleteNotesHandler} id={item.id} text={item.text} date={item.addedDate} />)))}
-                        </View>
+                            {item.notes.map((item: any) => ((<JobNotesCard by={item.by} key={item.id} onPress={deleteNotesHandler} loading={deleteLoading} selectedNote={selectedNote} id={item.id} text={item.text} date={item.addedDate} />)))}
+                        </View> : null
                     }
-                    <View style={{ paddingHorizontal: Colors.spacing * 2, marginBottom: Colors.spacing * 3 }}>
-                        <ViewFiles onDelete={deleteFile} data={item.files} isOpen={viewFiles} onClose={() => setViewFiles(false)} onOpen={() => setViewFiles(true)} />
+
+                    <View style={{ paddingHorizontal: Colors.spacing * 2, marginBottom: Colors.spacing * 2 }}>
+                        <ViewFiles onDownload={checkPermission} onDelete={deleteFile} data={item.files} isOpen={viewFiles} loading={deleteLoading} onClose={() => setViewFiles(false)} onOpen={() => setViewFiles(true)} />
                     </View>
 
-                    <View style={{ paddingHorizontal: Colors.spacing * 2 }}>
+                    {/* <View style={{ paddingHorizontal: Colors.spacing * 2 }}>
                         <Pressable onPress={checkListHandler}   >
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Colors.spacing, justifyContent: 'space-between' }}>
                                 <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', }}>Checklist</Text>
@@ -494,25 +479,25 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                             </View>
                         </Pressable>
 
-
                         <View style={{ marginBottom: Colors.spacing * 4 }}>
                             <Checklist title="Checklist" onPress={checkListHandler} isOpen={checkListVisible} />
                         </View>
-                        <AddNotes onClose={() => setAddNoteVisible(false)} onPress={addNotesHandler} isOpen={addNoteVisible} id={item.bookingReference} loading={notesLoading} />
-                    </View>
 
+                    </View> */}
+
+                    <AddNotes onClose={() => setAddNoteVisible(false)} onPress={addNotesHandler} isOpen={addNoteVisible} id={item.bookingReference} loading={notesLoading} />
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2 }}>
                         <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing }}>Timeline</Text>
-                        {item.timelines.map((item) => <JobTimelineCard createdBy={item.createdBy} key={item.id} date={item.date} icon={item.icon} title={item.title} />)}
+                        {item.timelines.map((item: any) => <JobTimelineCard createdBy={item.createdBy} key={item.id} date={item.date} icon={item.icon} title={item.title} />)}
                     </View>
 
                 </ScrollView>
+
                 <AddJob isOpen={editJobVisible} onClose={() => setEditJobVisible(false)} lable={"Edit Booking"} id={id} />
                 <DeleteModal id={id} phone={phoneNumber} price={quotePrice} animation="slide" quoteReference={item.bookingReference} customerName={item.firstName + " " + item.lastName} title="Delete Job" onClose={toggleDelete} isOpen={deleteOpen} onPress={deleteHandler} loading={deleteBooking} />
             </View>
             <ShowToast />
-            {/* <SafeAreaView /> */}
         </>
     )
 }

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     loading: false,
+    deleteLoading: false,
     fileLoading: false
 };
 
@@ -19,13 +20,13 @@ const noteSlice = createSlice({
             state.loading = false;
         },
         deleteNotePending(state) {
-            state.loading = true;
+            state.deleteLoading = true;
         },
         deleteNoteSuccess(state) {
-            state.loading = false;
+            state.deleteLoading = false;
         },
         deleteNoteFail(state) {
-            state.loading = false;
+            state.deleteLoading = false;
         },
         uploadFilePending(state) {
             state.fileLoading = true;

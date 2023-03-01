@@ -36,9 +36,7 @@ export default function Donut({
             duration,
             useNativeDriver: true,
             easing: Easing.out(Easing.ease),
-        }).start(() => {
-            animation(toValue);
-        });
+        }).start()
     };
 
     React.useEffect(() => {

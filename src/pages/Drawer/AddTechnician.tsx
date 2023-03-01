@@ -6,7 +6,6 @@ import { Colors, isAndroid, WIDTH } from '../../assets/Colors';
 import InputBox from '../../components/InputBox';
 import SelectionCard from '../../components/SelectionCard';
 import Divider from '../../components/Divider';
-import worker from "../../assets/worker.png"
 import { useDispatch, useSelector } from 'react-redux';
 import { addTechFail, addTechPending, addTechSuccess } from '../../redux/technicianSlice';
 import { addTech } from '../../config/TechApi';
@@ -41,7 +40,7 @@ const stateData = [
 ];
 
 
-const AddTechnician = ({ isOpen, onClose }) => {
+const AddTechnician = ({ isOpen, onClose }: any) => {
     const [addData, setAddData] = useState({ firstName: "", lastName: "", email: "", phone: 0, address1: "", address2: "", city: "", postcode: 0, state: "" })
     const dispatch = useDispatch()
     const loading = useSelector((state: any) => state.technicianReducer.loading)
@@ -92,8 +91,7 @@ const AddTechnician = ({ isOpen, onClose }) => {
                             <ScrollView style={{}}>
                                 <View style={[{ paddingHorizontal: Colors.spacing * 2 }]}>
 
-
-                                    <View style={[{ marginBottom: Colors.spacing * 2, position: 'relative', alignItems: 'center', justifyContent: 'center' }]}>
+                                    {/* <View style={[{ marginBottom: Colors.spacing * 2, position: 'relative', alignItems: 'center', justifyContent: 'center' }]}>
 
                                         <View style={{ alignSelf: 'center', borderRadius: 100, alignItems: 'center', borderWidth: 5, borderColor: Colors.madidlyThemeBlue, justifyContent: 'center', padding: 4, }}>
                                             <Image source={worker} style={{ width: 80, height: 80, borderRadius: 100 }} />
@@ -101,32 +99,32 @@ const AddTechnician = ({ isOpen, onClose }) => {
                                                 <IconM name="plus-circle" style={{ color: Colors.madidlyThemeBlue, position: 'absolute', left: 35, top: -10 }} size={25} />
                                             </Pressable>
                                         </View>
-                                    </View>
+                                    </View> */}
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, marginTop: Colors.spacing }}>
                                         <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>First Name</Text>
                                         <View style={{ width: "70%", }}>
-                                            <InputBox placeholder={addData.firstName} onChange={(val) => setAddData({ ...addData, firstName: val })} size={40} rounded={true} placeholderSize={12} />
+                                            <InputBox value={addData.firstName} placeholder={addData.firstName} onChange={(val: any) => setAddData({ ...addData, firstName: val })} size={40} rounded={true} placeholderSize={12} />
                                         </View>
                                     </View>
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                         <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Last Name</Text>
                                         <View style={{ width: "70%", }}>
-                                            <InputBox placeholder={addData.lastName} value={addData.lastName} size={40} rounded={true} placeholderSize={12} onChange={(val) => setAddData({ ...addData, lastName: val })} />
+                                            <InputBox placeholder={addData.lastName} value={addData.lastName} size={40} rounded={true} placeholderSize={12} onChange={(val: any) => setAddData({ ...addData, lastName: val })} />
                                         </View>
                                     </View>
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                         <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Phone number</Text>
                                         <View style={{ width: "70%", }}>
-                                            <InputBox maxLength={10} value={addData.phone} onChange={(val) => setAddData({ ...addData, phone: parseInt(val) })} placeholder={""} size={40} rounded={true} placeholderSize={12} keyboardType="numeric" />
+                                            <InputBox maxLength={10} value={addData.phone} onChange={(val: any) => setAddData({ ...addData, phone: parseInt(val) })} placeholder={""} size={40} rounded={true} placeholderSize={12} keyboardType="numeric" />
                                         </View>
                                     </View>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                         <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Email</Text>
                                         <View style={{ width: "70%", }}>
-                                            <InputBox keyboardType={"email-address"} value={addData.email} onChange={(val) => setAddData({ ...addData, email: val })} placeholder={addData.email} size={40} rounded={true} placeholderSize={12} capitalize={"none"} />
+                                            <InputBox keyboardType={"email-address"} value={addData.email} onChange={(val: any) => setAddData({ ...addData, email: val })} placeholder={addData.email} size={40} rounded={true} placeholderSize={12} capitalize={"none"} />
                                         </View>
                                     </View>
 
