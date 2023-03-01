@@ -5,6 +5,7 @@ import AddButtonHeader from '../../components/AddButtonHeader';
 import { Colors, isAndroid, WIDTH } from '../../assets/Colors';
 import InputBox from '../../components/InputBox';
 import SelectionCard from '../../components/SelectionCard';
+import PriceInput from '../../components/PriceInput';
 
 const statusData = [
     {
@@ -17,7 +18,10 @@ const statusData = [
     },
 ]
 
-const EditProduct = ({ loading, deleteHandler, isOpen, onClose, title, price, status, id, value, editHandler, onSave, deleteLoading }) => {
+const EditProduct = ({ loading, deleteHandler, isOpen, onClose, title, price, status, id, value, editHandler, onSave, deleteLoading }: any) => {
+
+    const [amount, setAmount] = useState(price)
+
     return (
         <>
             <View style={{}}>
@@ -39,17 +43,17 @@ const EditProduct = ({ loading, deleteHandler, isOpen, onClose, title, price, st
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                     <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Name</Text>
                                     <View style={{ width: "70%", }}>
-                                        <InputBox value={value.title} onChange={(val) => editHandler({ ...value, title: val })} placeholder={title} size={40} rounded={true} placeholderSize={12} />
+                                        <InputBox value={value.title} onChange={(val: any) => editHandler({ ...value, title: val })} placeholder={title} size={40} rounded={true} placeholderSize={12} />
                                     </View>
                                 </View>
-
                             </View>
 
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                     <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Total Net Price</Text>
                                     <View style={{ width: "70%", }}>
-                                        <InputBox value={value.price} onChange={(val) => editHandler({ ...value, price: parseInt(val) })} keyboardType="numeric" placeholder={`$ ${price?.toString()}.00`} size={40} rounded={true} placeholderSize={12} />
+
+                                        <InputBox value={value.price} onChange={(val: any) => editHandler({ ...value, price: val })} placeholder={`$ ${price?.toString()}.00`} size={40} rounded={true} placeholderSize={12} keyboardType="numeric" />
                                     </View>
                                 </View>
 
@@ -59,7 +63,7 @@ const EditProduct = ({ loading, deleteHandler, isOpen, onClose, title, price, st
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                     <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Status</Text>
                                     <View style={{ width: "70%", }}>
-                                        <SelectionCard phColor={Colors.maidlyGrayText} data={statusData} placeholder={status} rounded={true} fontSize={12} onPress={(val) => editHandler({ ...value, status: val })} />
+                                        <SelectionCard phColor={Colors.maidlyGrayText} data={statusData} placeholder={status} rounded={true} fontSize={12} onPress={(val: any) => editHandler({ ...value, status: val })} />
                                     </View>
                                 </View>
                             </View>

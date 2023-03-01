@@ -4,9 +4,6 @@ import { Colors, HEIGHT, isAndroid, WIDTH } from '../../assets/Colors';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Toast from 'react-native-toast-message';
 
-import BarChart from '../../components/BarChart';
-import LineChart from '../../components/LineChart';
-
 import Header from '../../components/Header';
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -20,12 +17,8 @@ import { deleteBookingFail, deleteBookingPending, deleteBookingSuccess, getBooki
 import ShowToast from '../../components/ShowToast';
 import moment from 'moment';
 
-const { width, height } = Dimensions.get('window')
 
-
-
-
-const Home = ({ navigation }) => {
+const Home = ({ navigation }: any) => {
     const dispatch = useDispatch()
 
 
@@ -54,7 +47,6 @@ const Home = ({ navigation }) => {
 
     ];
 
-
     const [selectedPeriod, setSelectdPeriod] = useState(homeFilters[0])
     const [bokingVisible, setBookingVisible] = useState(false)
     const [selectedBookingID, setSelectedBookingID] = useState(String)
@@ -65,20 +57,11 @@ const Home = ({ navigation }) => {
     const data = useSelector((state: any) => state.bookingReducer.dashboardData)
     const user = useSelector((state: any) => state.userReducer.data)
 
-    let startOfWeek = moment().startOf('week').toDate().toISOString().substring(0, 10)
-    let endOfWeek = moment().endOf('week').toDate().toISOString().substring(0, 10)
-
-    let today = moment().format('YYYY-MM-DD');
-    let tomorrow = moment().add(1, 'days').format('YYYY-MM-DD');
-    let yesterday = moment().subtract(1, 'days').startOf('day').format('YYYY-MM-DD');
-
 
     const viewBookingHandler = async (id: string, ref: string) => {
         setSelectedBookingID(id)
         setRef(ref)
-
         setBookingVisible(true)
-
         dispatch(getBookingbyIDPending())
         const x: any = await fetchBookingByID(id)
         if (x.data.status === "error") {
@@ -86,8 +69,6 @@ const Home = ({ navigation }) => {
         }
         dispatch(getBookingbyIDSuccess(x.data.result))
     }
-
-
 
 
     const todayBookingsHandler = async () => {
@@ -121,7 +102,9 @@ const Home = ({ navigation }) => {
 
 
     const renderItem = ({ item }: any) => {
-        return <BookingsCard tech={item.assignedTech[0] ? `${item.assignedTech[0].firstName}` : ""} onPress={() => viewBookingHandler(item._id, item.bookingReference)} id={item._id} fName={item.firstName} lName={item.lastName} status={item.bookingStatus} price={item.subtotal} />
+        return (
+            <BookingsCard tech={item.assignedTech[0] ? `${item.assignedTech[0].firstName}` : ""} onPress={() => viewBookingHandler(item._id, item.bookingReference)} id={item._id} fName={item.firstName} lName={item.lastName} status={item.bookingStatus} price={item.subtotal} />
+        )
     }
 
     useEffect(() => {
@@ -134,65 +117,76 @@ const Home = ({ navigation }) => {
                 <SafeAreaView />
 
                 <Header nav={navigation} title={`Hey, ${user.firstName}`} />
-                <View style={{ paddingHorizontal: Colors.spacing * 2, marginTop: Colors.spacing * 2, }}>
-                    <Banner />
-                </View>
 
-                <View style={[styles.padding, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: Colors.spacing * 2, }]}>
+                <View style={{ flex: 1 }}>
+                    <View style={{ paddingHorizontal: Colors.spacing * 2, marginTop: Colors.spacing * 2, }}>
+                        <Banner  />
+                    </View>
+                    <View style={[styles.padding, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: Colors.spacing * 2, }]}>
 
-                    {homeFilters.map((item) => {
-                        return (
-                            <Pressable key={item.id} onPress={() => setSelectdPeriod(item)} style={{ backgroundColor: item.label == selectedPeriod?.label ? Colors.madidlyThemeBlue : 'transparent', width: '25%', paddingVertical: Colors.spacing * .5, borderRadius: Colors.spacing * .5 }}>
-                                <Text style={{ fontSize: 12, color: item.label == selectedPeriod?.label ? 'white' : Colors.black, alignSelf: 'center', fontFamily: 'Outfit-Medium', }}>{item.label}</Text>
-                            </Pressable>
-                        )
-                    })}
-                </View>
+                        {homeFilters.map((item) => {
+                            return (
+                                <Pressable key={item.id} onPress={() => setSelectdPeriod(item)} style={{ backgroundColor: item.label == selectedPeriod?.label ? Colors.madidlyThemeBlue : 'transparent', width: '25%', paddingVertical: Colors.spacing * .5, borderRadius: Colors.spacing * .5 }}>
+                                    <Text style={{ fontSize: 12, color: item.label == selectedPeriod?.label ? 'white' : Colors.black, alignSelf: 'center', fontFamily: 'Outfit-Medium', }}>{item.label}</Text>
+                                </Pressable>
+                            )
+                        })}
+                    </View>
 
-                <View style={{ paddingHorizontal: Colors.spacing * 2, flex: 1, }}>
-                    <View style={[styles.viewBox, { flex: .95, }]}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                            <IconM name={'calendar-check'} size={18} color={Colors.black} />
-                            <Text style={{ fontSize: 18, color: Colors.black, marginLeft: Colors.spacing, fontFamily: 'Outfit-Bold', }}>Jobs</Text>
-                        </View>
+                    <View style={{ paddingHorizontal: Colors.spacing * 2, flex: 1, }}>
+                        <View style={[styles.viewBox, { flex: .95, }]}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                                <IconM name={'calendar-check'} size={18} color={Colors.black} />
+                                <Text style={{ fontSize: 18, color: Colors.black, marginLeft: Colors.spacing, fontFamily: 'Outfit-Bold', }}>Jobs</Text>
+                            </View>
 
-                        <View style={{ marginTop: Colors.spacing, marginBottom: Colors.spacing * 1 }}>
-                            <Divider height={.5} colors={Colors.borderColor} width="110%" />
-                        </View>
+                            <View style={{ marginTop: Colors.spacing, marginBottom: Colors.spacing * 1 }}>
+                                <Divider height={.5} colors={Colors.borderColor} width="110%" />
+                            </View>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
 
-                            <Text style={{ fontSize: 14, color: Colors.black, width: isAndroid ? "35%" : "35%", fontFamily: 'Outfit-Medium', }}>Customer</Text>
-                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '25%' : '20%' }}>Assigned</Text>
-                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '25%' : '23%', }}>Status</Text>
-                            <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '20%' : '20%' }}>Total</Text>
+                                <Text style={{ fontSize: 14, color: Colors.black, width: isAndroid ? "35%" : "35%", fontFamily: 'Outfit-Medium', }}>Customer</Text>
+                                <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '25%' : '20%' }}>Assigned</Text>
+                                <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '25%' : '23%', }}>Status</Text>
+                                <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '20%' : '20%' }}>Total</Text>
 
-                        </View>
+                            </View>
 
-                        <View style={{ marginTop: Colors.spacing * 1, marginBottom: Colors.spacing, }}>
-                            <Divider height={.5} color={Colors.borderColor} width="110%" />
-                        </View>
+                            <View style={{ marginTop: Colors.spacing * 1, marginBottom: Colors.spacing, }}>
+                                <Divider height={.5} color={Colors.borderColor} width="110%" />
+                            </View>
 
+                            <View style={{}}>
+                                {loading ?
+                                    <ActivityIndicator color={Colors.madidlyThemeBlue} animating={loading} size={'small'} style={{}} /> :
 
-                        <View style={{}}>
-                            {loading ?
-                                <ActivityIndicator color={Colors.madidlyThemeBlue} animating={loading} size={'small'} style={{}} /> :
-                                <FlatList
-                                    showsVerticalScrollIndicator={false}
-                                    contentContainerStyle={{
-                                        paddingBottom: Colors.spacing * 4,
-                                    }}
-                                    data={data}
-                                    keyExtractor={item => item._id}
-                                    renderItem={(item: any) => renderItem(item)} />
+                                    data.length <= 0 ?
+                                        <View style={{ backgroundColor: Colors.red, marginTop: Colors.spacing, justifyContent: "center", alignItems: "center", padding: Colors.spacing * .5, borderRadius: Colors.spacing * .5 }}>
+                                            <Text style={{ color: '#fff', fontFamily: "Outfit-Light" }}>No jobs found!</Text>
+                                        </View> :
+                                        <FlatList
+                                            showsVerticalScrollIndicator={false}
+                                            contentContainerStyle={{
+                                                paddingBottom: Colors.spacing * 4,
+                                            }}
+                                            data={data}
+                                            keyExtractor={item => item._id}
+                                            renderItem={(item: any) => renderItem(item)} />
 
-                            }
+                                }
+                            </View>
                         </View>
                     </View>
                 </View>
 
+
+
+
             </View>
+
             <ShowToast />
+
             <ViewBookingModal isOpen={bokingVisible} onClose={() => setBookingVisible(false)} id={selectedBookingID} refresh={viewBookingHandler}
                 deleteOpen={deleteBooking} deleteHandler={deleteBookingHandler} toggleDelete={() => setDeleteBooking(!deleteBooking)} />
         </>

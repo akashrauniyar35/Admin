@@ -18,7 +18,7 @@ import Toast from 'react-native-toast-message';
 
 const Expenses = ({ navigation }) => {
     const [editProduct, seteditProduct] = useState(false);
-    const [selected, setSelected] = useState({})
+    const [selected, setSelected] = useState<any>({})
     const [data, setData] = useState([]);
     const loading = useSelector((state: any) => state.productReducer.loading)
     const deleteLoading = useSelector((state: any) => state.productReducer.deleteLoading)
@@ -36,12 +36,10 @@ const Expenses = ({ navigation }) => {
     }
 
 
-    function toggleEditProduct(item) {
+    function toggleEditProduct(item: any) {
         seteditProduct(!editProduct)
         setSelected(item)
     }
-
-
 
 
     const onSaveHandler = async () => {
@@ -100,7 +98,7 @@ const Expenses = ({ navigation }) => {
         getAllProducts()
     }, [data.length])
 
-    const ProductsCard = ({ item }) => {
+    const ProductsCard = ({ item }: any) => {
         return (
             <Pressable onPress={() => toggleEditProduct(item)}>
                 <View style={{ backgroundColor: 'white', padding: Colors.spacing, borderRadius: 5, marginBottom: Colors.spacing * 2 }}>
@@ -168,7 +166,7 @@ const Expenses = ({ navigation }) => {
                         showsVerticalScrollIndicator={false}
                         data={data}
                         contentContainerStyle={{ paddingBottom: Colors.spacing * 4 }}
-                        keyExtractor={item => item.id}
+                        keyExtractor={(item: any) => item.id}
                         renderItem={({ item }) => (<ProductsCard item={item} />)}
                     />
                 </View>

@@ -10,7 +10,7 @@ const { width, height } = Dimensions.get('screen')
 
 
 
-const DeleteModal = ({ loading, onPress, animation, isOpen, title, onClose, id, customerName, quoteReference, price, phone }: any) => {
+const AddPaymentModal = ({ loading, onPress, isOpen, title, onClose, id, customerName, quoteReference, price, phone }: any) => {
 
 
     return (
@@ -18,7 +18,7 @@ const DeleteModal = ({ loading, onPress, animation, isOpen, title, onClose, id, 
         <>
 
             <Modal
-                animationType={animation ? animation : "fade"}
+                animationType={"fade"}
                 transparent={true}
                 visible={isOpen}
             >
@@ -51,33 +51,27 @@ const DeleteModal = ({ loading, onPress, animation, isOpen, title, onClose, id, 
 
                         <View style={styles.container}>
 
-                            <Text style={{ fontSize: 12, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>Are you sure you want to delete this job?</Text>
 
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * 2, }}>
-                                <Text style={{ width: '40%', fontSize: 12, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>Quote Ref </Text>
-                                <Text style={{ fontSize: 12, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{quoteReference}</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                                <Text style={{ fontFamily: "Outfit", width: '40%', fontSize: 12, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>Quote Ref </Text>
+                                <Text style={{ fontFamily: "Outfit", fontSize: 12, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{quoteReference}</Text>
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * 1, }}>
-                                <Text style={{ width: '40%', fontSize: 12, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>Customer Name </Text>
-                                <Text style={{ fontSize: 12, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{customerName}</Text>
+                                <Text style={{ fontFamily: "Outfit", width: '40%', fontSize: 12, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>Customer Name </Text>
+                                <Text style={{ fontFamily: "Outfit", fontSize: 12, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{customerName}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * 1, }}>
-                                <Text style={{ width: '40%', fontSize: 12, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>Phone Number </Text>
-                                <Text style={{ fontSize: 12, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{phone}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * 1, }}>
-                                <Text style={{ width: '40%', fontSize: 12, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>Total </Text>
-                                <Text style={{ fontSize: 12, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>$ {price}</Text>
+                                <Text style={{ width: '40%', fontSize: 12, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600", fontFamily: "Outfit", }}>Total </Text>
+                                <Text style={{ fontFamily: "Outfit", fontSize: 12, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>$ {price}</Text>
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Pressable style={styles.save} onPress={onClose}>
-                                    <Text style={{ color: 'white', fontSize: 16, fontWeight: isAndroid ? "900" : "600" }}>Cancel</Text>
+                                    <Text style={{ fontFamily: "Outfit-Bold", color: 'white', fontSize: 14, fontWeight: isAndroid ? "900" : "600" }}>Cancel</Text>
                                 </Pressable>
-                                <Pressable style={[styles.save, { flexDirection: 'row', alignItems: 'center' }]} onPress={() => onPress(id)}>
-                                    <Text style={{ color: 'white', fontSize: 16, fontWeight: isAndroid ? "900" : "600" }}>{loading ? 'Deleting' : 'Delete'}</Text>
-                                    {loading && <ActivityIndicator color="white" size={'small'} animating={loading} style={{ transform: [{ scale: .7 }], marginLeft: Colors.spacing * .5, }} />}
+                                <Pressable style={[styles.save, { flexDirection: 'row', alignItems: 'center' }]} onPress={onPress}>
+                                    {loading ? <ActivityIndicator color="white" size={'small'} animating={loading} style={{ transform: [{ scale: .7 }], marginLeft: Colors.spacing * .5, }} /> : <Text style={{ fontFamily: "Outfit-Bold", color: 'white', fontSize: 14, fontWeight: isAndroid ? "900" : "600" }}>Mark as paid</Text>}
                                 </Pressable>
                             </View>
 
@@ -97,7 +91,7 @@ const DeleteModal = ({ loading, onPress, animation, isOpen, title, onClose, id, 
     )
 }
 
-export default DeleteModal
+export default AddPaymentModal
 
 const styles = StyleSheet.create({
     filterStyling: {
@@ -128,6 +122,7 @@ const styles = StyleSheet.create({
     save: {
         marginTop: Colors.spacing * 4,
         width: WIDTH * .35,
+        height: 40,
         backgroundColor: Colors.madidlyThemeBlue, justifyContent: 'center', alignItems: 'center',
         paddingVertical: Colors.spacing * 1, borderRadius: Colors.spacing * Colors.spacing
     }

@@ -1,5 +1,5 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import AddExpense from '../pages/Drawer/AddProducts';
+import About from '../pages/Drawer/About';
 import Appointments from '../pages/Drawer/Appointments';
 import CompletedBookings from '../pages/Drawer/CompletedBookings';
 import Contractors from '../pages/Drawer/Contractors';
@@ -8,7 +8,7 @@ import Profile from '../pages/Drawer/Profile';
 
 import BottomTabs from './BottomTabs';
 import CustomDrawer from './CustomDrawer';
-
+import SettingStack from '../pages/Setting/Stack'
 
 const Drawer = createDrawerNavigator();
 
@@ -21,7 +21,8 @@ function MyDrawer() {
             <Drawer.Screen name="appointments" component={Appointments} options={{ headerShown: false, }} />
             <Drawer.Screen name="contractors" component={Contractors} options={{ headerShown: false, unmountOnBlur: true, }} />
             <Drawer.Screen name="expenses" component={Expenses} options={{ headerShown: false, unmountOnBlur: true, }} />
-            <Drawer.Screen name="completedBookings" component={CompletedBookings} options={{ headerShown: false, unmountOnBlur: true, }} />
+            <Drawer.Screen name="about" component={About} options={{ headerShown: false, unmountOnBlur: true, }} />
+            <Drawer.Screen name="settingStack" component={SettingStack} options={{ headerShown: false, unmountOnBlur: true, }} />
         </Drawer.Navigator>
     )
 }

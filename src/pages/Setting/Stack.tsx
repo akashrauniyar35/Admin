@@ -1,8 +1,10 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../pages/Login/Login';
-import RecoverPassword from '../pages/Login/RecoverPassword';
-import OTP from '../pages/Login/OTP';
+import Settings from './Settings';
+import PersonalInfo from './PersonalInfo';
+import Password from './Password';
+
+
 
 const Stack = createStackNavigator();
 
@@ -14,9 +16,9 @@ function MyStack() {
                 tabBarShowLabel: false,
                 backgroundColor: 'white'
             })}>
-            <Stack.Screen name="login" component={Login} />
-            <Stack.Screen name="otp" component={OTP} />
-            <Stack.Screen name="recoverPassword" component={RecoverPassword} />
+            <Stack.Screen name="setting" component={Settings} />
+            <Stack.Screen name="personalInfo" component={PersonalInfo} />
+            <Stack.Screen name="updatePassword" component={Password} />
         </Stack.Navigator>
     );
 }

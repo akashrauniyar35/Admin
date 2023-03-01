@@ -51,7 +51,7 @@ const CustomDrawer = (props) => {
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: Colors.spacing * 3, marginBottom: Colors.spacing * 2, }}>
                     <IconM name={icon} size={22} color={Colors.black} />
-                    <Text style={{ marginLeft: Colors.spacing * 2, fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "400" }}>{label}</Text>
+                    <Text style={{ fontFamily: "Outfit", marginLeft: Colors.spacing * 2, fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "400" }}>{label}</Text>
                 </View>
             </TouchableWithoutFeedback >
         )
@@ -59,8 +59,8 @@ const CustomDrawer = (props) => {
     const DrawerBottomLabel = ({ label, icon }) => {
         return (
             <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: Colors.spacing * 3.5, marginBottom: Colors.spacing * 2, }}>
-                <IconM name={icon} size={22} color={"#1e1e1e"} />
-                <Text style={{ marginLeft: Colors.spacing * 2, fontSize: 14, fontWeight: isAndroid ? "900" : "400", color: Colors.black }}>{label}</Text>
+                <IconM name={icon} size={22} color={Colors.black} />
+                <Text style={{ fontFamily: "Outfit", marginLeft: Colors.spacing * 2, fontSize: 14, fontWeight: isAndroid ? "900" : "400", color: Colors.black }}>{label}</Text>
             </View>
         )
     }
@@ -74,13 +74,13 @@ const CustomDrawer = (props) => {
                 </View>
 
                 <View style={{ marginTop: Colors.spacing, alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, color: Colors.black, fontWeight: isAndroid ? "900" : "700" }}>{`${data.firstName} ${data.lastName}`}</Text>
-                    <Text style={{ color: Colors.madidlyThemeBlue, marginTop: Colors.spacing * .5, fontSize: 12, fontWeight: isAndroid ? "900" : "500" }}>{data?.email}</Text>
+                    <Text style={{ fontFamily: "Outfit", fontSize: 20, color: Colors.black, fontWeight: isAndroid ? "900" : "700" }}>{`${data.firstName} ${data.lastName}`}</Text>
+                    <Text style={{ fontFamily: "Outfit", color: Colors.madidlyThemeBlue, marginTop: Colors.spacing * .5, fontSize: 12, fontWeight: isAndroid ? "900" : "500" }}>{data?.email}</Text>
                 </View>
 
                 <Pressable onPress={() => props.navigation.navigate("profile")}>
                     <View style={{ backgroundColor: Colors.madidlyThemeBlue, paddingHorizontal: Colors.spacing * 2, paddingVertical: Colors.spacing * .5, borderRadius: Colors.spacing * 10, marginVertical: Colors.spacing }}>
-                        <Text style={{ fontSize: 14, fontWeight: isAndroid ? "900" : "500", color: 'white' }}>View profile</Text>
+                        <Text style={{ fontFamily: "Outfit", fontSize: 14, fontWeight: isAndroid ? "900" : "500", color: 'white' }}>View profile</Text>
                     </View>
                 </Pressable>
 
@@ -95,7 +95,7 @@ const CustomDrawer = (props) => {
         return (
             <Pressable onPress={() => logoutHandler()} >
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: Colors.madidlyThemeBlue, padding: Colors.spacing, paddingHorizontal: Colors.spacing * 2, }}>
-                    <Text style={{ color: 'white', fontSize: 18, fontWeight: '600', }}>Logout</Text>
+                    <Text style={{ fontFamily: "Outfit", color: 'white', fontSize: 18, fontWeight: '600', }}>Logout</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         {logoutRequest ? <ActivityIndicator size={20} color={'white'} /> : <Icon name="log-out-outline" size={22} color={'white'} />}
                     </View>
@@ -117,20 +117,11 @@ const CustomDrawer = (props) => {
 
                     <DrawerLabel icon={"view-dashboard-variant"} label={"Dashboard"} navigateTo={"BottomTabs"} />
 
-
                     <DrawerLabel icon="calendar" label="Appointments" navigateTo={"appointments"} />
-
 
                     <DrawerLabel icon="account-hard-hat" label="Technicians" navigateTo={"contractors"} />
 
-
-
                     <DrawerLabel icon="alpha-p-circle" label="Products" navigateTo={"expenses"} />
-
-                    <DrawerLabel icon={"calendar-multiple-check"} label="Completed Bookings" navigateTo={"completedBookings"} />
-
-                    <DrawerLabel icon={"account-group"} label="Job Recalls" navigateTo={"TechnicianList"} />
-
 
                 </View>
 
@@ -140,21 +131,10 @@ const CustomDrawer = (props) => {
                 <View style={{ marginTop: Colors.spacing * 2 }}>
 
 
-                    <TouchableWithoutFeedback onPress={() => props.navigation.navigate("AMC")}>
-                        <DrawerBottomLabel icon={"lifebuoy"} label={"Help & Support"} />
-                    </TouchableWithoutFeedback>
+                    <DrawerLabel icon="lifebuoy" label="Help & Support" navigateTo={"about"} />
+                    <DrawerLabel icon="cog-outline" label="Settings" navigateTo={"settingStack"} />
+                    <DrawerLabel icon="information-outline" label="Abouts" navigateTo={"about"} />
 
-                    <TouchableWithoutFeedback onPress={() => props.navigation.navigate("AMC")}>
-                        <DrawerBottomLabel icon={"cog-outline"} label={"Settings"} />
-                    </TouchableWithoutFeedback>
-
-                    <TouchableWithoutFeedback onPress={() => props.navigation.navigate("AMC")}>
-                        <DrawerBottomLabel icon={"information-outline"} label={"About"} />
-                    </TouchableWithoutFeedback>
-
-                    {/* <TouchableWithoutFeedback onPress={() => props.navigation.navigate("AMC")}>
-                        <DrawerBottomLabel icon={"handshake-outline"} label={"Invite Friends"} />
-                    </TouchableWithoutFeedback> */}
 
 
                 </View>

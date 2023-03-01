@@ -18,7 +18,6 @@ import AddButton from '../pages/Add/Add';
 
 
 import { useDispatch, useSelector } from 'react-redux';
-
 import Animated, { Extrapolate, interpolate, interpolateColor, log, useAnimatedStyle, useDerivedValue, withSpring, withTiming } from 'react-native-reanimated';
 import { Pressable, View, Dimensions, StyleSheet } from 'react-native';
 
@@ -26,6 +25,7 @@ import AddJob from '../pages/Add/AddJob';
 import AddProducts from '../pages/Drawer/AddProducts';
 import AddTechnician from '../pages/Drawer/AddTechnician';
 import ShowToast from '../components/ShowToast';
+import NoInternetModal from '../components/NoInternetModal';
 
 
 const { width } = Dimensions.get('window')
@@ -45,12 +45,10 @@ const Tab = createBottomTabNavigator();
 
 function MyTabs() {
 
-
     const [addJobsVisible, setAddJobsVisible] = useState(false)
     const [addProductVisible, setAddProductVisible] = useState(false)
     const [addTech, setAddTech] = useState(false)
 
-    const dispatch = useDispatch()
 
 
     const addJobsCloseHandler = () => {
@@ -133,7 +131,7 @@ function MyTabs() {
         })
     )
 
-    const ActionButton = ({ icon, style, nav, }) => {
+    const ActionButton = ({ icon, style, nav, }: any) => {
 
         const onPress = () => {
             nav === "addQuote" ? setAddJobsVisible(true) : nav === "addProduct" ? setAddProductVisible(true) : setAddTech(true)
@@ -157,7 +155,7 @@ function MyTabs() {
             <Tab.Navigator
 
                 screenOptions={() => ({
-                    
+
                     headerShown: false,
                     backgroundColor: "white",
                     tabBarShowLabel: false, tabBarActiveTintColor: Colors.madidlyThemeBlue,
@@ -232,10 +230,11 @@ function MyTabs() {
                     }} />
 
             </Tab.Navigator>
-            <ShowToast />
             <AddJob lable={"Add Quote"} isOpen={addJobsVisible} onClose={addJobsCloseHandler} />
             <AddProducts isOpen={addProductVisible} onClose={addProductCloseHandler} />
             <AddTechnician isOpen={addTech} onClose={addTechCloseHandler} />
+            <NoInternetModal />
+            <ShowToast />
         </>
     )
 }

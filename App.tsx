@@ -14,17 +14,17 @@ import {
   Text,
   View,
 } from 'react-native';
-
+import SplashScreen from 'react-native-splash-screen';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { Provider, useSelector } from 'react-redux';
 import store from './src/redux/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 import AuthenticationStack from './src/navigation/AuthenticationStack';
 import Drawer from './src/navigation/Drawer'
 
 import { LogBox } from "react-native";
+import NoInternetConnection from './src/pages/Login/NoInternetConnection';
 LogBox.ignoreLogs(["Sending `onAnimatedValueUpdate` with no listeners registered.",]);
 
 const navTheme = {
@@ -35,33 +35,30 @@ const navTheme = {
   },
 };
 
-
 const App = () => {
 
-  const [savedToken, setSavedToken] = useState();
+  const [savedToken, setSavedToken] = useState<string>();
+  useEffect(() => {
+    // SplashScreen.hide()
+  }, [])
 
   const getAccessToken = async () => {
     console.log('trying')
     try {
-      const value = await AsyncStorage.getItem('@refresh_Token')
+      const value: any = await AsyncStorage.getItem('@refresh_Token')
       // const value = await AsyncStorage.getItem('@access_Token')
       if (value !== undefined) {
-        console.log("GET ASYNC STORAGE ACCESS", value);
+        console.log("GET ASYNC STORAGE Refresh token", value);
         setSavedToken(value)
-        console.log("ASYNC STORAGE ACCESS", value, 'sssss', savedToken);
-        // value previously stored
       } else {
         setSavedToken(value)
         console.log("async access token", value)
       }
 
-
     } catch (e) {
       // error reading value
     }
   }
-
-
 
   useEffect(() => {
     getAccessToken()
@@ -69,8 +66,6 @@ const App = () => {
 
   const AppView = () => {
     let isAuth = useSelector((state: any) => state.authReducer.isAuthenticated);
-    // console.log("SLELCTOR APP", savedToken, isAuth)
-    // return <Text>Hello</Text>
     return isAuth ? <Drawer /> : <AuthenticationStack />
   }
 
@@ -79,11 +74,10 @@ const App = () => {
     <>
       <NavigationContainer theme={navTheme}>
         <Provider store={store}>
-          <StatusBar barStyle='dark-content' />
+          <StatusBar barStyle='light-content' />
           <View style={{ flex: 1, backgroundColor: 'white' }}>
             <AppView />
           </View>
-
         </Provider>
       </NavigationContainer>
     </>

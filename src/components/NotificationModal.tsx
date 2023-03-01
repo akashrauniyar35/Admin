@@ -16,7 +16,7 @@ import Divider from './Divider';
 
 const NoNotificationsCard = () => {
     return (
-        <View style={{ opacity: .5, alignSelf: 'center', alignItems: 'center', marginBottom: Colors.spacing * 4 }}>
+        <View style={{ opacity: .5, alignSelf: 'center', alignItems: 'center', marginTop: Colors.spacing * 2 }}>
             <IconM name="message-text" size={60} color={Colors.maidlyGrayText} />
             <Text style={{ marginTop: Colors.spacing * 1, fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", }}>All clear!  No notifications!</Text>
         </View>
@@ -98,13 +98,12 @@ const NotificationModal = ({ isOpen, onPress, onClose, id }: any) => {
 
                         <View style={{ flex: 1 }}>
 
-                            <ScrollView style={{}}>
+                            <ScrollView style={{ }}>
                                 <NoNotificationsCard />
-
+                                {/* <Card />
                                 <Card />
                                 <Card />
-                                <Card />
-                                <Card />
+                                <Card /> */}
                             </ScrollView>
 
                         </View>

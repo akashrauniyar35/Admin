@@ -3,12 +3,13 @@ import React from 'react'
 import { Colors, isAndroid } from '../../assets/Colors'
 import Divider from '../../components/Divider'
 
-const Card = ({ onPress, id, fName, status, lName, price, tech }) => {
+const Card = ({ onPress, id, fName, status, lName, price, tech }: any) => {
     return (
         <Pressable onPress={() => onPress(id)}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
-                <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Regular', width: isAndroid ? "35%" : "35%" }}>{fName + " " + lName}</Text>
-
+                <View style={{ width: isAndroid ? "35%" : "35%" }}>
+                    <Text numberOfLines={1} style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Regular', width: isAndroid ? "90%" : "90%" }}>{fName + " " + lName}</Text>
+                </View>
                 {tech ?
                     <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Regular', width: isAndroid ? '25%' : "20%" }}>{tech}</Text> :
                     <View style={{ width: isAndroid ? '25%' : "20%", justifyContent: 'center' }}>

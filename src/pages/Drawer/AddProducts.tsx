@@ -12,6 +12,7 @@ import { createProduct } from '../../config/ProductsApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { editProductFail, editProductPending, editProductSuccess } from '../../redux/productSlice';
 import Toast from 'react-native-toast-message';
+import PriceInput from '../../components/PriceInput';
 
 
 const statusData = [
@@ -25,7 +26,7 @@ const statusData = [
     },
 ]
 
-const AddProducts = ({ isOpen, onClose }) => {
+const AddProducts = ({ isOpen, onClose }: any) => {
     const [obj, setObj] = useState({ title: '', quantity: 0, price: 0, icon1: 'milan', status: 'Inactive' })
     const dispatch = useDispatch()
     const loading = useSelector((state: any) => state.productReducer.loading)
@@ -70,7 +71,7 @@ const AddProducts = ({ isOpen, onClose }) => {
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                     <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Name</Text>
                                     <View style={{ width: "70%", }}>
-                                        <InputBox value={obj.title} capitalize={"words"} onChange={(val) => setObj({ ...obj, title: val })} placeholder={obj.title} size={40} rounded={true} placeholderSize={12} />
+                                        <InputBox value={obj.title} capitalize={"words"} onChange={(val: any) => setObj({ ...obj, title: val })} placeholder={obj.title} size={40} rounded={true} placeholderSize={12} />
                                     </View>
                                 </View>
 
@@ -80,16 +81,16 @@ const AddProducts = ({ isOpen, onClose }) => {
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                     <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Total Net Price</Text>
                                     <View style={{ width: "70%", }}>
-                                        <InputBox value={obj.price} onChange={(val) => setObj({ ...obj, price: parseInt(val) })} keyboardType="numeric" placeholder={`$ 0.00`} size={40} rounded={true} placeholderSize={12} />
+                                        <PriceInput bg="white" value={obj.price} onChange={(val: any) => setObj({ ...obj, price: parseInt(val) })} placeholderSize={14} size={40} placeholder={`0.00`} />
                                     </View>
                                 </View>
                             </View>
 
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium',}}>Status</Text>
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Status</Text>
                                     <View style={{ width: "70%", }}>
-                                        <SelectionCard phColor={Colors.maidlyGrayText} data={statusData} placeholder={obj.status} rounded={true} fontSize={12} onPress={(val) => setObj({ ...obj, status: val })} />
+                                        <SelectionCard phColor={Colors.maidlyGrayText} data={statusData} placeholder={obj.status} rounded={true} fontSize={12} onPress={(val: any) => setObj({ ...obj, status: val })} />
                                     </View>
                                 </View>
                             </View>

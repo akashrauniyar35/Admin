@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Colors, isAndroid } from '../assets/Colors'
 
 
-const InputBox = ({ onChange, placeholderSize, placeholder, size, value, editable, bg }: any) => {
+const PriceInput = ({ onChange, placeholderSize, placeholder, size, value, editable, bg }: any) => {
 
     return (
         <>
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default InputBox
+export default PriceInput

@@ -145,7 +145,7 @@ const JobsAgenda = ({ nav, data, refresh }: any) => {
             <Pressable onPress={() => viewAppointmentHandler(id, ref)}>
                 <View style={{ backgroundColor: '#fff', padding: Colors.spacing * 2, borderRadius: 5, position: 'relative' }}>
                     <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing }}>{item.time}</Text>
-                    <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600", }}>{item.name}</Text>
+                    <Text numberOfLines={1} style={{ width: "60%", fontSize: 16, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600", }}>{item.name}</Text>
 
                     <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, marginTop: Colors.spacing * .5 }}>{city.charAt(0).toUpperCase() + city.slice(1) + " " + postcode + " " + state.toUpperCase()}</Text>
 
