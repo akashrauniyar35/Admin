@@ -61,15 +61,13 @@ const Expenses = ({ navigation }) => {
         seteditProduct(false)
         getAllProducts()
         Toast.show({
-            type: 'success',
+            type: 'successToast',
             visibilityTime: 3000,
             text1: "Success",
             text2: Colors.green,
             props: { message: 'Product updated successfully' }
         });
     }
-
-
 
     const onDeleteHandler = async () => {
         let id = selected?._id
@@ -85,7 +83,7 @@ const Expenses = ({ navigation }) => {
         seteditProduct(false)
         getAllProducts()
         Toast.show({
-            type: 'success',
+            type: 'successToast',
             visibilityTime: 3000,
             text1: "Success",
             text2: Colors.red,

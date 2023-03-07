@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 
 
-const SelectionCard = ({ onPress, data, placeholder, loading, clearTech }) => {
+const SelectionCard = ({ onPress, data, placeholder, loading, clearTech, rounded, clearEnabled }: any) => {
     const [selected, setSelected] = useState("");
     const [isOpen, setIsOpen] = useState(false)
 
@@ -32,7 +32,7 @@ const SelectionCard = ({ onPress, data, placeholder, loading, clearTech }) => {
         <>
             <Pressable onPress={() => onClickHandle(true)}>
 
-                <View style={[styles.box, { paddingHorizontal: Colors.spacing, borderRadius: Colors.spacing * .75, borderWidth: isAndroid ? .35 : 0, borderColor: Colors.borderColor }]}>
+                <View style={[styles.box, { paddingHorizontal: Colors.spacing, borderRadius: rounded ? 100 : Colors.spacing * .75, borderWidth: isAndroid ? .35 : 0, borderColor: Colors.borderColor }]}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
@@ -63,9 +63,13 @@ const SelectionCard = ({ onPress, data, placeholder, loading, clearTech }) => {
                                 )
                             }} />
 
-                        <Pressable onPress={() => onClear()} style={{ position: 'absolute', marginTop: Colors.spacing, bottom: Colors.spacing * 1.5, right: Colors.spacing * 8, }}>
-                            <Text style={{ color: 'white', fontFamily: 'Outfit-Bold', }}>Clear</Text>
-                        </Pressable>
+                        {!clearEnabled ?
+                            <Pressable onPress={() => onClear()} style={{ position: 'absolute', marginTop: Colors.spacing, bottom: Colors.spacing * 1.5, right: Colors.spacing * 8, }}>
+                                <Text style={{ color: 'white', fontFamily: 'Outfit-Bold', }}>Clear</Text>
+                            </Pressable>
+                            : null}
+
+
                         <Pressable onPress={() => setIsOpen(false)} style={{ position: 'absolute', marginTop: Colors.spacing, bottom: Colors.spacing * 1.5, right: Colors.spacing * 1.5, }}>
                             <Text style={{ color: 'white', fontFamily: 'Outfit-Bold', }}>Close</Text>
                         </Pressable>

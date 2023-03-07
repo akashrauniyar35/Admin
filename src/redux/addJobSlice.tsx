@@ -4,7 +4,7 @@ const today = new Date();
 
 const jobData: any = {
 
-    email: "",
+    email: "Akash",
     companyName: "WeDo Cleaning Pty Ltd",
     firstName: "",
     lastName: "",
@@ -193,7 +193,6 @@ const addJobSlice = createSlice({
         },
 
         addJobCustomerBathroom(state, action: any) {
-
             let count = action.payload.substring(0, 1)
             const newState: any = state.addJobData.products.map((x: any) => {
                 if (x.title.toLowerCase() === "bathrooms") {
@@ -234,7 +233,7 @@ const addJobSlice = createSlice({
             })
             state.addJobData.totals = newTotals;
         },
-   
+
         addExtraPrice(state, action: any) {
             const newTotals: any = state.addJobData.totals.map((x: any) => {
                 if (x.title.toLowerCase() === "extras") {

@@ -26,7 +26,6 @@ const { width, height } = Dimensions.get('screen')
 
 
 
-
 const SearchModal = ({ onClose, isOpen, search, route }: any) => {
     const [searchValue, setSearchValue] = useState(String)
     const [selected, setSelected] = useState({ id: "", ref: "" })
@@ -50,10 +49,9 @@ const SearchModal = ({ onClose, isOpen, search, route }: any) => {
     }
 
     const openJobHandler = async (id: string, ref: string) => {
-        const jobID = id
+        const jobID: any = id
         setSelected({ id: id, ref: ref })
         setIsVisible(true)
-
         if (route === "quote") {
             dispatch(viewJobPending(jobID))
             const x: any = await fetchJobByID(jobID);
@@ -134,9 +132,7 @@ const SearchModal = ({ onClose, isOpen, search, route }: any) => {
     }, [searchValue])
 
     return (
-
         <>
-
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -216,9 +212,9 @@ const SearchModal = ({ onClose, isOpen, search, route }: any) => {
 
                 {
                     route === "quote" ?
-                        <ViewJobModal isOpen={isVisible} onClose={() => setIsVisible(false)} id={selected.id} deletOpen={deleteQuote} toggleDelete={() => setDeleteQuote(!deleteQuote)} deleteHandler={deleteQuoteHandler} confirmOpen={confirmBookingVisible} toggleConfirm={() => setConfirmBookingVisible(!confirmBookingVisible)} confirmHandler={confirmBookingVisibleHandler} />
+                        <ViewJobModal refresh={openJobHandler} isOpen={isVisible} onClose={() => setIsVisible(false)} id={selected.id} deletOpen={deleteQuote} toggleDelete={() => setDeleteQuote(!deleteQuote)} deleteHandler={deleteQuoteHandler} confirmOpen={confirmBookingVisible} toggleConfirm={() => setConfirmBookingVisible(!confirmBookingVisible)} confirmHandler={confirmBookingVisibleHandler} />
                         :
-                        <ViewBookingModal isOpen={isVisible} onClose={() => setIsVisible(false)} id={selected.id} deleteHandler={deleteBookingHandler} deleteOpen={deleteBooking} toggleDelete={() => setDeleteBooking(!deleteBooking)} />
+                        <ViewBookingModal refresh={openJobHandler} isOpen={isVisible} onClose={() => setIsVisible(false)} id={selected.id} deleteHandler={deleteBookingHandler} deleteOpen={deleteBooking} toggleDelete={() => setDeleteBooking(!deleteBooking)} />
                 }
                 <ShowToast />
             </Modal >

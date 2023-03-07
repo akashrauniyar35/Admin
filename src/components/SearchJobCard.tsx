@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Colors, isAndroid, WIDTH } from '../assets/Colors'
 
-const SearchJobCard = ({ customerName, subTotal, jobNumber, quoteStatus, phone, service, onPress }) => {
+const SearchJobCard = ({ customerName, subTotal, jobNumber, quoteStatus, phone, service, onPress }: any) => {
     const price = [subTotal.toString().slice(0, 3), ".", subTotal.toString().slice(2)].join('')
 
     return (

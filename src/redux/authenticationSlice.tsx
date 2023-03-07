@@ -4,7 +4,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     loading: false,
     isAuthenticated: false,
-    logoutRequest: false
+    logoutRequest: false,
+
 }
 
 const loginSlice = createSlice({
@@ -12,28 +13,28 @@ const loginSlice = createSlice({
     initialState,
     reducers: {
         loginPending(state, action: any) {
-            console.log("Login Pending Slice", action.payload)
-            state.loading = true
+            state.loading = true;
+            state.isAuthenticated = false;
         },
         loginSuccess(state, action: any) {
-            console.log("Login Success Slice", action.payload)
             state.loading = false,
                 state.isAuthenticated = true;
         },
         loginFail(state, action) {
-            console.log("Login Success Slice", action.payload)
-            state.loading = false, state.isAuthenticated = true;
+            state.loading = false,
+                state.isAuthenticated = false;
         },
-        logoutPending(state, action) {
-            state.logoutRequest = true
+        logoutPending(state) {
+            state.logoutRequest = true,
+                state.isAuthenticated = true;
         },
-        logoutSuccess(state, action) {
-            console.log('logout success', action.payload)
+        logoutSuccess(state) {
             state.logoutRequest = false,
                 state.isAuthenticated = false;
         },
-        logoutFail(state, action) {
-            state.logoutRequest = false
+        logoutFail(state) {
+            state.logoutRequest = false,
+                state.isAuthenticated = false;
         },
 
     }

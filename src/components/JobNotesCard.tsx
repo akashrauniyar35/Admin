@@ -10,6 +10,7 @@ const JobNotesCard = ({ text, date, id, onPress, by, selectedNote, loading }: an
     const month = new Date(date).toLocaleString('default', { month: 'long' })
     const year = new Date(date).getFullYear()
     const time = new Date(date).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+    
     return (
         <View style={styles.container}>
 

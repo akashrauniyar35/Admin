@@ -22,7 +22,6 @@ const Home = ({ navigation }: any) => {
     const dispatch = useDispatch()
 
 
-
     const homeFilters = [
         {
             id: '00',
@@ -120,7 +119,7 @@ const Home = ({ navigation }: any) => {
 
                 <View style={{ flex: 1 }}>
                     <View style={{ paddingHorizontal: Colors.spacing * 2, marginTop: Colors.spacing * 2, }}>
-                        <Banner  />
+                        <Banner selectedPeriod={selectedPeriod} />
                     </View>
                     <View style={[styles.padding, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: Colors.spacing * 2, }]}>
 
@@ -146,10 +145,10 @@ const Home = ({ navigation }: any) => {
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
 
-                                <Text style={{ fontSize: 14, color: Colors.black, width: isAndroid ? "35%" : "35%", fontFamily: 'Outfit-Medium', }}>Customer</Text>
-                                <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '25%' : '20%' }}>Assigned</Text>
-                                <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '25%' : '23%', }}>Status</Text>
-                                <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: isAndroid ? '20%' : '20%' }}>Total</Text>
+                                <Text style={{ fontSize: 14, color: Colors.black, width: "25%", fontFamily: 'Outfit-Medium', }}>Customer</Text>
+                                <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: "25%" }}>Assigned</Text>
+                                <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: "25%" }}>Status</Text>
+                                <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: "25%" }}>Total</Text>
 
                             </View>
 

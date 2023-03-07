@@ -1,9 +1,8 @@
 
-import React, { useRef, useEffect, useReducer, useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { createBottomTabNavigator, } from
     '@react-navigation/bottom-tabs';
 import Home from '../pages/Home/Home';
-// import Quotes from '../pages/Extra/Quotes';
 import Bookings from '../pages/Bookings/Bookings';
 import Appointments from '../pages/Drawer/Appointments';
 import Expenses from '../pages/Drawer/Products';
@@ -12,13 +11,10 @@ import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Colors } from '../assets/Colors';
 import Jobs from '../pages/Jobs/Job';
-import Notifications from '../pages/Notifications/Notifications';
 
 import AddButton from '../pages/Add/Add';
 
-
-import { useDispatch, useSelector } from 'react-redux';
-import Animated, { Extrapolate, interpolate, interpolateColor, log, useAnimatedStyle, useDerivedValue, withSpring, withTiming } from 'react-native-reanimated';
+import Animated, { Extrapolate, interpolate, interpolateColor, useAnimatedStyle, useDerivedValue, withSpring, withTiming } from 'react-native-reanimated';
 import { Pressable, View, Dimensions, StyleSheet } from 'react-native';
 
 import AddJob from '../pages/Add/AddJob';
@@ -101,7 +97,7 @@ function MyTabs() {
         }
     })
 
-    const translationStyles = (x, y, value) => (
+    const translationStyles = (x: any, y: any, value: any) => (
         useAnimatedStyle(() => {
             const translate = interpolate(
                 translation.value,
@@ -141,7 +137,7 @@ function MyTabs() {
         return (
             <Animated.View style={[styles.actionBtn, style]}>
                 <Pressable
-                    underlayColor={Colors.madidlyThemeBlue}
+                    // underlayColor={Colors.madidlyThemeBlue}
                     style={styles.actionBtn}
                     onPress={onPress}>
                     <IconM name={icon} size={nav === "addProduct" ? 32 : 26} color={Colors.madidlyThemeBlue} />
@@ -239,7 +235,7 @@ function MyTabs() {
     )
 }
 
-const CircleStyle = {
+const CircleStyle: any = {
     width: FAB_SIZE,
     height: FAB_SIZE,
     borderRadius: FAB_SIZE / 2,
@@ -272,7 +268,6 @@ const styles = StyleSheet.create({
         ...CircleStyle,
         backgroundColor: "white",
         position: 'absolute',
-        zIndex: -1,
     },
 })
 

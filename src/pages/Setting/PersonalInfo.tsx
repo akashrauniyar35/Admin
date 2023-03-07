@@ -1,9 +1,8 @@
 import { ActivityIndicator, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
-import Header from '../../components/Header'
 import { Colors, isAndroid } from '../../assets/Colors'
-import { fetchUserProfile, getNewRefreshTolken, updatePrifileDetails } from '../../config/UserApi'
+import { fetchUserProfile, updatePrifileDetails } from '../../config/UserApi'
 
 import AddButtonHeader from '../../components/AddButtonHeader'
 import InputBox from '../../components/InputBox'
@@ -12,8 +11,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Toast from 'react-native-toast-message'
 import ShowToast from '../../components/ShowToast'
-
-
 
 const PersonalInfo = ({ navigation }: any) => {
     const [data, setData] = useState<any>([])
@@ -36,8 +33,6 @@ const PersonalInfo = ({ navigation }: any) => {
             setData(x)
         }
     }
-
-
     useEffect(() => {
         getUserProfile()
     }, [])
@@ -57,6 +52,7 @@ const PersonalInfo = ({ navigation }: any) => {
                 text2: Colors.green,
                 props: { message: 'User updated successfully' }
             });
+            getUserProfile()
         } else {
             dispatch(updateUserFail())
         }
@@ -67,7 +63,7 @@ const PersonalInfo = ({ navigation }: any) => {
             <View style={styles.container}>
                 <SafeAreaView />
 
-                <AddButtonHeader saveOption={false} onClose={() => navigation.goBack()} lable={"Personal Information"} />
+                <AddButtonHeader loading={detailsLoading} onPress={updateDetailsHandler} saveOption={true} onClose={() => navigation.goBack()} lable={"Personal Information"} />
 
                 <View style={styles.shadow}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
@@ -106,15 +102,6 @@ const PersonalInfo = ({ navigation }: any) => {
 
                 </View>
 
-                <Pressable onPress={updateDetailsHandler}>
-                    <View style={[styles.buttonsFull, { marginTop: Colors.spacing * 2, flexDirection: 'row', alignItems: 'center' }]}>
-                        {detailsLoading ? <ActivityIndicator color={'white'} size={'small'} animating={detailsLoading} style={{ transform: [{ scale: .8 }], }} /> : <Text style={{
-                            fontSize: 14, fontFamily: "Outfit",
-                            color: 'white', fontWeight: isAndroid ? "900" : "700"
-                        }}>Update profile</Text>}
-
-                    </View>
-                </Pressable>
             </View>
             <ShowToast />
         </>

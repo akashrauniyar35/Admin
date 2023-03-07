@@ -1,11 +1,9 @@
 import { ActivityIndicator, Dimensions, FlatList, Modal, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Colors, HEIGHT } from '../assets/Colors';
-import CheckListCard from './CheckListCard';
-import AddCheckList from './AddCheckList';
+import { Colors } from '../assets/Colors';
 const isAndroid = Platform.OS == 'android' ? true : false
-const { width, height } = Dimensions.get('screen')
+const { width } = Dimensions.get('screen')
 
 
 
@@ -45,14 +43,14 @@ const AddNotes = ({ onPress, animation, isOpen, onClose, id, loading }: any) => 
                                 <Icon name="chevron-back" size={22} color={Colors.black} />
                             </Pressable>
 
-                            <Text style={{ fontSize: 14, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>{"Add note"}</Text>
+                            <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Bold', }}>{"Add note"}</Text>
                             <Icon name="chevron-back" size={28} color={'transparent'} />
                         </View>
 
 
                         <View style={styles.container}>
 
-                            <Text style={{ alignSelf: 'center', fontSize: 16, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing * 2 }}>{`Add a note to job #${id}`}</Text>
+                            <Text style={{ fontFamily: "Outfit-Medium", alignSelf: 'center', fontSize: 16, color: Colors.maidlyGrayText, marginBottom: Colors.spacing * 2 }}>{`Add a note to job #${id}`}</Text>
 
                             <View style={[styles.textBox, { borderWidth: isAndroid ? .35 : 0, borderColor: Colors.maidlyGrayText, borderRadius: Colors.spacing * 1 }]}>
                                 <TextInput multiline style={[styles.input, { height: isAndroid ? 180 : 250 }]} maxLength={500} onChangeText={(value) => setText(value)} />
@@ -109,6 +107,7 @@ const styles = StyleSheet.create({
     input: {
         color: Colors.maidlyGrayText,
         textAlignVertical: "top",
+        fontFamily: "Outfit-Light"
     },
     save: {
         marginTop: Colors.spacing * 4,

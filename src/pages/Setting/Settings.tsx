@@ -24,7 +24,7 @@ const Settings = ({ navigation }: any) => {
             <View style={styles.container}>
                 <SafeAreaView />
                 <View style={{}}>
-                    <Header nav={navigation} title="Settings" />
+                    <Header nav={navigation} title="Settings" searchEnabled={true} />
                     <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
                         <Pressable style={styles.button} onPress={() => navigation.navigate("personalInfo")}>
                             <Text style={styles.text}>Update personal information</Text>
@@ -32,7 +32,7 @@ const Settings = ({ navigation }: any) => {
                         </Pressable>
 
                         <Pressable style={styles.button} onPress={() => navigation.navigate("updatePassword")}>
-                            <Text style={styles.text}>Update pessword</Text>
+                            <Text style={styles.text}>Update password</Text>
                             <Icon name="chevron-forward" size={18} color={Colors.black} />
                         </Pressable>
                     </View>
@@ -48,8 +48,9 @@ export default Settings
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.madlyBGBlue, },
     text: {
-        fontFamily: "Outfit",
-        fontSize: 14
+        fontFamily: "Outfit-Medium",
+        fontSize: 14,
+        color: Colors.black
     },
     button: {
         marginBottom: 20,

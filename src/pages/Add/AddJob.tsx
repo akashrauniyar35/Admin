@@ -271,7 +271,7 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
         })
 
         const newState: any = editJobData.totals.map((x: any) => {
-            if (x.title?.toLowerCase().split(" ").pop() === "bedroom") {
+            if (x?.title?.toLowerCase().split(" ").pop() === "bedroom") {
                 return { ...x, title: `${value.substring(0, 1)} Bedroom`, quantity: parseInt(value.slice(0)) };
             }
             return x;
@@ -282,7 +282,7 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
 
     const bedroomPriceHandler = (value: any) => {
         const newState: any = editJobData.totals.map((x: any) => {
-            if (x.title.toLowerCase().split(" ").pop() === "bedroom") {
+            if (x?.title?.toLowerCase().split(" ").pop() === "bedroom") {
                 return { ...x, amount: parseInt(value) };
             }
             return x;
@@ -295,7 +295,7 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
     const bathroomHandler = (value: any) => {
 
         const newState: any = editJobData.products.map((x: any) => {
-            if (x.title?.toLowerCase().split(" ").pop() === "bathrooms") {
+            if (x?.title?.toLowerCase().split(" ").pop() === "bathrooms") {
                 return { ...x, quantity: parseInt(value.slice(0)) };
             }
             return x;
@@ -315,7 +315,7 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
     const bathroomPriceHandler = (value: any) => {
 
         const newState: any = editJobData.totals.map((x: any) => {
-            if (x.title.toLowerCase().split(" ").pop() === "bathroom") {
+            if (x?.title?.toLowerCase().split(" ").pop() === "bathroom") {
                 return { ...x, amount: parseInt(value) };
             }
             return x;
@@ -328,7 +328,7 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
     const basePriceHandler = (value: any) => {
 
         const newTotals: any = editJobData.totals.map((x: any) => {
-            if (x.title.toLowerCase() === "base price") {
+            if (x?.title?.toLowerCase() === "base price") {
                 return { ...x, quantity: 1, amount: parseInt(value) };
             }
             return x;
@@ -340,7 +340,7 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
     const discountPriceHandler = (value: any) => {
 
         const newTotals: any = editJobData.totals.map((x: any) => {
-            if (x.title.toLowerCase() === "discount") {
+            if (x?.title?.toLowerCase() === "discount") {
                 return { ...x, quantity: 1, amount: parseInt(value) };
             } else {
                 return x
@@ -352,29 +352,24 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
     }
 
     const paymentReceivedHandler = (value: any) => {
-
-
         const newTotals: any = editJobData.totals.map((x: any) => {
-            if (x.title.toLowerCase() === "payment received") {
+            if (x?.title?.toLowerCase() === "payment received") {
                 return { ...x, quantity: 1, amount: parseInt(value) };
             } else {
                 return x
             }
         })
 
-        console.log("Payment received", value, newTotals)
-
         lable === "Edit Quote" ? seteditJobData({ ...editJobData, totals: newTotals }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, totals: newTotals }) : null
     }
 
     const AddOnsPriceHandler = (value: any) => {
         const newTotals: any = editJobData.totals.map((x: any) => {
-            if (x.title.toLowerCase() === "extras") {
+            if (x?.title?.toLowerCase() === "extras") {
                 return { ...x, title: "Extras", quantity: 1, amount: parseInt(value) };
             }
             return x;
         })
-
 
         lable === "Edit Quote" ? seteditJobData({ ...editJobData, totals: newTotals }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, totals: newTotals }) :
             lable === "Add Quote" && dispatch(addExtraPrice(value))
@@ -453,7 +448,6 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
             }
             dispatch(postJobFail(x.data))
         }
-
     }
 
     const onEditSave = async () => {
@@ -465,30 +459,16 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
         if (x.data.status === "success") {
             dispatch(postEditSuccess(x.data.status));
             onClose();
+            refresh(id)
             Toast.show({
-                type: 'successToast',
+                type: 'modalSuccessToast',
                 visibilityTime: 3000,
                 text1: `${editQuoteReference}`,
                 props: { message: `${location[0].toUpperCase() + location.substring(1)} Updated Successfully` }
             });
-            refresh()
         }
         dispatch(postEditFail(x.data))
     }
-
-
-    // const scrollHandler = () => {
-
-    //     if () {
-    //         ref.scrollTo({
-    //             x: 0,
-    //             y: "50%",
-    //             animated: true,
-    //         });
-    //     } else {
-    //         Alert.alert('Out of Max Index');
-    //     }
-    // };
 
     return (
         <View>

@@ -1,12 +1,10 @@
 import { Dimensions, FlatList, Modal, Platform, Pressable, SafeAreaView, ActivityIndicator, StyleSheet, Switch, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Colors, HEIGHT, WIDTH } from '../assets/Colors';
-import CheckListCard from './CheckListCard';
-import AddCheckList from './AddCheckList';
-import { useSelector } from 'react-redux';
+import { Colors, WIDTH } from '../assets/Colors';
+
 const isAndroid = Platform.OS == 'android' ? true : false
-const { width, height } = Dimensions.get('screen')
+const { width, } = Dimensions.get('screen')
 
 
 
@@ -45,9 +43,8 @@ const DeleteModal = ({ loading, onPress, animation, isOpen, title, onClose, id, 
                             <Pressable
                                 style={{}}
                             ><Icon name="chevron-back" size={28} color={'white'} /></Pressable>
-                            <Text style={{ fontSize: 16, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>{title}</Text><Icon name="chevron-back" size={28} color={'white'} />
+                            <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Bold', }}>{title}</Text><Icon name="chevron-back" size={28} color={'white'} />
                         </View>
-
 
                         <View style={styles.container}>
 
@@ -76,8 +73,7 @@ const DeleteModal = ({ loading, onPress, animation, isOpen, title, onClose, id, 
                                     <Text style={{ color: 'white', fontSize: 16, fontWeight: isAndroid ? "900" : "600" }}>Cancel</Text>
                                 </Pressable>
                                 <Pressable style={[styles.save, { flexDirection: 'row', alignItems: 'center' }]} onPress={() => onPress(id)}>
-                                    <Text style={{ color: 'white', fontSize: 16, fontWeight: isAndroid ? "900" : "600" }}>{loading ? 'Deleting' : 'Delete'}</Text>
-                                    {loading && <ActivityIndicator color="white" size={'small'} animating={loading} style={{ transform: [{ scale: .7 }], marginLeft: Colors.spacing * .5, }} />}
+                                    {loading ? <ActivityIndicator color="white" size={'small'} animating={loading} style={{ transform: [{ scale: .7 }], marginLeft: Colors.spacing * .5, }} /> : <Text style={{ color: 'white', fontSize: 16, fontWeight: isAndroid ? "900" : "600" }}>Delete</Text>}
                                 </Pressable>
                             </View>
 

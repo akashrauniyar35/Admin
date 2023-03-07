@@ -1,5 +1,5 @@
 import { Dimensions, Modal, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Colors } from '../assets/Colors';
 import SelectTechnicianCard from './SelectionCard';
@@ -7,10 +7,29 @@ import PeriodSelector from './PeriodSelector';
 import SelectionCard from './SelectionCard';
 import CalandarDatePicker from './CalandarDatePicker';
 import HeaderComponent from './AddButtonHeader'
+import { getAllTechPending } from '../redux/technicianSlice';
+import { fetchAllTechnician } from '../config/TechApi';
+
+import AssignTech from './AssignTech';
 
 const isAndroid = Platform.OS == 'android' ? true : false
 const { width, height } = Dimensions.get('screen')
 
+
+const filterTypeData = [
+    {
+        id: '00',
+        name: 'Technician',
+    },
+    {
+        id: '01',
+        name: 'By Date',
+    },
+    {
+        id: '02',
+        name: 'Job Status',
+    },
+];
 
 const data = [
     {
@@ -54,36 +73,31 @@ const scheduleData = [
     },
 ]
 
-const Filter = ({ onPress, isOpen, title, setDateRange, filter, dateRange, onClose, setFilter, onClear, setPageCount }) => {
+const Filter = ({ onPress, isOpen, title, setDateRange, filter, dateRange, onClose, setFilter, onClear, setPageCount, setFilterType, filterType }: any) => {
     const [fromPicker, setFromPicker] = useState(false);
     const [toPicker, setToPicker] = useState(false);
+    const [techData, setTechData] = useState();
 
 
-    const handleDatePicker = (value) => {
-        const x = value.toISOString()
-        setDateRange({ ...dateRange, from: x.substring(0, 10) })
-        console.log("handleDatePicker",)
+
+    const getAllTech = async () => {
+        const x: any = await fetchAllTechnician()
+        if (x.data.status === "error") {
+        } else {
+            setTechData(x.data.paginatedResults)
+        }
     }
 
-    // const data = [
-    //     {
-    //         id: '00',
-    //         title: 'Completed'
-    //     },
-    //     {
-    //         id: '00',
-    //         title: 'Amit Raja'
-    //     },
-    //     {
-    //         id: '00',
-    //         title: 'From 2023/01-01 To 2023/01-31'
-    //     },
-    // ]
+    const handleTech = (item: any) => {
+        let techName = item.firstName + " " + item.lastName
+        setFilter(techName)
+    }
 
+    useEffect(() => {
+        getAllTech()
+    }, [])
     return (
-
         <>
-
             <View>
                 <View style={[styles.filterStyling,]}>
                     <Pressable onPress={() => { onClose(); setPageCount(1) }}>
@@ -93,7 +107,7 @@ const Filter = ({ onPress, isOpen, title, setDateRange, filter, dateRange, onClo
                         </View>
                     </Pressable>
 
-                    <View style={{ width: '60%', alignItems: "flex-start", marginLeft: Colors.spacing, paddingRight: Colors.spacing }}>
+                    <View style={{ width: '50%', alignItems: "flex-start", marginLeft: Colors.spacing, paddingRight: Colors.spacing }}>
                         <ScrollView horizontal contentContainerStyle={{ alignItems: "center" }}>
 
                             {filter &&
@@ -123,7 +137,6 @@ const Filter = ({ onPress, isOpen, title, setDateRange, filter, dateRange, onClo
                             <Icon name="md-close-circle" color={Colors.madidlyThemeBlue} size={20} />
                         </Pressable>
                     }
-
 
                 </View>
             </View>
@@ -163,25 +176,35 @@ const Filter = ({ onPress, isOpen, title, setDateRange, filter, dateRange, onClo
 
                         <View style={styles.container}>
 
-                            {/* <SelectionCard phColor={Colors.maidlyGrayText} border={true} rounded={true} data={data} type={'filter'} label="Technician" placeholder="Select Technician" /> */}
-
                             <View style={{ marginTop: Colors.spacing }}>
+                                <SelectionCard onPress={(value: any) => setFilterType(value)} phColor={Colors.maidlyGrayText} border={true} rounded={true} data={filterTypeData} type={'filter'} label="Filter by" placeholder={filterType ? filterType : ""} />
+                            </View>
+
+                            {filterType === "Technician" ?
+                                <View>
+                                    <AssignTech rounded={true} loading={false} data={techData} onPress={(value: any) => handleTech(value)} placeholder={"Select a technician"} clearEnabled={true} />
+                                    <View style={{ height: .25, width: '100%', marginVertical: Colors.spacing * 2, backgroundColor: Colors.maidlyGrayText }} />
+                                </View>
+                                : null
+                            }
+
+
+                            {filterType === "By Date" ? <View style={{ marginTop: Colors.spacing }}>
                                 <PeriodSelector
                                     fromPicker={fromPicker} setFromPicker={setFromPicker}
                                     toPicker={toPicker} setToPicker={setToPicker}
                                     handleDatePicker={setDateRange} dateRange={dateRange}
                                 />
-                            </View>
+                            </View> : null}
 
-                            <View style={{ marginTop: Colors.spacing }}>
-                                <SelectionCard onPress={(value) => setFilter(value)} phColor={Colors.maidlyGrayText} border={true} rounded={true} data={scheduleData} type={'filter'} label="Status" placeholder={filter ? filter : "Select status"} />
-                            </View>
-
-                            <Pressable style={styles.applyButton} onPress={onPress}>
-                                <Text style={{ fontSize: 16, color: 'white', fontFamily: 'Outfit-Bold', }}>Apply Filter</Text>
-                            </Pressable>
+                            {filterType === "Job Status" ? <View style={{ marginTop: Colors.spacing }}>
+                                <SelectionCard onPress={(value: any) => setFilter(value)} phColor={Colors.maidlyGrayText} border={true} rounded={true} data={scheduleData} type={'filter'} label="Status" placeholder={filter ? filter : "Select status"} />
+                            </View> : null}
 
                         </View>
+                        <Pressable style={styles.applyButton} onPress={onPress}>
+                            <Text style={{ fontSize: 14, color: 'white', fontFamily: 'Outfit-Bold', }}>Apply Filter</Text>
+                        </Pressable>
                     </View>
                 </View>
             </Modal >
@@ -206,8 +229,12 @@ const styles = StyleSheet.create({
         padding: Colors.spacing * 2,
     },
     applyButton: {
+        position: 'absolute',
+        bottom: 300,
+        width: "90%",
+        alignSelf: 'center',
         backgroundColor: Colors.madidlyThemeBlue, flexDirection: 'row',
-        borderRadius: Colors.spacing * Colors.spacing, alignItems: 'center', justifyContent: 'center', paddingVertical: Colors.spacing * 1.3,
+        borderRadius: Colors.spacing * Colors.spacing, alignItems: 'center', justifyContent: 'center', paddingVertical: Colors.spacing * 1.3, height: 45
     }
 
 })

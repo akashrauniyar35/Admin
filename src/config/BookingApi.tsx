@@ -50,11 +50,9 @@ export const fetchAppointments = () => {
     let today = new Date();
     let lastMonth = moment(new Date(today.getFullYear(), today.getMonth() - 1)).format("YYYY-MM-DD")
     let nextMonth = moment(new Date(today.getFullYear(), today.getMonth() + 2, 0)).format("YYYY-MM-DD")
-
-
     return new Promise(async (resolve, reject) => {
         try {
-            const res: any = await endPoint.get(`booking/all?page=1&limit=20&bookingDate=${lastMonth}&to=${nextMonth}`)
+            const res: any = await endPoint.get(`booking/all?page=1&limit=100&bookingDate=${lastMonth}&to=${nextMonth}`)
             console.log(res)
             resolve(res);
         }
@@ -98,10 +96,13 @@ export const fetchDeleteJobBooking = (id: String) => {
     })
 }
 
-export const fetchFilteredBookings = (page: any, status: any) => {
+export const fetchFilteredBookings = (page: any, filterType: any, status: any, dateRange: any) => {
+
+    let newAPI = filterType === "By Date" ? `booking/all?page=1&limit=10&bookingDate=${dateRange.from}&to=${dateRange.to}` : filterType === "Job Status" ? `booking/all?page=${page}&limit=20&filter=bookingStatus&word=${status}` : `booking/all?page=${page}&limit=20&filter=technician&word=${status}`
+
     return new Promise(async (resolve, reject) => {
         try {
-            const res: any = await endPoint.get(`booking/all?page=${page}&limit=10&filter=bookingStatus&word=${status}`)
+            const res: any = await endPoint.get(newAPI)
             resolve(res);
             console.log('status', res)
         }

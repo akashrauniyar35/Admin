@@ -1,30 +1,17 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
-  SafeAreaView,
   StatusBar,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { Provider, useSelector } from 'react-redux';
+import { Provider, } from 'react-redux';
 import store from './src/redux/store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import AuthenticationStack from './src/navigation/AuthenticationStack';
-import Drawer from './src/navigation/Drawer'
 
 import { LogBox } from "react-native";
-import NoInternetConnection from './src/pages/Login/NoInternetConnection';
+import { getNewAccessTolken } from './src/config/UserApi';
+import RootStack from './src/navigation/RootStack';
 LogBox.ignoreLogs(["Sending `onAnimatedValueUpdate` with no listeners registered.",]);
 
 const navTheme = {
@@ -37,50 +24,33 @@ const navTheme = {
 
 const App = () => {
 
-  const [savedToken, setSavedToken] = useState<string>();
-  useEffect(() => {
-    // SplashScreen.hide()
-  }, [])
-
-  const getAccessToken = async () => {
-    console.log('trying')
-    try {
-      const value: any = await AsyncStorage.getItem('@refresh_Token')
-      // const value = await AsyncStorage.getItem('@access_Token')
-      if (value !== undefined) {
-        console.log("GET ASYNC STORAGE Refresh token", value);
-        setSavedToken(value)
-      } else {
-        setSavedToken(value)
-        console.log("async access token", value)
-      }
-
-    } catch (e) {
-      // error reading value
+  const getNewAccessToken = async () => {
+    const x: any = await getNewAccessTolken()
+    if (x.status === "success") {
+      console.log("New Token Success")
+    }
+    else {
+      console.log("New Token Fail")
     }
   }
 
   useEffect(() => {
-    getAccessToken()
-  }, [savedToken])
-
-  const AppView = () => {
-    let isAuth = useSelector((state: any) => state.authReducer.isAuthenticated);
-    return isAuth ? <Drawer /> : <AuthenticationStack />
-  }
+    const interval = setInterval(() => {
+      getNewAccessToken()
+    }, 885000);
+    return () => clearInterval(interval);
+  }, []);
 
 
   return (
-    <>
-      <NavigationContainer theme={navTheme}>
-        <Provider store={store}>
-          <StatusBar barStyle='light-content' />
-          <View style={{ flex: 1, backgroundColor: 'white' }}>
-            <AppView />
-          </View>
-        </Provider>
-      </NavigationContainer>
-    </>
+    <NavigationContainer theme={navTheme}>
+      <Provider store={store}>
+        <StatusBar barStyle='light-content' />
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
+          <RootStack />
+        </View>
+      </Provider>
+    </NavigationContainer>
   )
 };
 

@@ -4,20 +4,27 @@ import { Colors, isAndroid } from '../assets/Colors'
 import Divider from './Divider';
 
 
-const x = new Date();
-const date = x.toDateString().substring(4, 10)
-const Banner = () => {
+
+
+
+const Banner = ({ selectedPeriod }: any) => {
+
+    const x = new Date(selectedPeriod?.date?.from);
+    const y = new Date(selectedPeriod?.date?.to);
+    const date = x.toDateString().substring(4, 10)
+    const dateTwo = y.toDateString().substring(4, 10)
+
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Outfit-Bold', }}>Today</Text>
-                <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Outfit-Medium', opacity: .7, marginLeft: Colors.spacing }}>{date}</Text>
+                <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Outfit-Bold', }}>{selectedPeriod.label}</Text>
+                <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Outfit-Medium', opacity: .7, marginLeft: Colors.spacing }}>{selectedPeriod.label === "This Week" ? date + " - " + dateTwo : date}</Text>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: Colors.spacing * .5 }}>
 
                 <View style={{ width: '45%', alignItems: 'center', }}>
-                    <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Outfit-Medium', }}>$ 0.00</Text>
+                    <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Outfit-Medium', }}>$ 530.00</Text>
                     <Text style={{ marginTop: Colors.spacing * .25, fontSize: 10, color: 'white', fontFamily: 'Outfit-Light', opacity: .7, }}>Gross sales</Text>
                 </View>
 

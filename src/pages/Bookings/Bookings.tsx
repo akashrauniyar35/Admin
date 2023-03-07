@@ -23,6 +23,8 @@ import { addNoteFail, addNotePending, addNoteSuccess } from '../../redux/noteSli
 import { AddSystemNote } from '../../config/NoteApi';
 import uuid from 'react-uuid';
 import AddPayment from '../../components/AddPayment';
+import { quoteStatusFail, quoteStatusPending, quoteStatusSuccess } from '../../redux/jobSlice';
+import { fetchStatusUpdate } from '../../config/JobApi';
 const swipeableOptions = [
     {
         id: '00',
@@ -61,6 +63,7 @@ const Bookings = ({ navigation }: any) => {
     const [data, setData] = useState<any>([])
     const [filtersVisible, setFiltersVisible] = useState(false)
     const [filterBY, setFilterBY] = useState("")
+    const [filterType, setFilterType] = useState("")
     const [filteredData, setFilteredData] = useState<any>([])
     const [pageCount, setPageCount] = useState(1);
     const [openBooking, setOpenBooking] = useState(false);
@@ -180,10 +183,25 @@ const Bookings = ({ navigation }: any) => {
         });
     }
 
+
+    const statusHandler = async () => {
+        let id = selectedBooking._id
+        let data = { bookingStatus: "Completed" }
+        let lable = "booking"
+        dispatch(quoteStatusPending())
+        const x: any = await fetchStatusUpdate(id, data, lable)
+        if (x.data.status === "error") {
+            return dispatch(quoteStatusFail());
+        }
+        dispatch(quoteStatusSuccess())
+        getAllBookings()
+    }
+
+
     const filterHandler = async () => {
         setPageCount(1)
         dispatch(filterBookingPending())
-        const x: any = await fetchFilteredBookings(pageCount, filterBY)
+        const x: any = await fetchFilteredBookings(pageCount, filterType, filterBY, dateRange)
         if (x.data.status === "error") {
             return dispatch(filterBookingFail(x.data.status));
         }
@@ -196,7 +214,7 @@ const Bookings = ({ navigation }: any) => {
 
     const renderItem = (item: any, index: any) => {
         return (
-            < BookingsCard addPaymentHandler={() => setAddaddPaymentsVisible(true)} editBookingHandler={editBookingHandler} selectedBooking={() => setSelectedBooking(item)} item={item} index={index} swipeableOptions={swipeableOptions} onPress={() => viewBookingHandler(item._id)} toggleDelete={() => setDeleteBookingSlider(!deleteBookingSlider)} toggleNotes={() => setAddNotesVisible(!addNotesVisible)} />
+            < BookingsCard statusHandler={statusHandler} addPaymentHandler={() => setAddaddPaymentsVisible(true)} editBookingHandler={editBookingHandler} selectedBooking={() => setSelectedBooking(item)} item={item} index={index} swipeableOptions={swipeableOptions} onPress={() => viewBookingHandler(item._id)} toggleDelete={() => setDeleteBookingSlider(!deleteBookingSlider)} toggleNotes={() => setAddNotesVisible(!addNotesVisible)} />
         )
     }
 
@@ -226,7 +244,9 @@ const Bookings = ({ navigation }: any) => {
                     </View>
                 </View>
 
-                <Filter setPageCount={setPageCount} dateRange={dateRange} filter={filterBY} title={"Filter Bookings"} isOpen={filtersVisible} onClose={() => { setFiltersVisible(!filtersVisible), setFilterBY(""), setDateRange({ from: "", to: "" }) }} onPress={filterHandler} setDateRange={setDateRange} setFilter={setFilterBY} onClear={() => { setFilteredData([]), setPageCount(1), getAllBookings(), flatlistRef.scrollToOffset({ y: 0, animated: true }), setFilterBY(""), setDateRange({ from: "", to: "" }) }} />
+                <Filter setPageCount={setPageCount} dateRange={dateRange} filter={filterBY} title={"Filter Bookings"} isOpen={filtersVisible} onClose={() => { setFiltersVisible(!filtersVisible), setFilterBY(""), setDateRange({ from: "", to: "" }) }} onPress={filterHandler} setDateRange={setDateRange} setFilter={setFilterBY} onClear={() => { setFilteredData([]), setPageCount(1), getAllBookings(), flatlistRef.scrollToOffset({ y: 0, animated: true }), setFilterBY(""), setDateRange({ from: "", to: "" }), setFilterType("") }} filterType={filterType} setFilterType={setFilterType} />
+
+
 
                 <View style={{ flex: 1, }}>
                     <FlatList
@@ -249,7 +269,7 @@ const Bookings = ({ navigation }: any) => {
 
             <DeleteModal loading={deleteLoading} id={selectedBooking?._id} phone={phoneNumber} price={price} animation="slide" quoteReference={selectedBooking?.bookingReference} customerName={selectedBooking?.firstName + " " + selectedBooking?.lastName} title="Delete Job" onClose={() => setDeleteBookingSlider(false)} isOpen={deleteBookingSlider} onPress={deleteBookingHandler} />
 
-            <AddJob isOpen={editBooking} onPress={editBookingHandler} onClose={() => setEditBooking(false)} lable={"Edit Booking"} id={selectedBookingID} />
+            <AddJob refresh={getAllBookings} isOpen={editBooking} onPress={editBookingHandler} onClose={() => setEditBooking(false)} lable={"Edit Booking"} id={selectedBookingID} />
 
             <AddNotes loading={notesLoading} id={selectedBooking?.bookingReference} reference={selectedBooking?.bookingReference} animation="slide" title="Add notes" onClose={() => setAddNotesVisible(false)} isOpen={addNotesVisible} onPress={addNotesHandler} />
 

@@ -3,17 +3,17 @@ import React, { useState } from 'react'
 import { Colors, isAndroid } from '../assets/Colors'
 
 
-const PriceInput = ({ onChange, placeholderSize, placeholder, size, value, editable, bg }: any) => {
+const PriceInput = ({ onChange, placeholderSize, placeholder, size, value, editable, bg, textColor }: any) => {
 
     return (
         <>
             <View style={[styles.box, { height: size, backgroundColor: bg ? bg : Colors.grayBG }]}>
 
-                <Text style={{ color: Colors.maidlyGrayText, top: isAndroid ? -1 : 0, marginRight: isAndroid ? 0 : 5 }}>$</Text>
-                <TextInput editable={editable} maxLength={10} value={value} keyboardType="numeric" onChangeText={(value) => onChange(value)} placeholderTextColor={Colors.maidlyGrayText} placeholder={placeholder ? placeholder : "0.00"}
+                <Text style={{ fontFamily: textColor ? 'Outfit-Bold' : "Outfit-Light", color: textColor ? textColor : Colors.maidlyGrayText, top: isAndroid ? -1 : 0, marginRight: isAndroid ? 0 : 5 }}>$</Text>
+                <TextInput editable={editable} maxLength={10} value={value} keyboardType="numeric" onChangeText={(value) => onChange(value)} placeholderTextColor={textColor ? textColor : Colors.maidlyGrayText} placeholder={placeholder ? placeholder : "0.00"}
                     style={{
                         flex: 1,
-                        fontSize: placeholderSize ? placeholderSize : 16, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light',
+                        fontSize: placeholderSize ? placeholderSize : 16, color: Colors.maidlyGrayText, fontFamily: textColor ? 'Outfit-Bold' : "Outfit-Light",
                     }}
                     onSubmitEditing={Keyboard.dismiss}
                 />

@@ -9,6 +9,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AddButtonHeader from '../../components/AddButtonHeader'
 import InputBox from '../../components/InputBox'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useDispatch } from 'react-redux'
+import { getNewTokernFail, getNewTokernPending, getNewTokernSuccess } from '../../redux/userSlice'
 
 
 
@@ -16,12 +18,15 @@ const Password = ({ navigation }: any) => {
     const [passwordOne, setPasswordOne] = useState("")
     const [passwordTwo, setPasswordTwo] = useState("")
     const [error, setError] = useState(false);
-
+    const dispatch = useDispatch()
+  
     const updateHandler = async () => {
-        const refresh_token = await AsyncStorage.getItem('@refresh_Token')
+        dispatch(getNewTokernPending())
         const x: any = await getNewRefreshTolken()
-        console.log("previous Token", refresh_token)
-        console.log("New Token", x)
+        if (x.status === "success") {
+            dispatch(getNewTokernSuccess())
+        }
+        dispatch(getNewTokernFail())
     }
 
     return (

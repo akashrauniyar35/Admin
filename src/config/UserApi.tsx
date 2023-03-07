@@ -143,7 +143,7 @@ export const updateProfilePic = async (file: any, pic: any, id: any, getUserProf
     );
 };
 
-export const getNewRefreshTolken = () => {
+export const getNewAccessTolken = () => {
     return new Promise(async (resolve, reject) => {
         const refresh_token = await AsyncStorage.getItem('@refresh_Token')
         try {
@@ -153,6 +153,7 @@ export const getNewRefreshTolken = () => {
                 }
             })
             resolve(res.data)
+            console.log("API TOKEN FETCHED")
             if ((res.data.status === "success")) {
                 try {
                     await AsyncStorage.setItem('@access_Token', res.data.accessJWT)

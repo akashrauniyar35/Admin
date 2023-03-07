@@ -9,7 +9,7 @@ import { Swipeable, } from 'react-native-gesture-handler';
 import { Colors, isAndroid } from '../../assets/Colors';
 
 
-const BookingsCard = ({ toggleNotes, addPaymentHandler, editBookingHandler, item, index, onPress, swipeableOptions, toggleDelete, selectedBooking }: any) => {
+const BookingsCard = ({ toggleNotes, addPaymentHandler, statusHandler, editBookingHandler, item, index, onPress, swipeableOptions, toggleDelete, selectedBooking }: any) => {
 
     const swipeableRef = useRef<Swipeable | null>(null);
     const street = item.address2?.split(" ")
@@ -37,8 +37,8 @@ const BookingsCard = ({ toggleNotes, addPaymentHandler, editBookingHandler, item
         if (value === "addPayment") {
             addPaymentHandler()
         }
-        if (value === "confirmBooking") {
-            // setConfirmBookingVisible(true);
+        if (value === "markComplete") {
+            statusHandler()
         }
 
         if (swipeableRef.current) {

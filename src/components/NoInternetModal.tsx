@@ -15,7 +15,6 @@ const NoInternetModal = ({ isOpen }: any) => {
         })
         return data
     }, [])
-
     const onPress = () => {
         SetTimer(true)
         setTimeout(function () { SetTimer(false) }, 3000)

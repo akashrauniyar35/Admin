@@ -1,5 +1,5 @@
 import { ActivityIndicator, Alert, FlatList, Modal, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useDebugValue, useEffect, useState } from 'react'
 import { Colors, isAndroid, lightenColor, WIDTH } from '../assets/Colors'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 
 const SelectionCard = ({ onPress, data, label, size, fontSize, icon, type, placeholder, rounded, border, phColor, loading }: any) => {
-    const [selected, setSelected] = useState();
+    const [selected, setSelected] = useState(placeholder);
     const [isOpen, setIsOpen] = useState(false)
 
     const onClickHandle = (visible: any) => {
@@ -20,6 +20,11 @@ const SelectionCard = ({ onPress, data, label, size, fontSize, icon, type, place
         setSelected(value)
         onPress(value)
     }
+
+
+    useEffect(() => {
+        setSelected(placeholder)
+    }, [placeholder])
 
 
     return (

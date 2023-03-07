@@ -18,7 +18,6 @@ const ViewBookingModal = ({ isOpen, onClose, id, refresh, deleteOpen, toggleDele
 
     const dispatch = useDispatch()
 
-
     const statusHandler = async (value: string) => {
         let data = { bookingStatus: value }
         let lable = "booking"
@@ -28,6 +27,7 @@ const ViewBookingModal = ({ isOpen, onClose, id, refresh, deleteOpen, toggleDele
             return dispatch(quoteStatusFail());
         }
         dispatch(quoteStatusSuccess())
+        refresh(id)
     }
 
 
