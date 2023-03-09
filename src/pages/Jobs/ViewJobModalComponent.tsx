@@ -46,27 +46,7 @@ const scheduleData = [
 ];
 
 
-const techData = [
-    {
-        id: '00',
-        name: 'Ninja Prasad',
-    },
-    {
-        id: '01',
-        name: 'Ashwin Nigga',
-    },
-    {
-        id: '02',
-        name: 'Milan Prasad',
-    },
-    {
-        id: '03',
-        name: 'Rajesh Hamal',
-    },
-];
-
-
-const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDelete, deleteHandler, confirmOpen, toggleConfirm, confirmHandler }) => {
+const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDelete, deleteHandler, confirmOpen, toggleConfirm, confirmHandler }: any) => {
     console.log('job component modal item', id)
     const [checkListVisible, setCheckListVisible] = useState(false)
     const [addNoteVisible, setAddNoteVisible] = useState(false)
@@ -130,10 +110,10 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDe
                     </View>
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
-                        <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "700" }}>{item.firstName} {item.lastName}</Text>
-                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", marginTop: Colors.spacing }}>$ {quotePrice}</Text>
+                        <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', }}>{item.firstName} {item.lastName}</Text>
+                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', marginTop: Colors.spacing }}>{item.address1} {item.address2} {item.city} {item.postcode} {item.state.toUpperCase()}</Text>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * .5 }}>
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300" }}>{phoneNumber}</Text>
                             <View style={{ opacity: .5, backgroundColor: Colors.maidlyGrayText, width: 10, height: 10, marginHorizontal: Colors.spacing, borderRadius: 100, }} />
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300" }}>{item.email}</Text>
@@ -187,7 +167,7 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDe
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing, }}>
 
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", width: '20%' }}>Size</Text>
-                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{bd.quantity} bd | {ba.quantity} ba</Text>
+                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{bd?.quantity} bd | {ba?.quantity} ba</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing, }}>
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", width: '20%' }}>Service</Text>
@@ -221,9 +201,7 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDe
                                                 </View>
                                             )
                                         } else { null }
-
                                     })}
-
                                 </View>
 
                             </View>
@@ -231,12 +209,7 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDe
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", width: '20%' }}>Notes</Text>
-                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{'Some notes'}</Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing, }}>
-                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "700", width: '20%' }}>Assigned</Text>
-                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{'N/A'}</Text>
+                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "600" : "300", }}>{'NA'}</Text>
                         </View>
                         <View style={{ height: .35, width: '100%', marginVertical: Colors.spacing * 2, backgroundColor: Colors.maidlyGrayText }} />
                     </View>
@@ -299,11 +272,12 @@ const ViewJobModalComponent = ({ id, item, refresh, onClose, deletOpen, toggleDe
                     <View style={{ paddingHorizontal: Colors.spacing * 2 }}>
                         <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing }}>Timeline</Text>
 
-                        {item.timelines.map((item) => <JobTimelineCard createdBy={item.createdBy} key={item.id} date={item.date} icon={item.icon} title={item.title} />)}
+                        {item.timelines.map((item: any) => <JobTimelineCard createdBy={item.createdBy} key={item.id} date={item.date} icon={item.icon} title={item.title} />)}
                     </View>
 
                 </ScrollView>
-                <AddJob isOpen={editJobVisible} onClose={() => setEditJobVisible(false)} lable={"Edit Quote"} id={id} />
+
+                <AddJob refresh={refresh} isOpen={editJobVisible} onClose={() => setEditJobVisible(false)} lable={"Edit Quote"} id={id} />
 
                 <DeleteModal loading={deleteLoading} id={id} phone={phoneNumber} price={quotePrice} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Delete Job" onClose={toggleDelete} isOpen={deletOpen} onPress={deleteHandler} />
                 <ConfirmBookingModal id={item._id} phone={phoneNumber} price={quotePrice} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Confirm Job" onClose={toggleConfirm} isOpen={confirmOpen} onPress={confirmHandler} />

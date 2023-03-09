@@ -63,7 +63,7 @@ const AddTechnician = ({ isOpen, onClose }: any) => {
             dispatch(addTechSuccess())
             onClose()
             Toast.show({
-                type: 'success',
+                type: 'successToast',
                 visibilityTime: 3000,
                 text1: "Success",
                 text2: Colors.green,
@@ -118,7 +118,7 @@ const AddTechnician = ({ isOpen, onClose }: any) => {
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                         <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Phone number</Text>
                                         <View style={{ width: "70%", }}>
-                                            <InputBox maxLength={10} value={addData.phone} onChange={(val: any) => setAddData({ ...addData, phone: parseInt(val) })} placeholder={""} size={40} rounded={true} placeholderSize={12} keyboardType="numeric" />
+                                            <InputBox maxLength={10} value={addData.phone} onChange={(val: any) => setAddData({ ...addData, phone: val })} placeholder={""} size={40} rounded={true} placeholderSize={12} keyboardType="numeric" />
                                         </View>
                                     </View>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>

@@ -5,8 +5,8 @@ import { Colors, HEIGHT, isAndroid, WIDTH } from '../assets/Colors'
 import SelectionCard from './SelectionCard'
 
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
-import { addJobRemoveAddons, addProductsFail, addProductsSuccess } from '../redux/addJobSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { addProductsFail, addProductsSuccess } from '../redux/addJobSlice'
+import { useDispatch, } from 'react-redux'
 import { fetchAllProducts } from '../config/ProductsApi'
 
 const bedroomsData = [
@@ -104,8 +104,10 @@ const PropertyDetails = ({ serviceHandler, service, propertyHandler, bedroomHand
 
     const bd = data?.find((x: any) => x?.title?.toLowerCase() === "bedrooms")?.quantity
     const ba = data?.find((x: any) => x?.title?.toLowerCase() === "bathrooms")?.quantity
-    // const bd = data.length ? data?.find((x: any) => x?.title?.toLowerCase() === "bedrooms")?.quantity : null
-    // const ba = data.length ? data?.find((x: any) => x?.title?.toLowerCase() === "bathrooms")?.quantity : null
+
+
+    const filter = data?.filter((x: any) => x?.title?.toLowerCase() !== "bedrooms")
+    const newFilter = filter?.filter((x: any) => x?.title?.toLowerCase() !== "bathrooms")
 
 
 
@@ -189,20 +191,6 @@ const PropertyDetails = ({ serviceHandler, service, propertyHandler, bedroomHand
     return (
         <View style={{ overflow: 'hidden' }}>
 
-            {/* <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>{bd + " --- " + ba}</Text>
-
-            {
-                data.length ? data?.slice(2)?.map((item: any) => {
-                    return (
-                        <View key={item._id} style={{}}>
-                            <Text style={{ color: 'black' }}>{`${item.title} - ${item.quantity} x ${item.price} - Total ${item.quantity * item.amount}`}</Text>
-                        </View>
-                    )
-                }) : null
-
-            } */}
-
-
             <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * 2 }}>Job</Text>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2 }}>
@@ -257,7 +245,7 @@ const PropertyDetails = ({ serviceHandler, service, propertyHandler, bedroomHand
             </View>
 
             {
-                data?.slice(2).map((item: any) => {
+                newFilter?.map((item: any) => {
                     if (item.quantity >= 1) {
 
                         let newData = [
@@ -318,21 +306,22 @@ const PropertyDetails = ({ serviceHandler, service, propertyHandler, bedroomHand
             {
                 addCheckList &&
                 <View style={styles.productsContainer}>
-                    {data?.slice(2)?.map((item) => {
+                    {newFilter?.map((item: any) => {
                         return (
                             <View style={[styles.productsCard, {}]} key={item._id}>
                                 <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Light', }}>{item.title}</Text>
                                 <Pressable onPress={() => { item.quantity >= 1 ? addOnsRemoveButton(item) : addOnsAddButton(item) }}>
-                                    <View style={{ paddingVertical: Colors.spacing * .5, borderRadius: Colors.spacing * .5, backgroundColor: Colors.madidlyThemeBlue, width: 70 }}>
-                                        <Text style={{ alignSelf: 'center', fontSize: 12, color: 'white', fontFamily: 'Outfit-Bold', }}>{item.quantity >= 1 ? "remove" : 'Add'}</Text>
+                                    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 10, height: 25, paddingVertical: Colors.spacing * .5, borderRadius: Colors.spacing * .5, backgroundColor: Colors.madidlyThemeBlue, width: 80 }}>
+                                        <IconM name={item.quantity >= 1 ? "close-circle-outline" : 'plus-circle-outline'} size={14} style={{ color: "#fff" }} />
+                                        <Text style={{ alignSelf: 'center', fontSize: 12, color: 'white', fontFamily: 'Outfit-Bold', }}>{item.quantity >= 1 ? "Remove" : 'Add'}</Text>
                                     </View>
                                 </Pressable>
                             </View>
                         )
                     })}
-                </View>
+                </View >
             }
-
+            
             <View style={{ opacity: .35, marginTop: Colors.spacing, marginBottom: Colors.spacing * 2, borderBottomWidth: 2, borderColor: Colors.borderColor }} />
         </View >
 

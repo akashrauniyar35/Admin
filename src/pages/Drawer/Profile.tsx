@@ -4,10 +4,8 @@ import React, { useEffect, useState } from 'react'
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Header from '../../components/Header'
-import { Colors, isAndroid, HEIGHT } from '../../assets/Colors'
-import InputBox from '../../components/InputBox';
+import { Colors, isAndroid } from '../../assets/Colors'
 import Divider from '../../components/Divider';
-import SelectionCard from '../../components/SelectionCard';
 import { fetchUserProfile, updatePrifileDetails, updateProfilePic } from '../../config/UserApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +13,6 @@ import { launchImageLibrary } from 'react-native-image-picker'
 import { getUserFail, getUserPending, getUserSuccess, updateUserFail, updateUserPending, updateUserSuccess } from '../../redux/userSlice';
 import Toast from 'react-native-toast-message';
 import ShowToast from '../../components/ShowToast';
-import { clockRunning } from 'react-native-reanimated';
 
 const bathroomsData = [
     {
@@ -85,25 +82,6 @@ const Profile = ({ navigation }: any) => {
         updateProfilePic(file, pic, id, getUserProfile)
     }
 
-    const updateDetailsHandler = async () => {
-        const id = data._id
-        console.log(id)
-        dispatch(updateUserPending())
-        const res: any = await updatePrifileDetails(id, editedData)
-        if (res.status === "success") {
-            dispatch(updateUserSuccess())
-            Toast.show({
-                type: 'success',
-                visibilityTime: 3000,
-                text1: "Success",
-                text2: Colors.green,
-                props: { message: 'User updated successfully' }
-            });
-        } else {
-            dispatch(updateUserFail())
-        }
-    }
-
     useEffect(() => {
         getUserProfile()
     }, [])
@@ -165,7 +143,7 @@ const Profile = ({ navigation }: any) => {
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                             <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", fontFamily: "Outfit", }}>Phone number</Text>
                             <View style={{ width: "40%", }}>
-                                <Text style={{ fontFamily: "Outfit", fontSize: 12, color: Colors.maidlyGrayText, }}>{phoneNumber}</Text>
+                                <Text style={{ fontFamily: "Outfit", fontSize: 12, color: Colors.maidlyGrayText, }}>0{data?.phone}</Text>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>

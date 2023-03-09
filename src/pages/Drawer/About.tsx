@@ -11,7 +11,7 @@ const About = ({ navigation }: any) => {
         <>
             <View style={styles.container}>
                 <SafeAreaView />
-                <Header nav={navigation} title="Abouts" />
+                <Header nav={navigation} title="Abouts" searchEnabled={true} />
 
                 <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
                     <Text style={[styles.text, { fontSize: 16, fontWeight: "bold", color: Colors.madidlyThemeBlue }]}>Welcome to the About page for our app! We're excited to share more information about what our app is and what it can do for you.</Text>

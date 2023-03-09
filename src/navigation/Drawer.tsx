@@ -1,7 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import About from '../pages/Drawer/About';
 import Appointments from '../pages/Drawer/Appointments';
-import CompletedBookings from '../pages/Drawer/CompletedBookings';
 import Contractors from '../pages/Drawer/Contractors';
 import Expenses from '../pages/Drawer/Products';
 import Profile from '../pages/Drawer/Profile';

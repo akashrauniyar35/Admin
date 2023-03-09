@@ -7,7 +7,8 @@ export interface initialState {
     deleteLoading: boolean;
     dashboardData: Array<[]>;
     filterLoading: boolean;
-    id: Array<[]>
+    id: Array<[]>;
+    addPayment: boolean
 };
 
 const initialState: initialState = {
@@ -18,7 +19,7 @@ const initialState: initialState = {
     id: [],
     dashboardData: [],
     filterLoading: false,
-
+    addPayment: false
 };
 
 const bookingSlice = createSlice({
@@ -80,9 +81,15 @@ const bookingSlice = createSlice({
             state.filterLoading = false;
 
         },
-
-
-
+        addBookingPaymentPending(state) {
+            state.addPayment = true
+        },
+        addBookingPaymentSuccess(state) {
+            state.addPayment = false
+        },
+        addBookingPaymentFail(state) {
+            state.addPayment = false
+        }
 
     }
 });
@@ -93,6 +100,7 @@ export const {
     getAllBookingPending, getAllBookingSuccess, getAllBookingFail,
     deleteBookingPending, deleteBookingSuccess, deleteBookingFail,
     filterBookingPending, filterBookingSuccess, filterBookingFail,
+    addBookingPaymentFail, addBookingPaymentSuccess, addBookingPaymentPending
 
 } = bookingSlice.actions;
 

@@ -34,7 +34,9 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
     let loading = useSelector((state: any) => state.jobReducer.deleteLoading)
 
     const street = item.address2.split(" ")
+    const streetOne = item.address1.split(" ")
 
+    let newState = item.state.toLowerCase().substring(0, 1) === "q" ? "QLD" : item.state.toLowerCase().substring(0, 1) === "v" ? "VIC" : item.state.toLowerCase().substring(0, 1) === "t" ? "TAS" : item.state.toLowerCase().substring(0, 1) === "w" ? "WA" : item.state.toLowerCase().substring(0, 1) === "s" ? "SA" : item.state.toLowerCase().substring(0, 1) === "s" ? "SA" : "NSW"
 
 
     const dispatch = useDispatch()
@@ -44,7 +46,6 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
     const price = [item.subtotal.toString().slice(0, 3), ".", item.subtotal.toString().slice(2)].join('')
     const bookingDate = new Date(item.createdAt)
 
-    const [refsArray, setRefsArray] = useState([])
 
     const openJobHandler = async () => {
         const jobID = item._id
@@ -102,7 +103,7 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
     ]
 
 
-    const leftSwipe = (progress, dragX) => {
+    const leftSwipe = (progress: any, dragX: any) => {
 
         const lastIndex = swipeableOptions.length - 1
         const lastItemID = swipeableOptions[lastIndex].id
@@ -209,18 +210,18 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
 
                             <View style={{}}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                                    <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>#{item.quoteReference}</Text>
+                                    <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Bold', }}>#{item.quoteReference}</Text>
                                 </View>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * .5 }}>
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{bookingDate.toDateString()}</Text>
+                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{bookingDate.toDateString()}</Text>
                                     <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>$ {price}</Text>
+                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>$ {price}</Text>
                                 </View>
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                 <View style={{ backgroundColor: item.quoteStatus.toLowerCase() === "in progress" ? Colors.orangeBG : item.quoteStatus.toLowerCase() === "completed" ? Colors.paidBG : item.quoteStatus.toLowerCase() === "cancelled" ? Colors.redBG : Colors.orangeBG, padding: Colors.spacing * .55, borderRadius: Colors.spacing, marginRight: Colors.spacing, width: Colors.spacing * 7, alignItems: 'center' }}>
-                                    <Text style={{ fontSize: 9, color: item.quoteStatus.toLowerCase() === "in progress" ? Colors.orange : item.quoteStatus.toLowerCase() === "completed" ? Colors.green : item.quoteStatus.toLowerCase() === "cancelled" ? Colors.red : Colors.orange, fontWeight: isAndroid ? "900" : "600" }}>{item.quoteStatus}</Text>
+                                    <Text style={{ fontSize: 9, color: item.quoteStatus.toLowerCase() === "in progress" ? Colors.orange : item.quoteStatus.toLowerCase() === "completed" ? Colors.green : item.quoteStatus.toLowerCase() === "cancelled" ? Colors.red : Colors.orange, fontFamily: 'Outfit-ExtraBold', }}>{item.quoteStatus}</Text>
                                 </View>
                                 <Pressable onPress={swipeableOpen}>
                                     <IconM name="dots-horizontal" size={28} color={Colors.maidlyGrayText} />
@@ -232,19 +233,25 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
 
                         <View style={{}}>
 
-                            <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>{item.firstName} {item.lastName}</Text>
+                            <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium' }}>{item.firstName} {item.lastName}</Text>
 
                             <View style={{ marginTop: Colors.spacing * .5, marginBottom: Colors.spacing * .5 }}>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.address1 ? item.address1 : null} {street[0] ? street[0] : null} {street[1] ? street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) : null} {street[2] ? street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1) : null}</Text>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.city.toUpperCase()} {item.postcode} {item.state.toUpperCase()}</Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>
+                                    {/* {item.address1 ? item.address1 : null} */}
+
+                                    {streetOne[0] ? streetOne[0] : null} {streetOne[1] ? streetOne[1]?.slice(0, 1).toUpperCase() + streetOne[1]?.slice(1) : null} {streetOne[2] ? streetOne[2]?.slice(0, 1).toUpperCase() + streetOne[2]?.slice(1) : null}{streetOne[3] ? streetOne[3]?.slice(0, 1).toUpperCase() + streetOne[3]?.slice(1) : null}
+                                    {street[0] ? street[0]?.slice(0, 1).toUpperCase() + street[0]?.slice(1) : null} {street[1] ? street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) : null} {street[2] ? street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1) : null}
+                                </Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.city.toUpperCase()} {item.postcode} {newState.toUpperCase()}</Text>
                             </View>
+
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                 <Pressable onPress={() => Linking.openURL(`tel:${phoneNumber}`)}>
-                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{phoneNumber}</Text>
+                                    <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{phoneNumber}</Text>
                                 </Pressable>
                                 <View style={{ backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "400" }}>{item.email}</Text>
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.email}</Text>
                             </View>
                         </View>
                     </View>

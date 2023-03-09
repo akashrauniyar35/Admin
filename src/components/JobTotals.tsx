@@ -11,15 +11,14 @@ import PriceInput from './PriceInput'
 
 const JobTotals = ({ totals, setBedroomPrice, data, setPaidPrice, setBathroomPrice, setBasePrice, setAddOnsPrice, setDiscountPrice, lable }: any) => {
 
-
-
     const [subTotal, setSubTotal] = useState<any>()
-    const base = totals?.find((x: any) => x.title.toLowerCase() === "base price")
-    const extras = totals?.find((x: any) => x.title.toLowerCase() === "extras")
-    const bd = totals?.find((x: any) => x.title.toLowerCase().split(" ").pop() === "bedroom")
-    const discount = totals?.find((x: any) => x.title.toLowerCase() === "discount")
-    const ba = totals?.find((x: any) => x.title.toLowerCase().split(" ").pop() === "bathroom")
-    const paidAmount = totals?.find((x: any) => x.title.toLowerCase() === "payment received")
+    const base = totals?.find((x: any) => x?.title?.toLowerCase() === "base price")
+    const extras = totals?.find((x: any) => x?.title?.toLowerCase() === "extras")
+    const bd = totals?.find((x: any) => x?.title?.toLowerCase().split(" ").pop() === "bedroom")
+    const discount = totals?.find((x: any) => x?.title?.toLowerCase() === "discount")
+    const ba = totals?.find((x: any) => x?.title?.toLowerCase().split(" ").pop() === "bathroom")
+    const paidAmount = totals?.find((x: any) => x?.title?.toLowerCase() === "payment received")
+
     const [baseP, setBaseP] = useState<any>(base?.amount)
     const [bedPrice, setBedPrice] = useState<any>(bd?.amount)
     const [bathPrice, setBathPrice] = useState<any>(ba?.amount)
@@ -27,6 +26,11 @@ const JobTotals = ({ totals, setBedroomPrice, data, setPaidPrice, setBathroomPri
     const [disPrice, setDisPrice] = useState<any>(discount?.amount)
     const [paid, setPaid] = useState<any>(paidAmount?.amount)
     const [outstanding, setOutstanding] = useState<any>()
+
+
+    const filter = data?.filter((x: any) => x?.title?.toLowerCase() !== "bedrooms")
+    const newFilter = filter?.filter((x: any) => x?.title?.toLowerCase() !== "bathrooms")
+
 
     useEffect(() => {
         setBasePrice(baseP)
@@ -52,12 +56,12 @@ const JobTotals = ({ totals, setBedroomPrice, data, setPaidPrice, setBathroomPri
         setPaidPrice(paid)
     }, [paid])
 
-    
+
     useEffect(() => {
         let sub = bd?.amount + ba?.amount + base?.amount + extras?.amount - discount?.amount
         setSubTotal(sub)
     }, [bd, ba, extras, base, discount])
-    
+
     useEffect(() => {
         let x = subTotal - paid
         setOutstanding(x)
@@ -67,7 +71,6 @@ const JobTotals = ({ totals, setBedroomPrice, data, setPaidPrice, setBathroomPri
         <>
 
             <View>
-                {/* <Text style={{ fontSize: 18, color: Colors.black, fontWeight: isAndroid ? "900" : "700", marginBottom: Colors.spacing * 2 }}>{bd?.quantity + " " + ba?.quantity}</Text> */}
                 <Text style={{ fontSize: 18, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * 2 }}>Totals</Text>
                 <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * 2 }}>Job details</Text>
 
@@ -99,9 +102,12 @@ const JobTotals = ({ totals, setBedroomPrice, data, setPaidPrice, setBathroomPri
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                     <View>
                         <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', marginBottom: Colors.spacing * .5 }}>Addons</Text>
-                        {data.length ? data?.slice(2)?.map((item: any) => {
+                        {data.length ? newFilter?.map((item: any) => {
                             if (item.quantity >= 1) {
-                                return <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Regular' }}>● {item.title}</Text>
+                                return <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <View style={{ opacity: .5, backgroundColor: Colors.maidlyGrayText, width: 5, height: 5, marginHorizontal: Colors.spacing * .5, borderRadius: 100, }} />
+                                    <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Regular' }}>{item.quantity} {item.title}</Text>
+                                </View>
                             }
                         }) : null}
                     </View>
@@ -151,7 +157,7 @@ const JobTotals = ({ totals, setBedroomPrice, data, setPaidPrice, setBathroomPri
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                             <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>Outstanding</Text>
                             <View style={{ width: "50%" }}>
-                                <PriceInput bg={outstanding > 0 ? Colors.red : Colors.paid} editable={false} value={disPrice} placeholderSize={14} size={40} placeholder={outstanding?.toFixed(2)} />
+                                <PriceInput textColor="#fff" bg={outstanding > 0 ? Colors.red : Colors.paid} editable={false} placeholderSize={14} size={40} placeholder={outstanding?.toFixed(2)} />
                             </View>
                         </View>
                     </View> : null

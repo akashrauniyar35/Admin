@@ -30,6 +30,13 @@ const userSlice = createSlice({
             state.detailsLoading = false;
         },
 
+        getNewTokernPending() {
+        },
+        getNewTokernSuccess() {
+        },
+        getNewTokernFail() {
+        },
+
     }
 })
 
@@ -38,5 +45,6 @@ const userSlice = createSlice({
 export const {
     getUserPending, getUserSuccess, getUserFail,
     updateUserPending, updateUserSuccess, updateUserFail,
+    getNewTokernPending, getNewTokernSuccess, getNewTokernFail
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -7,8 +7,6 @@ import InputBox from '../../components/InputBox';
 import SelectionCard from '../../components/SelectionCard';
 import worker from "../../assets/worker.png"
 
-
-
 const stateData = [
     {
         id: '00',
@@ -37,9 +35,9 @@ const stateData = [
 ];
 
 
-const EditContractor = ({ id, isOpen, deleteLoading, onClose, onSave, editedData, loading, data, setEditedData, deleteHandler }) => {
-
+const EditContractor = ({ id, uploadImage, updating, isOpen, deleteLoading, onClose, onSave, editedData, loading, data, setEditedData, deleteHandler, refresh }: any) => {
     const pic = data?.profilePic?.src
+
     return (
         <>
             <View style={{}}>
@@ -51,7 +49,7 @@ const EditContractor = ({ id, isOpen, deleteLoading, onClose, onSave, editedData
                     <SafeAreaView />
                     <View style={styles.centeredView}>
 
-                        <AddButtonHeader onPress={onSave} saveOption={true} onClose={onClose} lable={'Edit Technician'} />
+                        <AddButtonHeader onPress={onSave} loading={updating} saveOption={true} onClose={onClose} lable={'Edit Technician'} />
 
                         <View style={styles.modalView}>
                             <ScrollView style={{}}>
@@ -59,61 +57,57 @@ const EditContractor = ({ id, isOpen, deleteLoading, onClose, onSave, editedData
 
                                     <View style={[{ marginBottom: Colors.spacing * 2, position: 'relative', alignItems: 'center', justifyContent: 'center' }]}>
 
-                                        <View style={{ alignSelf: 'center', borderRadius: 100, alignItems: 'center', borderWidth: 5, borderColor: Colors.madidlyThemeBlue, justifyContent: 'center', padding: 4, }}>
-                                            <Image source={pic !== "" ? { uri: pic } : worker} style={{ width: 80, height: 80, borderRadius: 100 }} />
-                                            <Pressable onPress={() => console.log('pic')} >
-                                                <IconM name="plus-circle" style={{ color: Colors.madidlyThemeBlue, position: 'absolute', left: 35, top: -10 }} size={25} />
-                                            </Pressable>
-                                        </View>
+
+                                        {loading ?
+
+                                            <View style={{ alignSelf: 'center', borderRadius: 100, width: 100, height: 100, alignItems: 'center', borderWidth: 5, borderColor: Colors.madidlyThemeBlue, justifyContent: 'center', padding: 4, }}>
+                                                <ActivityIndicator color={Colors.madidlyThemeBlue} animating={loading} size={'small'} style={{}} />
+                                            </View> : <View style={{ alignSelf: 'center', borderRadius: 100, width: 100, height: 100, alignItems: 'center', borderWidth: 5, borderColor: Colors.madidlyThemeBlue, justifyContent: 'center', padding: 4, }}>
+
+                                                <Image source={pic !== "" ? { uri: pic } : worker} style={{ width: 80, height: 80, borderRadius: 100 }} />
+                                                <Pressable onPress={() => uploadImage(id, pic)} style={{ backgroundColor: '#fff', position: 'absolute', bottom: 0, right: 0, borderRadius: 100, borderColor: '#fff', }}>
+                                                    <IconM name="plus-circle" style={{ color: Colors.madidlyThemeBlue }} size={25} />
+                                                </Pressable>
+                                            </View>
+                                        }
+
                                     </View>
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, marginTop: Colors.spacing }}>
                                         <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>First Name</Text>
                                         <View style={{ width: "70%", }}>
-                                            <InputBox placeholder={data.firstName} onChange={(val) => setEditedData({ ...editedData, firstName: val })} size={40} rounded={true} placeholderSize={12} />
+                                            <InputBox value={data.firstName} placeholder={data?.firstName} onChange={(val: any) => setEditedData({ ...editedData, firstName: val })} size={40} rounded={true} placeholderSize={12} />
                                         </View>
                                     </View>
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                         <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Last Name</Text>
                                         <View style={{ width: "70%", }}>
-                                            <InputBox placeholder={data.lastName} size={40} rounded={true} placeholderSize={12} onChange={(val) => setEditedData({ ...editedData, lastName: val })} />
+                                            <InputBox value={data.lastName} placeholder={data?.lastName} size={40} rounded={true} placeholderSize={12} onChange={(val: any) => setEditedData({ ...editedData, lastName: val })} />
                                         </View>
                                     </View>
+
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                         <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Phone number</Text>
                                         <View style={{ width: "70%", }}>
-                                            <InputBox maxLength={10} onChange={(val) => setEditedData({ ...editedData, phone: parseInt(val) })} placeholder={'0' + data?.phone?.toString()} size={40} rounded={true} placeholderSize={12} keyboardType="numeric" />
-                                        </View>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Email</Text>
-                                        <View style={{ width: "70%", }}>
-                                            <InputBox keyboardType={"email-address"} onChange={(val) => setEditedData({ ...editedData, email: val })} placeholder={data.email} size={40} rounded={true} placeholderSize={12} capitalize={"none"} />
+                                            <InputBox value={data?.phone} maxLength={10} onChange={(val: any) => setEditedData({ ...editedData, phone: val })} placeholder={data?.phone?.toString()} size={40} rounded={true} placeholderSize={12} keyboardType="numeric" />
                                         </View>
                                     </View>
 
-                                    {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Unit</Text>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
+                                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Email</Text>
                                         <View style={{ width: "70%", }}>
-                                            <InputBox placeholder={data.address} onChange={(val) => setEditedData({ ...editedData, address: val })} size={40} capitalize={"characters"} rounded={true} placeholderSize={12} maxLength={4} />
+                                            <InputBox value={data.email} keyboardType={"email-address"} onChange={(val: any) => setEditedData({ ...editedData, email: val })} placeholder={data?.email} size={40} rounded={true} placeholderSize={12} capitalize={"none"} />
                                         </View>
-                                    </View> */}
+                                    </View>
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                         <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", width: "30%", }}>Street address</Text>
                                         <View style={{ width: "70%", }}>
-                                            <InputBox placeholder={data.address} onChange={(val) => setEditedData({ ...editedData, address: val })} capitalize={"words"} size={40} rounded={true} placeholderSize={12} />
+                                            <InputBox value={data.address} placeholder={data?.address} onChange={(val: any) => setEditedData({ ...editedData, address: val })} capitalize={"words"} size={40} rounded={true} placeholderSize={12} />
                                         </View>
                                     </View>
-
-                                    {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black, fontWeight: isAndroid ? "900" : "700", }}>Suburb</Text>
-                                        <View style={{ width: "70%", }}>
-                                            <InputBox value={data.city} onChange={(val) => setEditedData({ ...editedData, city: val })} placeholder={data.city} size={40} rounded={true} placeholderSize={12} />
-                                        </View>
-                                    </View> */}
 
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Colors.spacing * 1, }}>
@@ -124,14 +118,13 @@ const EditContractor = ({ id, isOpen, deleteLoading, onClose, onSave, editedData
                                         <View style={{ marginLeft: Colors.spacing * 3, marginRight: Colors.spacing * .25, width: '70%', flexDirection: 'row', alignItems: 'center', }}>
 
                                             <View style={{ width: "40%", marginRight: Colors.spacing * 2 }}>
-                                                <InputBox value={editedData.postcode} size={40} onChange={(val) => setEditedData({ ...editedData, postcode: parseInt(val) })} rounded={true} placeholder={data?.postcode?.toString()} keyboardType="numeric" placeholderSize={12} maxLength={4} />
+                                                <InputBox value={editedData.postcode} size={40} onChange={(val: any) => setEditedData({ ...editedData, postcode: val })} rounded={true} placeholder={data?.postcode} keyboardType="numeric" placeholderSize={12} maxLength={4} />
                                             </View>
                                             <View style={{ width: "40%" }}>
-                                                <SelectionCard size={40} onPress={(val) => setEditedData({ ...editedData, state: val })} fontSize={12} phColor={Colors.maidlyGrayText} rounded={true} data={stateData} type={'filter'} placeholder={'State'} />
+                                                <SelectionCard size={40} onPress={(val: any) => setEditedData({ ...editedData, state: val })} fontSize={12} phColor={Colors.maidlyGrayText} rounded={true} data={stateData} type={'filter'} placeholder={data?.state} />
                                             </View>
                                         </View>
                                     </View>
-
 
 
                                     <Pressable onPress={deleteHandler}>
@@ -176,7 +169,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flexDirection: 'row',
         backgroundColor: Colors.madidlyThemeBlue,
-        height: isAndroid ? 45 : 45,
+        height: 45,
         borderRadius: Colors.spacing * Colors.spacing,
 
     },

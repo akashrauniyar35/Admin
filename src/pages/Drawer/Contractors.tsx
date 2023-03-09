@@ -6,19 +6,22 @@ import { Colors, isAndroid } from '../../assets/Colors'
 import EditContractor from './EditContractor'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteTechFail, deleteTechPending, deleteTechSuccess, editTechFail, editTechPending, editTechSuccess, getAllTechFail, getAllTechPending, getAllTechSuccess, viewTechIDFail, viewTechIDPending, viewTechIDSuccess } from '../../redux/technicianSlice'
-import { fetchAllTechnician, fetchEditTech, removeTech } from '../../config/TechApi'
+import { fetchAllTechnician, fetchEditTech, fetchTecByID, removeTech, uploadTechPicture } from '../../config/TechApi'
 import worker from "../../assets/worker.png"
 import Toast from 'react-native-toast-message';
 import ShowToast from '../../components/ShowToast'
+import { launchImageLibrary } from 'react-native-image-picker'
 
 const Contractors = ({ navigation }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [Id, setID] = useState(String)
-    const [techObj, setTechObj] = useState({})
+    const [techObj, setTechObj] = useState<any>({})
     const [data, setData] = useState([]);
     const loading = useSelector((state: any) => state.technicianReducer.loading)
+    const techLoading = useSelector((state: any) => state.technicianReducer.viewIDLoading)
     const editLoading = useSelector((state: any) => state.technicianReducer.editLoading)
     const deleteLoading = useSelector((state: any) => state.technicianReducer.deleteLoading)
+    const [uploading, setUploading] = useState<any>(false);
 
     const dispatch = useDispatch()
 
@@ -35,7 +38,7 @@ const Contractors = ({ navigation }) => {
 
     const updateTechHandler = async (id: string) => {
         dispatch(editTechPending());
-        let data = {
+        let data: any = {
             firstName: techObj?.firstName,
             lastName: techObj?.lastName,
             phone: techObj?.phone,
@@ -49,7 +52,7 @@ const Contractors = ({ navigation }) => {
             dispatch(editTechSuccess())
             setIsOpen(false)
             Toast.show({
-                type: 'success',
+                type: 'successToast',
                 visibilityTime: 3000,
                 text1: "Success",
                 text2: Colors.green,
@@ -70,7 +73,7 @@ const Contractors = ({ navigation }) => {
             dispatch(deleteTechSuccess())
             setIsOpen(false)
             Toast.show({
-                type: 'success',
+                type: 'successToast',
                 visibilityTime: 3000,
                 text1: "Success",
                 text2: Colors.red,
@@ -80,14 +83,39 @@ const Contractors = ({ navigation }) => {
         }
     }
 
+
+    const uploadImageHandler = async (id: any, pic: any) => {
+        const options: any = {
+            mediaType: 'photo',
+            maxWidth: 1024,
+            maxHeight: 1024,
+            quality: 1,
+        }
+        const result: any = await launchImageLibrary(options)
+        const file = result?.assets[0]
+        uploadTechPicture(file, pic, id, ViewTechHandler, setUploading)
+    }
+
+    const ViewTechHandler = async (id: any) => {
+        dispatch(viewTechIDPending)
+        setIsOpen(true)
+        const x: any = await fetchTecByID(id)
+        if (x.data.status === "success") {
+            dispatch(viewTechIDSuccess())
+            console.log('xxxx', x.data.result)
+            setTechObj(x.data.result[0])
+        }
+        dispatch(viewTechIDFail())
+    }
+
     useEffect(() => {
         getAllTech()
     }, [])
 
 
-    const TechCard = ({ id, firstName, lastName, phone, email, address, pic, item }) => {
+    const TechCard = ({ id, firstName, lastName, phone, email, address, pic, item }: any) => {
         return (
-            <Pressable onPress={() => { setID(id); setTechObj(item); setIsOpen(!isOpen) }}>
+            <Pressable onPress={() => { setID(id); ViewTechHandler(id) }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: 'white', padding: Colors.spacing, borderRadius: 5, marginBottom: Colors.spacing * 2 }}>
                     <View style={{ alignSelf: 'center', borderRadius: 100, alignItems: 'center', borderWidth: 5, borderColor: Colors.madidlyThemeBlue, justifyContent: 'center', padding: 2, }}>
                         <Image source={pic !== "" ? { uri: pic } : worker} style={{ width: 60, height: 60, borderRadius: 100 }} />
@@ -112,7 +140,7 @@ const Contractors = ({ navigation }) => {
         <>
             <View style={styles.container}>
                 <SafeAreaView />
-                <Header nav={navigation} title="Technicians" />
+                <Header nav={navigation} title="Technicians" route="technician" searchEnabled={true} />
                 <View style={{ flex: .96, marginTop: Colors.spacing * 2 }}>
                     <FlatList
                         refreshing={loading}
@@ -120,19 +148,18 @@ const Contractors = ({ navigation }) => {
                         onRefresh={() => getAllTech()}
                         contentContainerStyle={{ paddingHorizontal: Colors.spacing * 2, paddingBottom: Colors.spacing * 4 }}
                         data={data}
-                        keyExtractor={item => item._id}
+                        keyExtractor={(item: any) => item._id}
                         renderItem={({ item }) => { return <TechCard item={item} id={item?._id} firstName={item?.firstName} address={item?.address} lastName={item?.lastName} email={item?.email} phone={item?.phone} pic={item.profilePic.src} /> }}
                     />
                 </View>
             </View>
-            <EditContractor id={Id} isOpen={isOpen} onClose={() => { setIsOpen(false); getAllTech() }} loading={editLoading} deleteLoading={deleteLoading} data={techObj} editedData={techObj} setEditedData={setTechObj} onSave={updateTechHandler} deleteHandler={deleteHandler} />
+            <EditContractor uploadImage={uploadImageHandler} id={Id} isOpen={isOpen} onClose={() => { setIsOpen(false); getAllTech() }} updating={editLoading} deleteLoading={deleteLoading} refresh={techLoading} loading={uploading} data={techObj} editedData={techObj} setEditedData={setTechObj} onSave={updateTechHandler} deleteHandler={deleteHandler} />
             <ShowToast />
         </>
     )
 }
 
 export default Contractors
-
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.madlyBGBlue, },
 })

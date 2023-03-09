@@ -10,8 +10,8 @@ const { width, height } = Dimensions.get('screen')
 
 
 
-const AddPaymentModal = ({ loading, onPress, isOpen, title, onClose, id, customerName, quoteReference, price, phone }: any) => {
-
+const AddPaymentModal = ({ loading, onPress, isOpen, title, onClose, id, paid, customerName, quoteReference, price, phone }: any) => {
+    const outstanding = price - paid;
 
     return (
 
@@ -45,7 +45,7 @@ const AddPaymentModal = ({ loading, onPress, isOpen, title, onClose, id, custome
                             <Pressable
                                 style={{}}
                             ><Icon name="chevron-back" size={28} color={'white'} /></Pressable>
-                            <Text style={{ fontSize: 16, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600" }}>{title}</Text><Icon name="chevron-back" size={28} color={'white'} />
+                            <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Bold', }}>{title}</Text><Icon name="chevron-back" size={28} color={'white'} />
                         </View>
 
 
@@ -63,7 +63,18 @@ const AddPaymentModal = ({ loading, onPress, isOpen, title, onClose, id, custome
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * 1, }}>
                                 <Text style={{ width: '40%', fontSize: 12, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600", fontFamily: "Outfit", }}>Total </Text>
-                                <Text style={{ fontFamily: "Outfit", fontSize: 12, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>$ {price}</Text>
+                                <Text style={{ fontFamily: "Outfit", fontSize: 12, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>$ {price}.00</Text>
+                            </View>
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * 1, }}>
+                                <Text style={{ width: '40%', fontSize: 12, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600", fontFamily: "Outfit", }}>Paid </Text>
+                                <Text style={{ fontFamily: "Outfit", fontSize: 12, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>$ {paid}.00</Text>
+                            </View>
+                            <View style={{ marginVertical: Colors.spacing * 1, borderBottomWidth: .35, borderColor: Colors.borderColor }} />
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                                <Text style={{ width: '40%', fontSize: 12, color: Colors.grayOne, fontWeight: isAndroid ? "900" : "600", fontFamily: "Outfit", }}>Outstanding </Text>
+                                <Text style={{ fontFamily: "Outfit", fontSize: 12, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600" }}>$ {outstanding}.00</Text>
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -94,13 +105,6 @@ const AddPaymentModal = ({ loading, onPress, isOpen, title, onClose, id, custome
 export default AddPaymentModal
 
 const styles = StyleSheet.create({
-    filterStyling: {
-        backgroundColor: 'white', flexDirection: 'row', alignItems: 'center', marginVertical: Colors.spacing * 1.5, paddingHorizontal: Colors.spacing * 2, paddingVertical: Colors.spacing * 1.75,
-        shadowRadius: 1,
-        shadowOffset: { width: 0, height: .5 },
-        shadowOpacity: .2,
-        shadowColor: Colors.grayOne, elevation: 2,
-    },
 
     container: {
         padding: Colors.spacing * 2,

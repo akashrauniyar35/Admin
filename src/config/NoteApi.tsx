@@ -32,6 +32,24 @@ export const AddSystemNote = (id: any, previousNote: any, newNote: any) => {
     })
 };
 
+export const addBookingPayment = (id: any, data: any) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const res: any = await endPoint.put(`booking/${id}`, {
+                totals: data,
+            })
+            resolve(res.data)
+        }
+        catch (err) {
+            console.log(err)
+            reject(err)
+        }
+
+    })
+};
+
+
+
 export const DeleteSystemNote = (id: any, newNotes: any) => {
     return new Promise(async (resolve, reject) => {
         try {

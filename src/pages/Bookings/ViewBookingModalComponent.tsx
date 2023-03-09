@@ -6,8 +6,6 @@ import SelectionCard from '../../components/SelectionCard'
 import JobNotesCard from '../../components/JobNotesCard'
 import Checklist from '../../components/CheckList'
 import AddNotes from '../../components/AddNotes'
-
-import Icon from 'react-native-vector-icons/Ionicons';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import JobTimelineCard from '../../components/JobTimelineCard'
 import AddJob from '../Add/AddJob'
@@ -16,18 +14,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import Toast from 'react-native-toast-message'
 import MapCard from '../../components/MapCard'
 import DeleteModal from '../../components/DeletetModal'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { AddSystemNote, DeleteSystemNote, RemoveFile, uploadFiles } from '../../config/NoteApi'
-import { addNoteFail, addNotePending, addNoteSuccess, deleteNoteFail, deleteNotePending, deleteNoteSuccess, deleteFilePending, deleteFileFail, deleteFileSuccess, uploadFilePending, uploadFileSuccess, uploadFileFail } from '../../redux/noteSlice'
+import { addBookingPayment, AddSystemNote, DeleteSystemNote, RemoveFile, uploadFiles } from '../../config/NoteApi'
+import { addNoteFail, addNotePending, addNoteSuccess, deleteNoteFail, deleteNotePending, deleteNoteSuccess, deleteFilePending, deleteFileSuccess, } from '../../redux/noteSlice'
 import uuid from "react-uuid";
 import { launchImageLibrary } from 'react-native-image-picker'
 import ViewFiles from '../../components/ViewFiles'
 import { assignTechFail, assignTechPending, assignTechSuccess, getAllTechFail, getAllTechPending, getAllTechSuccess } from '../../redux/technicianSlice'
 import { assignTechnician, clearAssignTechnician, fetchAllTechnician } from '../../config/TechApi'
 import AssignTech from '../../components/AssignTech'
-import { clockRunning } from 'react-native-reanimated'
 
 import RNFetchBlob from 'rn-fetch-blob'
+import AddPaymentModal from '../../components/AddPayment'
+import { addBookingPaymentFail, addBookingPaymentPending, addBookingPaymentSuccess } from '../../redux/bookingSlice'
 
 const scheduleData = [
     {
@@ -67,15 +65,19 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
     const [selectedNote, setSelectedNote] = useState("")
     const statusLoading = useSelector((state: any) => state.jobReducer.statusUpdateLoading)
     const deleteBooking = useSelector((state: any) => state.bookingReducer.deleteLoading)
+    const addPaymentLoading = useSelector((state: any) => state.bookingReducer.addPayment)
     const notesLoading = useSelector((state: any) => state.noteReducer.loading)
     const deleteLoading = useSelector((state: any) => state.noteReducer.deleteLoading)
     const assignTechLoading = useSelector((state: any) => state.technicianReducer.assignTech)
     const user = useSelector((state: any) => state.userReducer.data)
     const fileLoading = useSelector((state: any) => state.noteReducer.fileLoading)
+    const [addPaymentsVisible, setAddaddPaymentsVisible] = useState(false);
+
+
 
     const dispatch = useDispatch()
 
-
+    const status = item.bookingStatus
     const x = String(item.subtotal).slice(0, 3);
     const quotePrice = Number(x).toFixed(2);
 
@@ -86,11 +88,22 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
     const bd = item.products.find((x: any) => x.title?.toLowerCase() === "bedrooms")
     const ba = item.products.find((x: any) => x.title?.toLowerCase() === "bathrooms")
+    const price = [item?.subtotal?.toString().slice(0, 3), ".", item?.subtotal?.toString().slice(2)].join('')
+
+    const [subTotal, setSubTotal] = useState<any>()
+
+    let base = item?.totals?.find((x: any) => x?.title?.toLowerCase() === "base price")
+    let extras = item?.totals?.find((x: any) => x?.title?.toLowerCase() === "extras")
+    let bdPrice = item?.totals?.find((x: any) => x?.title?.toLowerCase().split(" ").pop() === "bedroom")
+    let discount = item?.totals?.find((x: any) => x?.title?.toLowerCase() === "discount")
+    let baPrice = item?.totals?.find((x: any) => x?.title?.toLowerCase().split(" ").pop() === "bathroom")
+    let paidAmount = item?.totals?.find((x: any) => x?.title?.toLowerCase() === "payment received")
 
 
-    // const checkListHandler = () => {
-    //     setCheckListVisible(!checkListVisible)
-    // }
+    useEffect(() => {
+        let sub = bdPrice?.amount + baPrice?.amount + base?.amount + extras?.amount - discount?.amount
+        setSubTotal(sub)
+    }, [bdPrice, baPrice, extras, base, discount, subTotal, item])
 
     const addNotesHandler = async (text: string) => {
         dispatch(addNotePending())
@@ -104,7 +117,6 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
             return dispatch(addNoteFail());
         }
         dispatch(addNoteSuccess())
-
         refresh(id)
         setAddNoteVisible(false)
         Toast.show({
@@ -134,16 +146,6 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
         });
     }
 
-
-
-    const addPayment = () => {
-        Toast.show({
-            type: 'modalSuccessToast',
-            visibilityTime: 3000,
-            text1: `${item?.bookingReference} `,
-            props: { message: 'Booking note added successfully' }
-        });
-    }
 
 
     const uploadFile = async () => {
@@ -228,6 +230,29 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
     };
 
 
+    const addPaymentHandler = async () => {
+        dispatch(addBookingPaymentPending())
+        const newTotals: any = item.totals.map((x: any) => {
+            if (x.title.toLowerCase() === "payment received") {
+                return { ...x, quantity: 1, amount: parseInt(subTotal) };
+            }
+            return x;
+        })
+        const x: any = await addBookingPayment(id, newTotals)
+        if (x.status === "success") {
+            refresh(id)
+            dispatch(addBookingPaymentSuccess())
+            setAddaddPaymentsVisible(false)
+            Toast.show({
+                type: 'modalSuccessToast',
+                visibilityTime: 3000,
+                text1: `${item?.bookingReference} `,
+                props: { message: 'Payment added successfully' }
+            });
+
+        }
+        dispatch(addBookingPaymentFail())
+    }
 
     const getAllTech = async () => {
         dispatch(getAllTechPending())
@@ -260,7 +285,6 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
         dispatch(assignTechSuccess())
     };
 
-
     useEffect(() => {
         getAllTech()
     }, [])
@@ -279,8 +303,10 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                         </View>
                     </View>
 
+
                     <View style={{ marginTop: Colors.spacing * 1.5, paddingHorizontal: Colors.spacing * 2, }}>
-                        <SelectionCard phColor={Colors.black} data={scheduleData} type={'schedule'} placeholder={item.bookingStatus} onPress={statusHandler} loading={statusLoading} />
+                        <SelectionCard phColor={Colors.black} data={scheduleData} type={'schedule'} placeholder={status} onPress={statusHandler} loading={statusLoading} />
+
                         <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, marginTop: Colors.spacing * 2, fontFamily: 'Outfit-Medium', }}>{new Date(item.bookingDate).toDateString()}</Text>
                         <View style={{ height: .35, width: '100%', marginVertical: Colors.spacing * 2, backgroundColor: Colors.borderColor }} />
                     </View>
@@ -306,45 +332,31 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                     </View>
 
 
-
-
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
 
-                        <Pressable onPress={toggleDelete}>
+                        <Pressable onPress={() => statusHandler("Completed")}>
                             <View style={[styles.buttonsFull]}>
                                 <Text style={{
                                     fontSize: 12,
                                     color: 'white', fontFamily: 'Outfit-Bold',
-                                }}>Complete</Text>
+                                }}>Mark as complete</Text>
                             </View>
                         </Pressable>
-
-                        <Pressable onPress={toggleDelete}>
-                            <View style={[styles.buttonsFull, { backgroundColor: Colors.red, }]}>
-                                <Text style={{
-                                    fontSize: 12,
-                                    color: 'white', fontFamily: 'Outfit-Bold',
-                                }}>Delete</Text>
-                            </View>
-                        </Pressable>
-
 
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
 
-                            <Pressable onPress={() => addPayment()}>
+
+                            <Pressable onPress={toggleDelete}>
                                 <View style={[styles.buttonsHalf, { backgroundColor: Colors.red }]}>
                                     <Text style={{
                                         fontSize: 12,
                                         color: 'white', fontFamily: 'Outfit-Bold',
-                                    }}>Add payment</Text>
+                                    }}>Delete</Text>
                                 </View>
-                                <ShowToast />
-
                             </Pressable>
 
-
-                            <Pressable>
+                            <Pressable onPress={() => setAddaddPaymentsVisible(true)}>
                                 <View style={[styles.buttonsHalf, {
                                     paddingHorizontal: Colors.spacing * 2,
                                     shadowRadius: 2,
@@ -356,7 +368,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                                     <Text style={{
                                         fontSize: 12,
                                         color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Bold',
-                                    }}>Job save</Text>
+                                    }}>Add payment</Text>
                                 </View>
                             </Pressable>
                         </View>
@@ -413,24 +425,21 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                                         } else { null }
 
                                     })}
-
                                 </View>
-
                             </View>
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: '20%' }}>Notes</Text>
-                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{'Some notes'}</Text>
+                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{'NA'}</Text>
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing, }}>
                             <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: '20%' }}>Assigned</Text>
-                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{'N/A'}</Text>
+                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{item.assignedTech[0] ? `${item.assignedTech[0].firstName + " " + item.assignedTech[0].lastName}` : "NA"} </Text>
                         </View>
                         <View style={{ height: 2, width: '100%', marginVertical: Colors.spacing * 2, backgroundColor: Colors.borderColor }} />
                     </View>
-
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
 
@@ -494,8 +503,13 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
                 </ScrollView>
 
-                <AddJob isOpen={editJobVisible} onClose={() => setEditJobVisible(false)} lable={"Edit Booking"} id={id} />
+                <AddJob isOpen={editJobVisible} onClose={() => setEditJobVisible(false)} lable={"Edit Booking"} id={id} refresh={refresh} />
+
                 <DeleteModal id={id} phone={phoneNumber} price={quotePrice} animation="slide" quoteReference={item.bookingReference} customerName={item.firstName + " " + item.lastName} title="Delete Job" onClose={toggleDelete} isOpen={deleteOpen} onPress={deleteHandler} loading={deleteBooking} />
+
+                <AddPaymentModal loading={addPaymentLoading} id={id} customerName={item.firstName + " " + item.lastName} quoteReference={item.bookingReference} title="Add payment" isOpen={addPaymentsVisible} onClose={() => setAddaddPaymentsVisible(false)} price={subTotal} paid={paidAmount?.amount} onPress={addPaymentHandler} />
+
+
             </View>
             <ShowToast />
         </>
