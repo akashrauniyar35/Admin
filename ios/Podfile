@@ -5,7 +5,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '13.0'
 install! 'cocoapods', :deterministic_uuids => false
 
-target 'Admin' do
+target 'WeDoAdminApp' do
 
 
   # React Native Maps dependencies
@@ -35,7 +35,7 @@ target 'Admin' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'AdminTests' do
+  target 'WeDoAdminAppTests' do
     inherit! :complete
     # Pods for testing
   end

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "Admin.app"
-               BlueprintName = "Admin"
-               ReferencedContainer = "container:Admin.xcodeproj">
+               BuildableName = "WeDoAdminApp.app"
+               BlueprintName = "WeDoAdminApp"
+               ReferencedContainer = "container:WeDoAdminApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "AdminTests.xctest"
-               BlueprintName = "AdminTests"
-               ReferencedContainer = "container:Admin.xcodeproj">
+               BuildableName = "WeDoAdminAppTests.xctest"
+               BlueprintName = "WeDoAdminAppTests"
+               ReferencedContainer = "container:WeDoAdminApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Admin.app"
-            BlueprintName = "Admin"
-            ReferencedContainer = "container:Admin.xcodeproj">
+            BuildableName = "WeDoAdminApp.app"
+            BlueprintName = "WeDoAdminApp"
+            ReferencedContainer = "container:WeDoAdminApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Admin.app"
-            BlueprintName = "Admin"
-            ReferencedContainer = "container:Admin.xcodeproj">
+            BuildableName = "WeDoAdminApp.app"
+            BlueprintName = "WeDoAdminApp"
+            ReferencedContainer = "container:WeDoAdminApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
