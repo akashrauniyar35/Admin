@@ -56,7 +56,7 @@ const Jobs = ({ navigation }: any) => {
               <Donut lable={"Total Quotes"} percentage={120} max={400} radius={40} color={Colors.madidlyThemeBlue} />
             </View>
             <View style={{ width: '60%' }}>
-              <QuoteBanner />
+              <QuoteBanner lable={"quotes"} />
             </View>
           </View>
         </View>

@@ -45,7 +45,7 @@ const App = () => {
   return (
     <NavigationContainer theme={navTheme}>
       <Provider store={store}>
-        <StatusBar barStyle='light-content' />
+        <StatusBar barStyle='dark-content' />
         <View style={{ flex: 1, backgroundColor: 'white' }}>
           <RootStack />
         </View>

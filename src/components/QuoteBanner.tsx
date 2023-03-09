@@ -6,7 +6,7 @@ import Divider from './Divider';
 
 const x = new Date();
 const date = x.toDateString().substring(4, 10)
-const QuoteBanner = ({ count }: any) => {
+const QuoteBanner = ({ count, lable }: any) => {
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
@@ -17,8 +17,8 @@ const QuoteBanner = ({ count }: any) => {
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: Colors.spacing * .5 }}>
 
                 <View style={{ width: '45%', alignItems: 'center', }}>
-                    <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Outfit-Bold' }}>{count}</Text>
-                    <Text style={{ marginTop: Colors.spacing * .25, fontSize: 10, color: 'white', fontFamily: 'Outfit-Light', opacity: .7, }}>New quotes</Text>
+                    <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Outfit-Bold' }}>{0}</Text>
+                    <Text style={{ marginTop: Colors.spacing * .25, fontSize: 10, color: 'white', fontFamily: 'Outfit-Light', opacity: .7, }}>New {lable}</Text>
                 </View>
 
                 <View style={{ width: 35, marginVertical: Colors.spacing * 2, borderBottomWidth: 2, borderColor: 'white', transform: [{ rotate: '90deg' }], opacity: .7, }} />

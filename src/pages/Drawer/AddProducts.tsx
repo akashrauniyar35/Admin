@@ -41,7 +41,7 @@ const AddProducts = ({ isOpen, onClose }: any) => {
         dispatch(editProductSuccess());
         onClose()
         Toast.show({
-            type: 'success',
+            type: 'successToast',
             visibilityTime: 3000,
             text1: "Success",
             text2: Colors.green,

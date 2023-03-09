@@ -24,7 +24,7 @@ import { getAllJobFail, getAllJobPending, getAllJobSuccess } from '../../redux/j
 import JobPayments from '../../components/JobPayments';
 
 
-const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
+const AddJob = ({ isOpen, onClose, lable, id, refresh, from }: any) => {
     const dispatch = useDispatch();
     const editQuoteData: any = useSelector((state: any) => state.jobReducer.jobByIdData)
     const editBookingData: any = useSelector((state: any) => state.bookingReducer.id)
@@ -242,11 +242,11 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
 
     }
     const startTimeHandler = (value: any) => {
-        lable === "Edit Quote" ? seteditJobData({ ...editJobData, startHour: value }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, startHour: value }) :
+        lable === "Edit Quote" ? seteditJobData({ ...editJobData, startHour: value.substring(2, 0), startMin: value.substring(3, 5), startMode: value.substring(6, 8) }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, startHour: value.substring(2, 0), startMin: value.substring(3, 5), startMode: value.substring(6, 8) }) :
             lable === "Add Quote" && dispatch(addJobStartTime(value))
     }
     const endTimeHandler = (value: any) => {
-        lable === "Edit Quote" ? seteditJobData({ ...editJobData, endHour: value }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, endHour: value }) :
+        lable === "Edit Quote" ? seteditJobData({ ...editJobData, endHour: value.substring(2, 0), endMin: value.substring(3, 5), endMode: value.substring(6, 8) }) : lable === "Edit Booking" ? seteditJobData({ ...editJobData, endHour: value.substring(2, 0), endMin: value.substring(3, 5), endMode: value.substring(6, 8) }) :
             lable === "Add Quote" && dispatch(addJobEndTime(value))
     }
 
@@ -449,7 +449,6 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
             dispatch(postJobFail(x.data))
         }
     }
-
     const onEditSave = async () => {
         let location = lable === "Edit Quote" ? "quote" : "booking"
         dispatch(postEditPending())
@@ -459,13 +458,13 @@ const AddJob = ({ isOpen, onClose, lable, id, refresh }: any) => {
         if (x.data.status === "success") {
             dispatch(postEditSuccess(x.data.status));
             onClose();
-            refresh(id)
             Toast.show({
-                type: 'modalSuccessToast',
+                type: from === "modal" ? "modalSuccessToast" : "successToast",
                 visibilityTime: 3000,
                 text1: `${editQuoteReference}`,
                 props: { message: `${location[0].toUpperCase() + location.substring(1)} Updated Successfully` }
             });
+            refresh(id)
         }
         dispatch(postEditFail(x.data))
     }

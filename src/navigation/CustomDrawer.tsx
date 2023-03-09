@@ -39,7 +39,7 @@ const CustomDrawer = (props: any) => {
         return (
             <TouchableWithoutFeedback onPress={() => props.navigation.navigate(navigateTo)}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: Colors.spacing * 3, marginBottom: Colors.spacing * 2, }}>
-                    <IconM name={icon} size={22} color={Colors.black} />
+                    <IconM name={icon} size={20} color={Colors.black} />
                     <Text style={{ fontFamily: "Outfit", marginLeft: Colors.spacing * 2, fontSize: 14, color: Colors.black, fontWeight: isAndroid ? "900" : "400" }}>{label}</Text>
                 </View>
             </TouchableWithoutFeedback >

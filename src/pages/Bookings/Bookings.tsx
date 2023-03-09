@@ -239,7 +239,7 @@ const Bookings = ({ navigation }: any) => {
                             <Donut lable={"Total Bookings"} percentage={pieCount} max={max} radius={40} color={Colors.madidlyThemeBlue} />
                         </View>
                         <View style={{ width: '60%' }}>
-                            <QuoteBanner count={pieCount} />
+                            <QuoteBanner count={pieCount} lable="bookings" />
                         </View>
                     </View>
                 </View>

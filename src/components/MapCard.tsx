@@ -4,7 +4,7 @@ import { Colors } from '../assets/Colors'
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import fetchLatLong from '../config/MapsApi'
-import MapView, { Marker, PROVIDER_GOOGLE, AnimatedRegion, Animated, MarkerAnimated } from 'react-native-maps'
+import MapView, { Marker, PROVIDER_GOOGLE, } from 'react-native-maps'
 const isAndroid = Platform.OS == 'android' ? true : false
 
 const MapCard = ({ address }: any) => {
@@ -38,9 +38,7 @@ const MapCard = ({ address }: any) => {
     return (
         <View>
             <View>
-
-                <Text style={{ color: 'red' }}>{JSON.stringify(region, null, 2)}</Text>
-
+                {/* <Text style={{ color: 'red' }}>{JSON.stringify(region, null, 2)}</Text> */}
                 {loading ?
                     <View style={[styles.map, { alignItems: 'center', justifyContent: 'center' }]}>
                         <ActivityIndicator color={Colors.madidlyThemeBlue} animating={loading} />

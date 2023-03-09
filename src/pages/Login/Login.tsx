@@ -2,6 +2,7 @@ import { ActivityIndicator, Image, Pressable, SafeAreaView, StatusBar, StyleShee
 import React, { useEffect, useState } from 'react'
 import { Colors } from '../../assets/Colors'
 import Icon from 'react-native-vector-icons/Ionicons';
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { loginPending, loginFail, loginSuccess } from '../../redux/authenticationSlice';
 import { fetchUserProfile, userLogin } from '../../config/UserApi'
@@ -11,15 +12,13 @@ import { getUserSuccess } from '../../redux/userSlice';
 
 
 const Login = ({ navigation }: any) => {
-  const [email, setEmail] = useState<any>("sivam@gmail.com")
-  const [password, setPassword] = useState<any>("Manakamana123")
-  const [data, setData] = useState<any>({ "email": email, "password": password });
+  const [email, setEmail] = useState<any>("")
+  const [password, setPassword] = useState<any>("")
   const [hiddenPassword, setHiddenPassword] = useState(false)
+  const [error, setError] = useState("")
   const dispatch = useDispatch();
 
   const rootUrl = "https://wedo-backend.herokuapp.com/v1/";
-
-
 
   const loading = useSelector((state: any) => state.authReducer.loading)
 
@@ -28,12 +27,15 @@ const Login = ({ navigation }: any) => {
   }
 
   const loginHandle = async () => {
-    dispatch(loginPending(data));
+
+    const data = { "email": email, "password": password }
+    dispatch(loginPending());
     try {
       const isAuth: any = await userLogin(data);
 
       if (isAuth.status === "error") {
-        return dispatch(loginFail(isAuth.message));
+        dispatch(loginFail(isAuth.message));
+        setError(isAuth.message)
       }
       dispatch(loginSuccess(isAuth));
       const res: any = await fetchUserProfile(isAuth.accessJWT);
@@ -42,7 +44,6 @@ const Login = ({ navigation }: any) => {
       dispatch(loginFail(e.message));
     }
   }
-
 
   return (
     <>
@@ -56,11 +57,19 @@ const Login = ({ navigation }: any) => {
             <Text style={{ color: Colors.grayOne, fontSize: 14, width: '45%', paddingTop: Colors.spacing * .5, textAlign: 'center', fontFamily: 'Outfit-Light', }}>Welcome back you've been missed!</Text>
           </View>
 
+
           <View style={{ marginTop: Colors.spacing * 10 }}>
+
+            {error === "" ? null : <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Colors.spacing * 1 }}>
+              <IconM name="alert-circle-outline" size={18} style={{ color: Colors.red }} />
+              <Text style={{ color: Colors.red, fontFamily: 'Outfit-medium', fontSize: 12, marginLeft: Colors.spacing * .5 }}>{error}</Text>
+            </View>}
+
             <TextInput
+              autoCapitalize='none'
               style={{ fontSize: 16, backgroundColor: '#fff', padding: Colors.spacing, borderRadius: 5, color: Colors.black, fontFamily: 'Outfit-Light', }}
               placeholderTextColor={Colors.grayText}
-              placeholder={'Enter eamil'}
+              placeholder={'Enter your email'}
               onChangeText={value => setEmail(value)}
               defaultValue={email}
               keyboardType="email-address"
@@ -68,6 +77,7 @@ const Login = ({ navigation }: any) => {
 
             <View style={{ flexDirection: 'row', backgroundColor: '#fff', borderRadius: 5, alignItems: 'center', justifyContent: 'space-between', marginTop: Colors.spacing * 1 }}>
               <TextInput
+                autoCapitalize='none'
                 secureTextEntry={!hiddenPassword}
                 style={{
                   fontSize: 16,
@@ -87,14 +97,17 @@ const Login = ({ navigation }: any) => {
                 </Pressable>
               </View>
             </View>
-
           </View>
+
+
 
           <Pressable onPress={() => navigation.navigate('recoverPassword')}>
             <Text style={{ color: Colors.grayOne, fontSize: 12, alignSelf: 'flex-end', marginTop: Colors.spacing, fontFamily: 'Outfit-Light' }}>Recover Password</Text>
           </Pressable>
 
+
           <View style={{ marginBottom: Colors.spacing * 6 }} />
+
 
           <Pressable onPress={loginHandle}>
             <View style={{ flexDirection: 'row', height: 40, alignItems: 'center', backgroundColor: Colors.madidlyThemeBlue, borderRadius: 5, padding: Colors.spacing, justifyContent: 'center' }}>

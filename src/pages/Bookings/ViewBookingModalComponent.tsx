@@ -84,11 +84,11 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
     const phoneNumber = [item.phone.slice(0, 4), " ", item.phone.slice(4, 7), " ", item.phone.slice(7)].join('')
 
     const date = [item.createdAt.slice(0, 4), "/", item.createdAt.slice(5, 7), "/", item.createdAt.slice(8, 15), item.createdAt.slice(8)].join('').substring(0, 10)
-
+    const street = item.address2.split(" ")
+    const streetOne = item.address1.split(" ")
 
     const bd = item.products.find((x: any) => x.title?.toLowerCase() === "bedrooms")
     const ba = item.products.find((x: any) => x.title?.toLowerCase() === "bathrooms")
-    const price = [item?.subtotal?.toString().slice(0, 3), ".", item?.subtotal?.toString().slice(2)].join('')
 
     const [subTotal, setSubTotal] = useState<any>()
 
@@ -171,7 +171,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
     }
 
     const checkPermission = async (url: any) => {
-        const obj: { title: string, message: string } = {
+        const obj: any = {
             title: 'Storage Permission Required',
             message: 'App needs access to your storage to download Photos',
         }
@@ -266,23 +266,24 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
     }
 
     const techHandler = async (item: any) => {
-        console.log("techHandler", item)
         dispatch(assignTechPending())
         const result: any = await assignTechnician(id, item);
         if (result.status === "error") {
             return dispatch(assignTechFail());
         }
         dispatch(assignTechSuccess())
+        refresh(id)
+
     };
 
     const clearTechHandler = async () => {
-        console.log("techHandler", item)
         dispatch(assignTechPending())
         const result: any = await clearAssignTechnician(id);
         if (result.status === "error") {
             return dispatch(assignTechFail());
         }
         dispatch(assignTechSuccess())
+        refresh(id)
     };
 
     useEffect(() => {
@@ -313,7 +314,19 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
                         <Text style={{ fontSize: 20, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', }}>{item.firstName} {item.lastName}</Text>
-                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', marginTop: Colors.spacing }}>{item.address1} {item.address2} {item.city} {item.postcode} {item.state.toUpperCase()}</Text>
+
+                        <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', marginTop: Colors.spacing * 1 }}>
+                            {streetOne[0] ? <Text>{streetOne[0]} </Text> : null}
+                            {streetOne[1] ? <Text>{streetOne[1]?.slice(0, 1).toUpperCase() + streetOne[1]?.slice(1)} </Text> : null}
+                            {streetOne[2] ? <Text>{streetOne[2]?.slice(0, 1).toUpperCase() + streetOne[2]?.slice(1)} </Text> : null}
+                            {streetOne[3] ? <Text>{streetOne[3]?.slice(0, 1).toUpperCase() + streetOne[3]?.slice(1)} </Text> : null}
+                            {item.address2 !== "" ? <Text>{street[0] ? street[0]?.slice(0, 1).toUpperCase() + street[0]?.slice(1) : null} {street[1] ? street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) : null} {street[2] ? street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1) : null} </Text> : ""}
+                            {item.city !== "" ? <Text>{item.city.toUpperCase()} </Text> : ""}
+                            {item.postcode !== "" ? <Text>{item.postcode.toUpperCase()} </Text> : ""}
+                            {item.state !== "" ? <Text>{item.state.toUpperCase()} </Text> : ""}
+                        </Text>
+
+
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * .5 }}>
                             <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{phoneNumber}</Text>
@@ -327,10 +340,10 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
 
                         </View>
+
                         <MapCard address={`${item.address2} ${item.city} ${item.state} ${item.postcode} `} />
                         <View style={{ height: 2, width: '100%', marginVertical: Colors.spacing * 2, backgroundColor: Colors.borderColor }} />
                     </View>
-
 
                     <View style={{ paddingHorizontal: Colors.spacing * 2, }}>
 
@@ -405,7 +418,16 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing, }}>
                             <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: '20%' }}>Address</Text>
-                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{item.address1} {item.address2} {item.city} {item.postcode} {item.state.toUpperCase()}</Text>
+                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>
+                                {streetOne[0] ? <Text>{streetOne[0]} </Text> : null}
+                                {streetOne[1] ? <Text>{streetOne[1]?.slice(0, 1).toUpperCase() + streetOne[1]?.slice(1)} </Text> : null}
+                                {streetOne[2] ? <Text>{streetOne[2]?.slice(0, 1).toUpperCase() + streetOne[2]?.slice(1)} </Text> : null}
+                                {streetOne[3] ? <Text>{streetOne[3]?.slice(0, 1).toUpperCase() + streetOne[3]?.slice(1)} </Text> : null}
+                                {item.address2 !== "" ? <Text>{street[0] ? street[0]?.slice(0, 1).toUpperCase() + street[0]?.slice(1) : null} {street[1] ? street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) : null} {street[2] ? street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1) : null} </Text> : ""}
+                                {item.city !== "" ? <Text>{item.city.toUpperCase()} </Text> : ""}
+                                {item.postcode !== "" ? <Text>{item.postcode.toUpperCase()} </Text> : ""}
+                                {item.state !== "" ? <Text>{item.state.toUpperCase()} </Text> : ""}
+                            </Text>
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: Colors.spacing, marginBottom: Colors.spacing * .5 }}>
                             <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: '20%' }}>Add ons</Text>
@@ -431,7 +453,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                             <Text style={{ fontSize: 14, color: Colors.black, fontFamily: 'Outfit-Medium', width: '20%' }}>Notes</Text>
-                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{'NA'}</Text>
+                            <Text style={{ fontSize: 14, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Light', }}>{''}</Text>
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing, }}>
@@ -451,8 +473,6 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                                     <Text style={{ fontSize: 16, marginLeft: Colors.spacing, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium', }}>Add note</Text>
                                 </View>
                             </Pressable>
-
-
 
                             <View style={{ height: Colors.spacing * 4, width: 2, marginVertical: Colors.spacing * 1, backgroundColor: Colors.borderColor }} />
 
@@ -502,9 +522,7 @@ const ViewJobModalComponent = ({ id, item, refresh, statusHandler, deleteOpen, t
                     </View>
 
                 </ScrollView>
-
-                <AddJob isOpen={editJobVisible} onClose={() => setEditJobVisible(false)} lable={"Edit Booking"} id={id} refresh={refresh} />
-
+                <AddJob isOpen={editJobVisible} onClose={() => setEditJobVisible(false)} lable={"Edit Booking"} id={id} refresh={refresh} from="modal"/>
                 <DeleteModal id={id} phone={phoneNumber} price={quotePrice} animation="slide" quoteReference={item.bookingReference} customerName={item.firstName + " " + item.lastName} title="Delete Job" onClose={toggleDelete} isOpen={deleteOpen} onPress={deleteHandler} loading={deleteBooking} />
 
                 <AddPaymentModal loading={addPaymentLoading} id={id} customerName={item.firstName + " " + item.lastName} quoteReference={item.bookingReference} title="Add payment" isOpen={addPaymentsVisible} onClose={() => setAddaddPaymentsVisible(false)} price={subTotal} paid={paidAmount?.amount} onPress={addPaymentHandler} />

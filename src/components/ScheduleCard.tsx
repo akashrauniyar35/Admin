@@ -6,27 +6,9 @@ import CalandarDatePicker from "./CalandarDatePicker";
 import SelectionCard from './SelectionCard'
 import PickTimeModal from './PickTimeModal'
 
-import { formatDate } from './dataConverters'
-
-// : FC<ScheduleCardProps> 
-// type ScheduleCardProps = {
-//     date: Date,
-//     jobNotesHandler: (value: string) => void;
-//     startTimeHandler: (value: string) => void;
-//     endTimeHandler: (value: string) => void;
-//     onDateChangeHandler: (value: Date) => void;
-//     notes: string;
-//     startHour: string;
-//     startMin: string;
-//     startMode: string;
-//     endHour: string;
-//     endMin: string;
-//     endMode: string;
 
 
-// }
-
-const ScheduleCard = ({ date, onDateChangeHandler, notes, jobNotesHandler, startHour, startMin, startMode, endHour, endMin, endMode, startTimeHandler, endTimeHandler, }) => {
+const ScheduleCard = ({ date, onDateChangeHandler, notes, jobNotesHandler, startHour, startMin, startMode, endHour, endMin, endMode, startTimeHandler, endTimeHandler, }: any) => {
     // date, onDateChangeHandler, notes, jobNotesHandler 
     const [calendarVisible, setCalendarVisible] = useState(false)
     const [startTimeVisible, setstartTimeVisible] = useState(false)
@@ -35,13 +17,10 @@ const ScheduleCard = ({ date, onDateChangeHandler, notes, jobNotesHandler, start
 
 
 
-    const handleDatePicker = (value) => {
+    const handleDatePicker = (value: any) => {
         const x = value.toISOString()
         onDateChangeHandler(x)
         setCalendarVisible(false)
-        console.log(
-            "bookingDatexxx", x
-        )
     }
 
     const handleStartTimePicker = (value: string) => {
@@ -54,7 +33,7 @@ const ScheduleCard = ({ date, onDateChangeHandler, notes, jobNotesHandler, start
         setEndTimeVisible(false)
     }
 
-    const handleNotes = (value) => {
+    const handleNotes = (value: any) => {
         jobNotesHandler(value)
     }
 

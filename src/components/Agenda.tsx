@@ -51,6 +51,8 @@ const JobsAgenda = ({ nav, data, refresh }: any) => {
                     name: `${item.firstName} ${item.lastName}`,
                     price: item.subtotal,
                     city: item.city,
+                    address1: item.address1,
+                    address2: item.address2,
                     state: item.state,
                     postcode: item.postcode,
                     contact: item.phone,
@@ -65,26 +67,24 @@ const JobsAgenda = ({ nav, data, refresh }: any) => {
     useEffect(() => {
         data.map((x: any) => {
             Object.keys(items).forEach(key => {
-
                 if (x.bookingDate.substring(0, 10) === key && x.bookingReference !== items[key][0].ref) {
-                    console.log("match found", key + " -- " + x.bookingDate.substring(0, 10) + " -- " + x.firstName)
                     items[key].push({
                         id: x._id,
                         ref: x.bookingReference,
                         name: `${x.firstName} ${x.lastName}`,
                         price: x.subtotal,
                         city: x.city,
+                        address1: x.address1,
+                        address2: x.address2,
                         state: x.state,
                         postcode: x.postcode,
                         contact: x.phone,
                         time: `${x.startHour}:${x.startMin} ${x.startMode}`,
                         assigned: x.assignedTech[0],
                     })
-
                 } return key
             });
         })
-
     }, [items])
 
 
@@ -140,21 +140,35 @@ const JobsAgenda = ({ nav, data, refresh }: any) => {
 
 
     const AgendaItems = ({ item }: any) => {
-        const { city, state, postcode, assigned, id, ref } = item
+        const { city, state, postcode, assigned, id, ref, address1, address2, } = item
         return (
-            <Pressable onPress={() => viewAppointmentHandler(id, ref)}>
-                <View style={{ backgroundColor: '#fff', padding: Colors.spacing * 2, borderRadius: 5, position: 'relative' }}>
-                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontWeight: isAndroid ? "900" : "600", marginBottom: Colors.spacing }}>{item.time}</Text>
-                    <Text numberOfLines={1} style={{ width: "60%", fontSize: 16, color: Colors.madidlyThemeBlue, fontWeight: isAndroid ? "900" : "600", }}>{item.name}</Text>
 
-                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, marginTop: Colors.spacing * .5 }}>{city.charAt(0).toUpperCase() + city.slice(1) + " " + postcode + " " + state.toUpperCase()}</Text>
+            <Pressable onPress={() => viewAppointmentHandler(id, ref)}>
+
+                <View style={{ backgroundColor: '#fff', padding: Colors.spacing * 2, borderRadius: 5, position: 'relative' }}>
+                    <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, fontFamily: "Outfit-Bold", marginBottom: Colors.spacing }}>{item.time}</Text>
+
+                    <Text numberOfLines={1} style={{ width: "60%", fontSize: 16, color: Colors.madidlyThemeBlue, fontFamily: "Outfit-Bold" }}>{item.name}</Text>
+
+                    <Text style={{ fontFamily: "Outfit-Light", fontSize: 12, color: Colors.maidlyGrayText, marginTop: Colors.spacing * .5 }}>{address1 !== "" ? address1 + " " : ""}
+                        <Text style={{ fontFamily: "Outfit-Light", fontSize: 12, color: Colors.maidlyGrayText, }}>{address2 !== "" ? address2 + " " : ""}</Text>
+                    </Text>
+
+                    <Text>
+                        {city !== "" ? <Text style={{ fontFamily: "Outfit-Light", fontSize: 12, color: Colors.maidlyGrayText, }}>{city.charAt(0).toUpperCase() + city.slice(1)} </Text> : null}
+
+                        {postcode !== "" ? <Text style={{ fontFamily: "Outfit-Light", fontSize: 12, color: Colors.maidlyGrayText, }}>{postcode !== "" ? postcode : ""} </Text> : null}
+
+                        {state !== "" ? <Text style={{ fontFamily: "Outfit-Light", fontSize: 12, color: Colors.maidlyGrayText, }}>{state !== "" ? state.toUpperCase() : ""} </Text> : null}
+                    </Text>
+
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Colors.spacing * .5 }}>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '95%' }}>
-                            <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, }}>{item.contact}</Text>
+                            <Text style={{fontFamily: "Outfit-Bold", fontSize: 12, color: Colors.maidlyGrayText, }}>{item.contact}</Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                                <Text style={{ fontSize: 12, color: Colors.maidlyGrayText, marginRight: Colors.spacing, fontWeight: isAndroid ? "600" : "300", }}>Assigned</Text>
+                                <Text style={{ fontFamily: "Outfit-Light", fontSize: 12, color: Colors.maidlyGrayText, marginRight: Colors.spacing, fontWeight: isAndroid ? "600" : "300", }}>Assigned</Text>
                                 <Icon name={assigned ? "checkmark-circle" : "close-circle"} size={16} style={{ color: assigned ? Colors.green : Colors.red }} />
                             </View>
 
@@ -163,7 +177,7 @@ const JobsAgenda = ({ nav, data, refresh }: any) => {
                     <View style={{
                         position: 'absolute', backgroundColor: Colors.madidlyThemeBlue, alignItems: 'center', justifyContent: 'center', width: 40, height: 40, right: 20, top: 20, borderRadius: 100,
                     }}>
-                        <Text style={{ fontSize: 18, fontWeight: '600', color: '#fff', }}>{getInitials(item.name)}</Text>
+                        <Text style={{ fontFamily: "Outfit-Bold", fontSize: 16, fontWeight: '600', color: '#fff', }}>{getInitials(item.name)}</Text>
                     </View >
                 </View >
             </Pressable >
@@ -179,10 +193,7 @@ const JobsAgenda = ({ nav, data, refresh }: any) => {
 
 
                 <Agenda
-
-
                     renderEmptyData={renderEmptyDate}
-
                     pastScrollRange={1}
                     futureScrollRange={1}
                     onRefresh={() => refresh()}
@@ -201,10 +212,7 @@ const JobsAgenda = ({ nav, data, refresh }: any) => {
                         selectedDayBackgroundColor: Colors.madidlyThemeBlue, // selected
                     }}
 
-
                     renderItem={(item, firstItemInDay) => {
-
-                        const spacing = firstItemInDay ? Colors.spacing * 3.5 : null
                         return (
                             <>
                                 <View style={{}} />

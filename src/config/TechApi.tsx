@@ -103,7 +103,6 @@ export const clearAssignTechnician = (id: string) => {
             const res: any = await endPoint.put(`booking/${id}`, {
                 assignedTech: [],
             })
-            console.log("notes api res", res)
             resolve(res.data)
         }
         catch (err) {
