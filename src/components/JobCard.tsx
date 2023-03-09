@@ -17,7 +17,7 @@ import DeleteModal from './DeletetModal';
 import ConfirmBookingModal from './ConfirmBookingModal';
 
 
-const JobCard = ({ item, index, refresh, setPageCount }) => {
+const JobCard = ({ item, index, refresh, setPageCount }: any) => {
 
 
     console.log("item item", item)
@@ -50,7 +50,7 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
     const openJobHandler = async () => {
         const jobID = item._id
         dispatch(viewJobPending(jobID))
-        setIsOpen(!isOpen)
+        // setIsOpen(!isOpen)
 
         const x: any = await fetchJobByID(jobID);
         console.log('response quote id', x)
@@ -70,9 +70,7 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
         const jobID = item._id
         dispatch(viewJobPending(jobID))
         setEditJobVisible(!editJobVisible)
-
         const x: any = await fetchJobByID(jobID);
-        console.log('edit response quote id', x.data.result)
         if (x.data.status === "error") {
             dispatch(viewJobFail(x.data.status))
         }
@@ -116,13 +114,16 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
             <View style={[styles.leftContainer, {}]} >
                 {swipeableOptions.map((item) => {
                     return (
-                        <Pressable
-                            onPress={() => onSwipeablePress(item.type)} key={item.id} style={[styles.leftCard, { borderBottomWidth: item.id === lastItemID ? 0 : .35, borderColor: 'white' }]}>
-                            <Animated.View style={{ transform: [{ scale: scale }], flexDirection: 'row', alignItems: 'center', paddingHorizontal: Colors.spacing * 2, justifyContent: 'space-between' }}>
-                                <Text style={{ fontSize: 12, color: 'white', fontWeight: isAndroid ? "900" : "600" }}>{item.title}</Text>
-                                <IconM name={item.icon} size={18} color="white" />
-                            </Animated.View>
-                        </Pressable>
+                        <>
+                            <Pressable
+                                onPress={() => onSwipeablePress(item.type)} key={item.id} style={[styles.leftCard, { borderBottomWidth: item.id === lastItemID ? 0 : .35, borderColor: 'white' }]}>
+                                <Animated.View style={{ transform: [{ scale: scale }], flexDirection: 'row', alignItems: 'center', paddingHorizontal: Colors.spacing * 2, justifyContent: 'space-between' }}>
+                                    <Text style={{ fontFamily: "Outfit-Medium", fontSize: 12, color: 'white' }}>{item.title}</Text>
+                                    <IconM name={item.icon} size={18} color="white" />
+                                </Animated.View>
+                            </Pressable>
+                            {item.id === lastItemID ? null : <View style={{ height: .35, width: '100%', backgroundColor: "#fff", }} />}
+                        </>
                     )
                 })
                 }
@@ -204,7 +205,7 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
             <Swipeable renderLeftActions={leftSwipe} ref={swipeableRef}
                 friction={1}
             >
-                <Pressable onPress={() => openJobHandler()}>
+                <Pressable onPress={() => { openJobHandler(), setIsOpen(true) }}>
                     <View style={[styles.container, { backgroundColor: index % 2 === 0 ? 'white' : "transparent", elevation: index % 2 === 0 ? 0 : 1 },]}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
 
@@ -236,13 +237,20 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
                             <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium' }}>{item.firstName} {item.lastName}</Text>
 
                             <View style={{ marginTop: Colors.spacing * .5, marginBottom: Colors.spacing * .5 }}>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>
-                                    {/* {item.address1 ? item.address1 : null} */}
 
-                                    {streetOne[0] ? streetOne[0] : null} {streetOne[1] ? streetOne[1]?.slice(0, 1).toUpperCase() + streetOne[1]?.slice(1) : null} {streetOne[2] ? streetOne[2]?.slice(0, 1).toUpperCase() + streetOne[2]?.slice(1) : null}{streetOne[3] ? streetOne[3]?.slice(0, 1).toUpperCase() + streetOne[3]?.slice(1) : null}
-                                    {street[0] ? street[0]?.slice(0, 1).toUpperCase() + street[0]?.slice(1) : null} {street[1] ? street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) : null} {street[2] ? street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1) : null}
+
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>
+                                    {streetOne[0] ? <Text>{streetOne[0]} </Text> : null}
+                                    {streetOne[1] ? <Text>{streetOne[1]?.slice(0, 1).toUpperCase() + streetOne[1]?.slice(1)} </Text> : null}
+                                    {streetOne[2] ? <Text>{streetOne[2]?.slice(0, 1).toUpperCase() + streetOne[2]?.slice(1)} </Text> : null}
+                                    {streetOne[3] ? <Text>{streetOne[3]?.slice(0, 1).toUpperCase() + streetOne[3]?.slice(1)} </Text> : null}
+
+                                    {item.address2 !== "" ? <Text>{street[0] ? street[0]?.slice(0, 1).toUpperCase() + street[0]?.slice(1) : null} {street[1] ? street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) : null} {street[2] ? street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1) : null} </Text> : ""}
+                                    {"\n"}
+                                    {item.city !== "" ? <Text>{item.city.toUpperCase()} </Text> : ""}
+                                    {item.postcode !== "" ? <Text>{item.postcode.toUpperCase()} </Text> : ""}
+                                    {item.state !== "" ? <Text>{item.state.toUpperCase()} </Text> : ""}
                                 </Text>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.city.toUpperCase()} {item.postcode} {newState.toUpperCase()}</Text>
                             </View>
 
 
@@ -257,11 +265,11 @@ const JobCard = ({ item, index, refresh, setPageCount }) => {
                     </View>
                 </Pressable>
             </Swipeable>
-            <ViewJobModal refresh={refresh} isOpen={isOpen} onPress={openJobHandler} onClose={closeJobHandler} id={item._id} deletOpen={deleteJobInternal} toggleDelete={() => setDeleteJobInternal(!deleteJobInternal)} deleteHandler={deleteJobHandler} confirmOpen={confirmBookingInternalVisible} toggleConfirm={() => setConfirmBookingInternalVisible(!confirmBookingInternalVisible)} confirmHandler={confirmBookingVisibleHandler} />
+
+            <ViewJobModal refresh={openJobHandler} isOpen={isOpen} onPress={openJobHandler} onClose={closeJobHandler} id={item._id} deletOpen={deleteJobInternal} toggleDelete={() => setDeleteJobInternal(!deleteJobInternal)} deleteHandler={deleteJobHandler} confirmOpen={confirmBookingInternalVisible} toggleConfirm={() => setConfirmBookingInternalVisible(!confirmBookingInternalVisible)} confirmHandler={confirmBookingVisibleHandler} />
 
             <AddJob refresh={refresh} isOpen={editJobVisible} onClose={() => setEditJobVisible(false)} lable={"Edit Quote"} id={item._id} />
 
-            <AddNotes animation="slide" title="Add notes" onClose={() => setAddNotesVisible(false)} isOpen={addNotesVisible} />
             <DeleteModal loading={loading} id={item._id} phone={phoneNumber} price={price} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Delete Job" onClose={() => setDeleteJob(false)} isOpen={deleteJob} onPress={deleteJobHandler} />
 
             <ConfirmBookingModal id={item._id} phone={phoneNumber} price={price} animation="slide" quoteReference={item.quoteReference} customerName={item.firstName + " " + item.lastName} title="Confirm Job" onClose={() => setConfirmBookingVisible(!confirmBookingVisible)} isOpen={confirmBookingVisible} onPress={confirmBookingVisibleHandler} />

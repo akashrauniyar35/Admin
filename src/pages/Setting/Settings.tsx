@@ -30,11 +30,10 @@ const Settings = ({ navigation }: any) => {
                             <Text style={styles.text}>Update personal information</Text>
                             <Icon name="chevron-forward" size={18} color={Colors.black} />
                         </Pressable>
-
-                        <Pressable style={styles.button} onPress={() => navigation.navigate("updatePassword")}>
+                        {/* <Pressable style={styles.button} onPress={() => navigation.navigate("updatePassword")}>
                             <Text style={styles.text}>Update password</Text>
                             <Icon name="chevron-forward" size={18} color={Colors.black} />
-                        </Pressable>
+                        </Pressable> */}
                     </View>
 
                 </View>

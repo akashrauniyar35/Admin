@@ -12,7 +12,9 @@ import { Colors, isAndroid } from '../../assets/Colors';
 const BookingsCard = ({ toggleNotes, addPaymentHandler, statusHandler, editBookingHandler, item, index, onPress, swipeableOptions, toggleDelete, selectedBooking }: any) => {
 
     const swipeableRef = useRef<Swipeable | null>(null);
-    const street = item.address2?.split(" ")
+
+    const street = item.address2.split(" ")
+    const streetOne = item.address1.split(" ")
     const swipeableOpen = (text: string) => {
         console.log(text)
         if (swipeableRef.current) {
@@ -47,7 +49,7 @@ const BookingsCard = ({ toggleNotes, addPaymentHandler, statusHandler, editBooki
     }
 
 
-    let newState = item.state.toLowerCase().substring(0, 1) === "q" ? "QLD" : item.state.toLowerCase().substring(0, 1) === "v" ? "VIC" : item.state.toLowerCase().substring(0, 1) === "t" ? "TAS" : item.state.toLowerCase().substring(0, 1) === "w" ? "WA" : item.state.toLowerCase().substring(0, 1) === "s" ? "SA" : item.state.toLowerCase().substring(0, 1) === "s" ? "SA" : "NSW"
+    // let newState = item.state.toLowerCase().substring(0, 1) === "q" ? "QLD" : item.state.toLowerCase().substring(0, 1) === "v" ? "VIC" : item.state.toLowerCase().substring(0, 1) === "t" ? "TAS" : item.state.toLowerCase().substring(0, 1) === "w" ? "WA" : item.state.toLowerCase().substring(0, 1) === "s" ? "SA" : item.state.toLowerCase().substring(0, 1) === "s" ? "SA" : "NSW"
 
     const phoneNumber = [item.phone.slice(0, 4), " ", item.phone.slice(4, 7), " ", item.phone.
         slice(7)].join('')
@@ -69,17 +71,19 @@ const BookingsCard = ({ toggleNotes, addPaymentHandler, statusHandler, editBooki
             <View style={[styles.leftContainer, { backgroundColor: index % 2 === 0 ? 'white' : "transparent", }]} >
                 {swipeableOptions.map((x: any) => {
                     return (
-                        <Pressable
-                            onPress={() => onSwipeablePress(x.type)} key={x.id} style={[styles.leftCard, { borderBottomWidth: x.id === lastItemID ? 0 : .35, borderColor: 'white' }]}>
-                            <Animated.View style={{ transform: [{ scale: scale }], flexDirection: 'row', alignItems: 'center', paddingHorizontal: Colors.spacing * 2, justifyContent: 'space-between' }}>
-                                <Text style={{ fontSize: 12, color: 'white', fontWeight: isAndroid ? "900" : "600" }}>{x.title}</Text>
-                                <IconM name={x.icon} size={18} color="white" />
-                            </Animated.View>
-                        </Pressable>
+                        <>
+                            <Pressable
+                                onPress={() => onSwipeablePress(x.type)} key={x.id} style={[styles.leftCard, { borderBottomWidth: item.id === lastItemID ? 0 : .35, borderColor: 'white' }]}>
+                                <Animated.View style={{ transform: [{ scale: scale }], flexDirection: 'row', alignItems: 'center', paddingHorizontal: Colors.spacing * 2, justifyContent: 'space-between' }}>
+                                    <Text style={{ fontSize: 12, color: 'white', fontFamily: "Outfit-Medium" }}>{x.title}</Text>
+                                    <IconM name={x.icon} size={18} color="white" />
+                                </Animated.View>
+                            </Pressable>
+                            {item.id === lastItemID ? null : <View style={{ height: .35, width: '100%', backgroundColor: "#fff", }} />}
+                        </>
                     )
                 })
                 }
-
             </View >
         )
     }
@@ -90,7 +94,6 @@ const BookingsCard = ({ toggleNotes, addPaymentHandler, statusHandler, editBooki
                 friction={1}
             >
                 <Pressable onPress={onPress}>
-
                     <View style={[styles.container, { backgroundColor: index % 2 === 0 ? 'white' : "transparent", elevation: index % 2 === 0 ? 0 : 1 },]}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
 
@@ -120,11 +123,22 @@ const BookingsCard = ({ toggleNotes, addPaymentHandler, statusHandler, editBooki
                         <View style={{ width: '100%', marginVertical: Colors.spacing * 2, borderBottomWidth: .35, borderColor: Colors.borderColor }} />
 
                         <View style={{}}>
-
                             <Text style={{ fontSize: 16, color: Colors.madidlyThemeBlue, fontFamily: 'Outfit-Medium' }}>{item.firstName} {item.lastName}</Text>
                             <View style={{ marginTop: Colors.spacing * .5, marginBottom: Colors.spacing * .5 }}>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.address1 ? item.address1 : null} {street[0] ? street[0] : null} {street[1] ? street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) : null} {street[2] ? street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1) : null}</Text>
-                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>{item.city.toUpperCase()} {item.postcode} {newState.toUpperCase()}</Text>
+
+                                <Text style={{ fontSize: 13, color: Colors.maidlyGrayText, fontFamily: 'Outfit-Medium' }}>
+                                    {streetOne[0] ? <Text>{streetOne[0]} </Text> : null}
+                                    {streetOne[1] ? <Text>{streetOne[1]?.slice(0, 1).toUpperCase() + streetOne[1]?.slice(1)} </Text> : null}
+                                    {streetOne[2] ? <Text>{streetOne[2]?.slice(0, 1).toUpperCase() + streetOne[2]?.slice(1)} </Text> : null}
+                                    {streetOne[3] ? <Text>{streetOne[3]?.slice(0, 1).toUpperCase() + streetOne[3]?.slice(1)} </Text> : null}
+
+                                    {item.address2 !== "" ? <Text>{street[0] ? street[0]?.slice(0, 1).toUpperCase() + street[0]?.slice(1) : null} {street[1] ? street[1]?.slice(0, 1).toUpperCase() + street[1]?.slice(1) : null} {street[2] ? street[2]?.slice(0, 1).toUpperCase() + street[2]?.slice(1) : null} </Text> : ""}
+                                    {"\n"}
+                                    {item.city !== "" ? <Text>{item.city.toUpperCase()} </Text> : ""}
+                                    {item.postcode !== "" ? <Text>{item.postcode.toUpperCase()} </Text> : ""}
+                                    {item.state !== "" ? <Text>{item.state.toUpperCase()} </Text> : ""}
+                                </Text>
+
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>

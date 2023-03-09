@@ -91,16 +91,6 @@ const AddTechnician = ({ isOpen, onClose }: any) => {
                             <ScrollView style={{}}>
                                 <View style={[{ paddingHorizontal: Colors.spacing * 2 }]}>
 
-                                    {/* <View style={[{ marginBottom: Colors.spacing * 2, position: 'relative', alignItems: 'center', justifyContent: 'center' }]}>
-
-                                        <View style={{ alignSelf: 'center', borderRadius: 100, alignItems: 'center', borderWidth: 5, borderColor: Colors.madidlyThemeBlue, justifyContent: 'center', padding: 4, }}>
-                                            <Image source={worker} style={{ width: 80, height: 80, borderRadius: 100 }} />
-                                            <Pressable onPress={() => console.log('pic')} >
-                                                <IconM name="plus-circle" style={{ color: Colors.madidlyThemeBlue, position: 'absolute', left: 35, top: -10 }} size={25} />
-                                            </Pressable>
-                                        </View>
-                                    </View> */}
-
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, marginTop: Colors.spacing }}>
                                         <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', }}>First Name</Text>
                                         <View style={{ width: "70%", }}>
@@ -128,26 +118,12 @@ const AddTechnician = ({ isOpen, onClose }: any) => {
                                         </View>
                                     </View>
 
-                                    {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black,  fontFamily: 'Outfit-Medium', }}>Unit</Text>
-                                        <View style={{ width: "70%", }}>
-                                            <InputBox value={addData.address1} placeholder={addData.address1} onChange={(val) => setAddData({ ...addData, address1: val })} size={40} capitalize={"characters"} rounded={true} placeholderSize={12} maxLength={4} />
-                                        </View>
-                                    </View> */}
-
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
                                         <Text style={{ fontSize: 12, color: Colors.black, fontFamily: 'Outfit-Medium', width: "30%", }}>Street address</Text>
                                         <View style={{ width: "70%", }}>
                                             <InputBox value={addData.address2} placeholder={addData.address2} onChange={(val) => setAddData({ ...addData, address2: val })} size={40} rounded={true} placeholderSize={12} />
                                         </View>
                                     </View>
-
-                                    {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Colors.spacing * 2, }}>
-                                        <Text style={{ fontSize: 12, color: Colors.black,  fontFamily: 'Outfit-Medium', }}>Suburb</Text>
-                                        <View style={{ width: "70%", }}>
-                                            <InputBox value={addData.city} onChange={(val) => setAddData({ ...addData, city: val })} placeholder={addData.city} size={40} rounded={true} placeholderSize={12} />
-                                        </View>
-                                    </View> */}
 
 
                                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Colors.spacing * 1, }}>
@@ -161,7 +137,7 @@ const AddTechnician = ({ isOpen, onClose }: any) => {
                                                 <InputBox value={addData.postcode} size={40} onChange={(val) => setAddData({ ...addData, postcode: parseInt(val) })} rounded={true} placeholder={""} keyboardType="numeric" placeholderSize={12} maxLength={4} />
                                             </View>
                                             <View style={{ width: "40%" }}>
-                                                <SelectionCard size={40} onPress={(val) => setAddData({ ...addData, state: val })} fontSize={12} phColor={Colors.maidlyGrayText} rounded={true} data={stateData} type={'filter'} placeholder={'state'} />
+                                                <SelectionCard size={40} onPress={(val) => setAddData({ ...addData, state: val })} fontSize={12} phColor={Colors.maidlyGrayText} rounded={true} data={stateData} type={'filter'} placeholder={'State'} />
                                             </View>
                                         </View>
                                     </View>

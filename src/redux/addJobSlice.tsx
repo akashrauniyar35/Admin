@@ -4,7 +4,7 @@ const today = new Date();
 
 const jobData: any = {
 
-    email: "Akash",
+    email: "",
     companyName: "WeDo Cleaning Pty Ltd",
     firstName: "",
     lastName: "",

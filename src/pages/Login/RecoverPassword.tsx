@@ -53,8 +53,8 @@ const RecoverPassword = ({ navigation }: any) => {
                             autoCapitalize='none'
                             onChangeText={setEmail}
                             placeholderTextColor={Colors.grayText}
-                            style={{ fontSize: 16, backgroundColor: '#fff', padding: Colors.spacing, borderRadius: 5, fontFamily: 'Outfit-Light', }}
-                            placeholder={'Enter eamil'}
+                            style={{ fontSize: 16, backgroundColor: '#fff', padding: Colors.spacing, borderRadius: 5, fontFamily: 'Outfit-Light', color: Colors.black, }}
+                            placeholder={'Enter email'}
                         />
                     </View>
 

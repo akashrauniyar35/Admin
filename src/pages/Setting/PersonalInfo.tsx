@@ -37,7 +37,6 @@ const PersonalInfo = ({ navigation }: any) => {
         getUserProfile()
     }, [])
 
-
     const updateDetailsHandler = async () => {
         const id = data._id
         console.log(id)
@@ -46,7 +45,7 @@ const PersonalInfo = ({ navigation }: any) => {
         if (res.status === "success") {
             dispatch(updateUserSuccess())
             Toast.show({
-                type: 'success',
+                type: 'successToast',
                 visibilityTime: 3000,
                 text1: "Success",
                 text2: Colors.green,
